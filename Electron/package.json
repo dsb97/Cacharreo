@@ -1,5 +1,6 @@
 {
-  "name": "app-electron",
+  "electron_product_name" : "zenor", 
+  "name": "zenor",
   "description": "Una app fantástica hecha por David en Electron",
   "homepage": "https://www.google.es",
   "license": "ISC",
@@ -8,10 +9,10 @@
   "version": "1.0.0",
   "main": "src/index.js",
   "build": {
-    "appId" : "app-electron",
-    "asar" : true,
-    "linux" : {
-      "target" : [
+    "appId": "app-electron",
+    "asar": true,
+    "linux": {
+      "target": [
         "AppImage",
         "deb"
       ]
@@ -27,6 +28,7 @@
     "electron-builder": "^23.3.3"
   },
   "dependencies": {
-    "bootstrap": "^5.2.1"
+    "bootstrap": "^5.2.1",
+    "electron-reload": "^2.0.0-alpha.1"
   }
 }

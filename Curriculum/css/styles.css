@@ -1,0 +1,42 @@
+* {
+    font-family: 'Varela Round', sans-serif;
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    background-image: url("../resources/wallpaper.jpg");
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.window {
+    position: relative;
+    color: white;
+    padding: 10px;
+    resize: both;
+    overflow: hidden;
+    min-width: 450px;
+    width: 450px;
+    background-color: rgba(30, 38, 1, .8);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    cursor: default !important;
+}
+
+.window button{
+    cursor: default !important;
+}
+
+.windowContent {
+    overflow: auto;
+}
+
+i {
+    font-size: 16pt;
+    font-weight: bolder;
+}

@@ -2,6 +2,8 @@ const { app, BrowserWindow, Menu, ipcMain } = require('electron');
 const url = require('url');
 const path = require('path');
 
+app.setName('Ostiaputa');
+
 ipcMain.on('nuevo:producto', (e, newProduct) => {
     //console.log(newProduct);
     mainWindow.webContents.send('nuevo:producto', newProduct);
@@ -37,21 +39,20 @@ const menu = [
                     console.log('HOLAAAAAAAAAAAAAAAAAA');
                 }
             }
-
         ]
-    },
-    {
-        label: 'Salir',
-        accelerator: process.platform == 'darwin' ? 'command+Q' : 'Ctrl+Q',
-        click() {
-            app.quit()
-        }
     }
 ]
 
 if (process.platform === 'darwin') {
     menu.unshift({
-        label: app.getName()
+        label: app.getName(),
+        submenu: [{
+            label: 'Salir',
+            accelerator: process.platform == 'darwin' ? 'command+Q' : 'Ctrl+Q',
+            click() {
+                app.quit()
+            }
+        }]
     })
 }
 

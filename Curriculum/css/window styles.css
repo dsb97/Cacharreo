@@ -1,0 +1,35 @@
+* {
+    font-family: 'Varela Round', sans-serif;
+    margin: 0px;
+    padding: 0px;
+    clear: both;
+}
+
+html, body {
+    height: 100%;
+    background-color: transparent !important;
+}
+
+i {
+    font-size: 16pt;
+    font-weight: bolder;
+}
+
+button {
+    background-color: transparent;
+    border: 0px;
+    cursor: default !important;
+    color:white;
+}
+button:hover {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+button:focus {
+    background-color: rgba(0,0,0,.5);
+}
+
+.gallery img {
+    width: 48px;
+    height: 48px;
+}
