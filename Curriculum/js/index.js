@@ -20,27 +20,27 @@ const focus = (elem, index) => {
   let next2 = index + 2;
 
   try {
-    elem.style.transform = "scale(1.5)  translateY(-10px)";
+    elem.style.transform = "scale(1.2)  translateX(0px)";
   } catch (error) {
 
   }
   try {
-    icons[previous].style.transform = "scale(1.2) translateY(-6px)";
+    icons[previous].style.transform = "scale(1) translateX(-6px)";
   } catch (error) {
 
   }
   try {
-    icons[previous1].style.transform = "scale(1.1)";
+    icons[previous1].style.transform = "scale(1)";
   } catch (error) {
 
   }
   try {
-    icons[next].style.transform = "scale(1.2) translateY(-6px)";
+    icons[next].style.transform = "scale(1) translateX(6px)";
   } catch (error) {
 
   }
   try {
-    icons[next2].style.transform = "scale(1.1)";
+    icons[next2].style.transform = "scale(1)";
   } catch (error) {
 
   }

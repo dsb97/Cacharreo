@@ -16,7 +16,7 @@
 </head>
 
 <body>
-    <div id="ventana1" class="window rounded" onresize="console.log('hola')">
+    <div id="ventana1" class="window rounded light" onresize="console.log('hola')">
         <div id="ventana1header" class="d-flex justify-content-between rounded">
             <div class="p-2">
                 <div class="d-flex flex-row mb-3">
@@ -37,7 +37,19 @@
         <div class="resizer resizer-r"></div>
         <div class="resizer resizer-b"></div>
     </div>
-    <div class="dock">
+    <div class="topbar light">
+        <div class="col-6 d-flex align-items-center">
+            <img class="ms-3" height="32px" src="resources/weather/nublado.png" alt="">
+            <span class="ms-2"><strong>13°C </strong>Mayormente nublado</span>
+        </div>
+        <div class="col-6 d-flex align-items-center justify-content-end">
+            <i class="bi bi-wifi me-3"></i>
+            <i class="bi bi-battery-full me-3"></i>
+            <span class="me-3">vie 14 de octubre </span>
+            <span class="me-3">21:19</span>
+        </div>
+    </div>
+    <div class="dock light">
         <div class="dock-container">
             <li class="li-on li-1">
                 <div class="name">Archivos</div>

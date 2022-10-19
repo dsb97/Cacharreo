@@ -10,6 +10,22 @@ html, body {
     background-color: transparent !important;
 }
 
+.dark {
+    color: white !important;
+}
+
+.light {
+    color: black !important;
+}
+
+.dark button p{
+    color: white !important;
+}
+
+.light button p{
+    color: black !important;
+}
+
 i {
     font-size: 16pt;
     font-weight: bolder;
@@ -19,8 +35,8 @@ button {
     background-color: transparent;
     border: 0px;
     cursor: default !important;
-    color:white;
 }
+
 button:hover {
     background-color: rgba(0, 0, 0, 0.2);
 }

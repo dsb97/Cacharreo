@@ -14,15 +14,41 @@ body {
     background-size: cover;
 }
 
+.dark {
+    background-color: rgba(0, 0, 0, .8);
+    color: white !important;
+}
+
+.light {
+    background-color: rgba(255, 255, 255, .8);
+    color: black !important;
+}
+
+.topbar {
+    width: 99%;
+    border-radius: .375rem;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    position: absolute;
+    top: 1%;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
 .window {
-    position: relative;
-    color: white;
+    position: absolute;
+    top: 50px;
     padding: 10px;
     resize: both;
     overflow: hidden;
-    min-width: 450px;
+    min-width: 480px;
     width: 450px;
-    background-color: rgba(30, 38, 1, .8);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     cursor: default !important;
