@@ -1,3 +1,8 @@
+//General functions
+String.prototype.capitalize = function () {
+  return this.charAt(0).toUpperCase() + this.slice(1);
+};
+
 //Dock
 let icons = document.querySelectorAll(".ico");
 let length = icons.length;
@@ -46,10 +51,10 @@ const focus = (elem, index) => {
   }
 
 };
+
 //Ventanas
 dragElement(document.getElementById('ventana1'));
 
-//Draggable
 function dragElement(elmnt) {
   if (elmnt === undefined || elmnt == null)
     return;
@@ -93,7 +98,70 @@ new ResizeSensor(document.getElementById('ventana1'), function () {
   let v = document.getElementById('ventana1');
   let h = v.style.height;
   let iF = v.getElementsByTagName('iframe')[0];
-  iF.style.height = parseInt(h.replace('px', '')) - 91 + 'px';
+  iF.style.height = parseInt(h.replace('px', '')) - 85 + 'px';
 });
+
+//Barra superior
+//Tiempo
+function forecastRequest(position) {
+  let url = `https://api.openweathermap.org/data/2.5/weather?lang=es&units=metric&lat=${position.coords.latitude}&lon=${position.coords.longitude}&appid=24df251cc48b660b67328e7b827099d5`;
+  var myHeaders = new Headers();
+  var myInit = {
+    method: "GET",
+    headers: myHeaders,
+    mode: "cors",
+    cache: "default",
+  };
+  return new Request(
+    url,
+    myInit
+  );
+}
+
+function processForecastResponse(datos) {
+  forecastIcon.setAttribute('src', './resources/weather/' + datos.weather[0].icon + '.png');
+  forecastDescription.innerHTML = `${Math.ceil(datos.main.temp)} °C &nbsp;&nbsp;${datos.weather[0].description.toString().capitalize()}`;
+}
+
+function getForecast(position) {
+  fetch(forecastRequest(position))
+    .then(function (response) {
+      return response.json();
+    })
+    .then(processForecastResponse);
+}
+
+function getLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(getForecast);
+  } else {
+    console.log("Geolocation is not supported by this browser.");
+  }
+}
+
+getLocation();
+
+//Fecha y hora
+function getDateTime () {
+  var time = new Date();
+  const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+  var h = time.getHours() >= 10 ? time.getHours() : '0' + time.getHours();
+  var m = time.getMinutes() >= 10 ? time.getMinutes() : '0' + time.getMinutes();
+  hour.innerHTML = `${h}:${m}`;
+  date.innerHTML = time.toLocaleDateString('es-ES', options)
+  setTimeout(getDateTime, 1000);
+}
+
+getDateTime();
+
+//Aplicaciones
+function openWindow (url) {
+  document.getElementById('ventana1').classList.remove('d-none');
+}
+
+function closeWindow (event) {
+  event.target.parentElement.parentElement.parentElement.classList.add('d-none');
+}
+
 
 

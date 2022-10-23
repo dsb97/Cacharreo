@@ -1,0 +1,62 @@
+* {
+    font-family: 'Varela Round', sans-serif;
+    margin: 0px;
+    padding: 0px;
+    clear: both;
+}
+
+html, body {
+    height: 100%;
+    background-color: transparent !important;
+}
+
+.dark {
+    color: white !important;
+}
+
+.light {
+    color: black !important;
+}
+
+.dark button p {
+    color: white !important;
+}
+
+.light button p {
+    color: black !important;
+}
+
+i {
+    font-size: 16pt;
+    font-weight: bolder;
+}
+
+.gallery button {
+    width: 110px;
+    height: 120px;
+    padding: 10px;
+    text-align: center;
+    border-color: transparent;
+    background-color: transparent;
+    cursor: default !important;
+}
+
+.gallery button img {
+    height: 48px;
+    width: 48px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.gallery button p {
+    margin-top: 10px;
+}
+
+.gallery button:hover {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.gallery button:focus {
+    background-color: rgba(0,0,0,.5);
+}

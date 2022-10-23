@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="es">
 
 <head>
@@ -16,7 +16,7 @@
 </head>
 
 <body>
-    <div id="ventana1" class="window rounded light" onresize="console.log('hola')">
+    <div id="ventana1" class="window rounded dark d-none">
         <div id="ventana1header" class="d-flex justify-content-between rounded">
             <div class="p-2">
                 <div class="d-flex flex-row mb-3">
@@ -28,7 +28,7 @@
             <div class="buttons p-2">
                 <button class="btn btn-success ms-1"></button>
                 <button class="btn btn-warning ms-1"></button>
-                <button class="btn btn-danger ms-1"></button>
+                <button class="btn btn-danger ms-1" onclick="closeWindow(event)"></button>
             </div>
         </div>
         <iframe src="lenguajes.html" style="width: 100%; height: 100%;" frameborder="0">
@@ -37,21 +37,21 @@
         <div class="resizer resizer-r"></div>
         <div class="resizer resizer-b"></div>
     </div>
-    <div class="topbar light">
+    <div class="topbar dark">
         <div class="col-6 d-flex align-items-center">
-            <img class="ms-3" height="32px" src="resources/weather/nublado.png" alt="">
-            <span class="ms-2"><strong>13°C </strong>Mayormente nublado</span>
+            <img id="forecastIcon" class="ms-3" height="32px" src="" alt="">
+            <span id="forecastDescription" class="ms-2">Previsión meteorológica no disponible</span>
         </div>
         <div class="col-6 d-flex align-items-center justify-content-end">
             <i class="bi bi-wifi me-3"></i>
             <i class="bi bi-battery-full me-3"></i>
-            <span class="me-3">vie 14 de octubre </span>
-            <span class="me-3">21:19</span>
+            <span id="date" class="me-3"></span>
+            <span id="hour" class="me-3"></span>
         </div>
     </div>
-    <div class="dock light">
+    <div class="dock dark">
         <div class="dock-container">
-            <li class="li-on li-1">
+            <li class="li-1">
                 <div class="name">Archivos</div>
                 <img class="ico" src="https://img.icons8.com/fluency/96/folder-invoices.png" alt="">
             </li>
@@ -81,6 +81,16 @@
             </li>
 
         </div>
+    </div>
+    <div class="gallery d-flex align-items-end flex-column mt-5 me-1">
+        <button class="rounded" ondblclick="openWindow('lenguajes.html')">
+            <img src="resources/code_folder.png" alt="">
+            <p>Lenguajes</p>
+        </button>
+        <button class="rounded">
+            <img src="resources/text_document.png" alt="">
+            <p>Experiencia laboral.docx</p>
+        </button>
     </div>
     <script src="lib/css-element-queries/src/ResizeSensor.js"></script>
     <script src="lib/css-element-queries/src/ElementQueries.js"></script>

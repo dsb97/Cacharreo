@@ -7,20 +7,21 @@ html {
 }
 
 body {
-    background-image: url("../resources/wallpaper.jpg");
+    background-image: url("../resources/wallpaper.png");
     height: 100%;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+    /* overflow: hidden; */
 }
 
 .dark {
-    background-color: rgba(0, 0, 0, .8);
+    background-color: rgba(0, 0, 0, .7);
     color: white !important;
 }
 
 .light {
-    background-color: rgba(255, 255, 255, .8);
+    background-color: rgba(255, 255, 255, .7);
     color: black !important;
 }
 
@@ -43,7 +44,8 @@ body {
 
 .window {
     position: absolute;
-    top: 50px;
+    top: 200px;
+    left: 200px;
     padding: 10px;
     resize: both;
     overflow: hidden;
@@ -65,4 +67,34 @@ body {
 i {
     font-size: 16pt;
     font-weight: bolder;
+}
+
+.gallery button {
+    width: 110px;
+    height: 120px;
+    padding: 10px;
+    text-align: center;
+    border-color: transparent;
+    background-color: transparent;
+    cursor: default !important;
+}
+
+.gallery button img {
+    height: 48px;
+    width: 48px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.gallery button p {
+    margin-top: 10px;
+}
+
+.gallery button:hover {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.gallery button:focus {
+    background-color: rgba(0,0,0,.5);
 }
