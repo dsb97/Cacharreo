@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 
 <head>
@@ -10,12 +10,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/dock.css">
+    <link rel="stylesheet" href="css/context_menu.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
 </head>
 
 <body>
+    <!--Ventanas-->
     <div id="ventana1" class="window rounded dark d-none">
         <div id="ventana1header" class="d-flex justify-content-between rounded">
             <div class="p-2">
@@ -37,6 +39,7 @@
         <div class="resizer resizer-r"></div>
         <div class="resizer resizer-b"></div>
     </div>
+    <!--Barra superior-->
     <div class="topbar dark">
         <div class="col-6 d-flex align-items-center">
             <img id="forecastIcon" class="ms-3" height="32px" src="" alt="">
@@ -49,6 +52,7 @@
             <span id="hour" class="me-3"></span>
         </div>
     </div>
+    <!--Dock aplicaciones-->
     <div class="dock dark">
         <div class="dock-container">
             <li class="li-1">
@@ -82,6 +86,7 @@
 
         </div>
     </div>
+    <!--Escritorio-->
     <div class="gallery d-flex align-items-end flex-column mt-5 me-1">
         <button class="rounded" ondblclick="openWindow('lenguajes.html')">
             <img src="resources/code_folder.png" alt="">
@@ -92,6 +97,64 @@
             <p>Experiencia laboral.docx</p>
         </button>
     </div>
+    <div class="wrapper dark">
+        <div class="content">
+            <ul class="menu">
+                <li class="item share dark-hovable">
+                    <div>
+                        <i class="bi bi-arrow-down-up"></i>
+                        <span>Ordenar...</span>
+                    </div>
+                    <i class="bi bi-chevron-right"></i>
+                    <ul class="share-menu dark">
+                        <li class="item dark-hovable">
+                            <i class="bi bi-sort-alpha-down"></i>
+                            <span>Por nombre</span>
+                        </li>
+                        <li class="item dark-hovable">
+                            <i class="bi bi-sort-numeric-down-alt"></i>
+                            <span>Por fecha</span>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="item dark-hovable">
+                    <div>
+                        <i class="bi bi-arrow-clockwise"></i>
+                        <span>Refrescar</span>
+                    </div>
+
+                </li>
+                <hr>
+                <li class="item share dark-hovable">
+                    <div>
+                        <i class="bi bi-plus-square"></i>
+                        <span>Nuevo...</span>
+                    </div>
+                    <i class="bi bi-chevron-right"></i>
+                    <ul class="share-menu dark">
+                        <li class="item dark-hovable">
+                            <i class="bi bi-folder2-open"></i>
+                            <span>Carpeta</span>
+                        </li>
+                        <li class="item dark-hovable">
+                            <i class="bi bi-file-earmark"></i>
+                            <span>Documento</span>
+                        </li>
+                    </ul>
+                </li>
+                <hr>
+                <li class="item dark-hovable">
+                    <div>
+                        <i class="bi bi-brush"></i>
+                        <span>Personalizar</span>
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+    </div>
+
     <script src="lib/css-element-queries/src/ResizeSensor.js"></script>
     <script src="lib/css-element-queries/src/ElementQueries.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>

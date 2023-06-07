@@ -20,9 +20,17 @@ body {
     color: white !important;
 }
 
+.dark-hovable:hover {
+    background-color: rgba(36, 36, 36, 0.7);
+}
+
 .light {
     background-color: rgba(255, 255, 255, .7);
     color: black !important;
+}
+
+.light-hovable:hover {
+    background-color: rgba(219, 219, 219, .7);
 }
 
 .topbar {
