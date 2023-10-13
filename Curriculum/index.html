@@ -16,103 +16,113 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
 </head>
 
-<body>
+<body onchange="loadDesktop()" id="bdy" style='background-image: url("resources/themes/wallpapers/Lavender.jpg");'>
     <!--Ventanas-->
-    <div id="ventana1" class="window blur rounded dark d-none">
-        <div id="ventana1header" class="d-flex justify-content-between rounded">
+    <div class="window blur rounded dark d-none" onmousedown="resizeStart(event, event.target)"
+        onmousemove="changeCursor(event)">
+        <div class="d-flex justify-content-between rounded windowHeader"
+            onmousedown="dragStart(event, event.target.parentElement)" ondblclick="restoreMaximizeWindow(event)">
             <div class="p-2">
                 <div class="d-flex flex-row mb-3">
-                    <i class="bi bi-arrow-left me-3"></i>
-                    <i class="bi bi-arrow-right"></i>
+                    <i class="bi bi-arrow-left tray-icon  me-3" onclick="back(event)"></i>
+                    <i class="bi bi-arrow-right tray-icon" onclick="forward(event)"></i>
                 </div>
             </div>
-            <div class="p-2">Lenguajes</div>
+            <div class="p-2 windowTitle"></div>
             <div class="buttons p-2">
-                <button class="btn btn-success ms-1"></button>
-                <button class="btn btn-warning ms-1"></button>
+                <button class="btn btn-success ms-1" onclick="minimizeWindow(event)"></button>
+                <button class="btn btn-warning ms-1 min-button" onclick="restoreMaximizeWindow(event)"></button>
                 <button class="btn btn-danger ms-1" onclick="closeWindow(event)"></button>
             </div>
         </div>
-        <iframe src="lenguajes.html" style="width: 100%; height: 100%;" frameborder="0">
+        <iframe style="width: 100%; height: calc(100% - 39px);" frameborder="0">
 
         </iframe>
         <div class="resizer resizer-r"></div>
         <div class="resizer resizer-b"></div>
     </div>
     <!--Barra superior-->
-    <div class="topbar blur dark">
+    <div class="topbar dark">
         <div class="col-6 d-flex align-items-center">
-            <img id="forecastIcon" class="ms-3" height="32px" src="" alt="">
+            <img id="forecastIcon" class="ms-3 p-2" height="32px" src="" alt="">
             <span id="forecastDescription" class="ms-2">Previsión meteorológica no disponible</span>
         </div>
         <div class="col-6 d-flex align-items-center justify-content-end">
-            <i class="bi bi-wifi me-3"></i>
-            <i class="bi bi-battery-full me-3"></i>
+            <i class="bi bi-wifi tray-icon me-3"></i>
+            <i class="bi bi-battery-full tray-icon me-3"></i>
             <span id="date" class="me-3"></span>
             <span id="hour" class="me-3"></span>
         </div>
     </div>
-    <!--Dock aplicaciones-->
-    <div class="dock blur dark">
+    <!-- Dock aplicaciones-->
+    <div class="dock dark">
         <div class="dock-container">
-            <li class="li-1">
+            <li class="li-1 p-1" id="fileExplorer" onclick="openWindow('./windows/esteEquipo.html', 'fileExplorer')">
                 <div class="name">Archivos</div>
-                <img class="ico" src="https://img.icons8.com/fluency/96/folder-invoices.png" alt="">
+                <img class="ico" src="resources/themes/default/system/folder.png" alt="">
             </li>
-            <li class="li-2">
+            <li class="li-2 p-1">
                 <div class="name">Navegador</div>
-                <img class="ico" src="https://img.icons8.com/fluency/96/internet.png" alt="">
+                <img class="ico" src="resources/themes/default/system/internet.png" alt="">
             </li>
-            <li class="li-3">
-                <div class="name">Música</div>
-                <img src="https://img.icons8.com/fluency/96/aipods-pro-max.png" alt="" class="ico">
-            </li>
-            <li class="li-4">
+            <li class="li-4 p-1">
                 <div class="name">Ajustes</div>
-                <img class="ico" src="https://img.icons8.com/fluency/96/settings.png" alt="">
+                <img class="ico" src="resources/themes/default/system/settings.png" alt="">
             </li>
-            <li class="li-5">
+            <li class="li-5 p-1">
                 <div class="name">Terminal</div>
-                <img class="ico" src="https://img.icons8.com/fluency/96/console.png" alt="">
+                <img class="ico" src="resources/themes/default/system/terminal.png" alt="">
             </li>
-            <li class="li-6">
+            <li class="li-6 p-1">
                 <div class="name">VS Code</div>
-                <img src="https://img.icons8.com/fluency/96/visual-studio-code-2019.png" alt="" class="ico">
+                <img class="ico" src="resources/themes/default/misc/vscode.png" alt="">
             </li>
-            <li class="li-7">
+            <li class="li-7 p-1" id="taskManager" onclick="openWindow('./windows/taskManager.html', 'taskManager')">
+                <div class="name">Monitor del sistema</div>
+                <img class="ico" src="resources/themes/default/system/task-manager.png" alt="">
+            </li>
+            <li class="li-7 p-1" >
                 <div class="name">Papelera</div>
-                <img class="ico" src="https://img.icons8.com/fluency/96/empty-trash.png" alt="">
+                <img class="ico" src="resources/themes/default/system/trash.png" alt="">
             </li>
 
         </div>
     </div>
-    <!--Escritorio-->
+    <!-- Iconos de escritorio -->
     <div class="gallery d-flex align-items-end flex-column mt-5 me-1">
-        <button class="rounded" ondblclick="openWindow('lenguajes.html')">
-            <img src="resources/code_folder.png" alt="">
+        <button class="rounded" ondblclick="openWindow('./windows/esteEquipo.html', 'fileExplorer')">
+            <img src="resources/themes/default/system/computer.png" alt="">
+            <p>Este equipo</p>
+        </button>
+        <button class="rounded" ondblclick="openWindow('./windows/lenguajes.html','fileExplorer')">
+            <img src="resources/themes/default/system/code.png" alt="">
             <p>Lenguajes</p>
         </button>
-        <button class="rounded">
-            <img src="resources/text_document.png" alt="">
-            <p>Experiencia laboral.docx</p>
+        <button class="rounded" ondblclick="openWindow('./windows/frameworks.html', 'fileExplorer')">
+            <img src="resources/themes/default/system/framework.png" alt="">
+            <p>Frameworks</p>
+        </button>
+        <button class="rounded" ondblclick="openWindow('./windows/entornosDesarrollo.html','fileExplorer')">
+            <img src="resources/themes/default/system/ide.png" alt="">
+            <p>Entornos de desarrollo</p>
         </button>
     </div>
-    <!--Menú contextual-->
-    <div class="wrapper dark blur">
+    <!-- Menú contextual -->
+    <div class="wrapper dark blur" style="left: 462px; top: 93px; visibility: hidden;">
         <div class="content">
             <ul class="menu">
-                <li class="item share dark-hovable">
+                <li class="item share">
                     <div>
                         <i class="bi bi-arrow-down-up"></i>
                         <span>Ordenar...</span>
                     </div>
                     <i class="bi bi-chevron-right"></i>
-                    <ul class="share-menu dark">
-                        <li class="item dark-hovable">
+                    <ul class="share-menu dark" style="right: -200px; left: -200px;">
+                        <li class="item">
                             <i class="bi bi-sort-alpha-down"></i>
                             <span>Por nombre</span>
                         </li>
-                        <li class="item dark-hovable">
+                        <li class="item">
                             <i class="bi bi-sort-numeric-down-alt"></i>
                             <span>Por fecha</span>
                         </li>
@@ -155,7 +165,6 @@
             </ul>
         </div>
     </div>
-
     <script src="lib/css-element-queries/src/ResizeSensor.js"></script>
     <script src="lib/css-element-queries/src/ElementQueries.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>

@@ -3,6 +3,7 @@
     margin: 0px;
     padding: 0px;
     clear: both;
+    font-size: 9pt;
 }
 
 html, body {
@@ -12,10 +13,12 @@ html, body {
 
 .dark {
     color: white !important;
+    /* text-shadow: 2px 1px 3px rgba(255, 255, 255, 1) !important; */
 }
 
 .light {
     color: black !important;
+    /* text-shadow: 2px 1px 3px rgba(0, 0, 0, 1) !important; */
 }
 
 .dark button p {
@@ -24,11 +27,6 @@ html, body {
 
 .light button p {
     color: black !important;
-}
-
-i {
-    font-size: 16pt;
-    font-weight: bolder;
 }
 
 .gallery button {
@@ -42,7 +40,6 @@ i {
 }
 
 .gallery button img {
-    height: 48px;
     width: 48px;
     display: block;
     margin-left: auto;
@@ -59,4 +56,8 @@ i {
 
 .gallery button:focus {
     background-color: rgba(0,0,0,.5);
+}
+
+.scrollable {
+    height: 100dvh;
 }
