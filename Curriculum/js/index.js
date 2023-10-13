@@ -385,7 +385,7 @@ function changeCursor(e) {
       e.target.style.cursor = "ns-resize"; // Cambiar el cursor al redimensionar
       //console.log('👇🏻');
     } else {
-      e.target.style.cursor = "default"; // Restaurar el cursor predeterminado
+      e.target.style.cursor = "grabbing"; // Restaurar el cursor predeterminado
       //console.log('👋🏻');
     }
   }
