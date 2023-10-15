@@ -42,14 +42,6 @@ const borderMargin = 20;
 const maxWidth = window.innerWidth;
 const maxHeight = window.innerHeight;
 
-//Ventanas abiertas
-let cachedWindow = {
-  id: 0,
-  taskbarIcon: ''
-}
-
-let cachedWindows = [];
-
 window.addEventListener('DOMContentLoaded', function () {
   String.prototype.capitalize = function () {
     return this.charAt(0).toUpperCase() + this.slice(1);
@@ -64,6 +56,8 @@ window.addEventListener('DOMContentLoaded', function () {
   getLocation();
 
   getDateTime();
+
+  createWindowCache();
 
 });
 
@@ -228,53 +222,46 @@ function getDateTime() {
 }
 
 //Ventanas
-function openWindow(url, taskbarIcon) {
+function openWindow(url, dockIcon) {
   //Put into open windows list
+  let fullURL = `${url}?id=${cloneID}`;
   let cloneID = Date.now();
   let cW = { ...cachedWindow }
-  cW.taskbarIcon = taskbarIcon;
-  cW.id = cloneID;
-  cachedWindows.push(cW);
-  console.log(cachedWindows);
+  cW.windowID = cloneID;
+  cW.dockIcon = dockIcon;
+  cW.history.urlList.push(fullURL);
+  addCachedWindow(cW);
 
-  document.getElementById(taskbarIcon).classList.add('li-on');
+  //Add indicator at dock
+  document.getElementById(dockIcon).classList.add('li-on');
+
+  //Create new window instance
   let clone = document.getElementsByClassName('window')[0].cloneNode(true);
   clone.id = cloneID;
-  let fullURL = `${url}?id=${cloneID}`;
   clone.getElementsByTagName('iframe')[0].setAttribute('src', fullURL);
   clone.classList.remove('d-none');
   clone.style.zIndex = maxZIndex(0);
   document.getElementsByTagName('body')[0].appendChild(clone);
-  if (localStorage.getItem('windowHistory') == null) {
-    localStorage.setItem('windowHistory', JSON.stringify([]))
-  }
 }
 
 function closeWindow(event) {
+  //Get the window object
   let w = event.target.parentElement.parentElement.parentElement;
-  let tI = cachedWindows.filter(function (obj) {
-    return obj.id + '' == w.id + ''
-  })[0].taskbarIcon;
+  //Remove from cache
+  let cW = getCachedWindow(w.id);
+  removeCachedWindow(cW);
 
-  cachedWindows = cachedWindows.filter(function (obj) {
-    return obj.id + '' !== w.id + '';
+  //Query cache to remove or not dock indicator
+  let cWs = getCachedWindows();
+  let openWindows = cWs.filter(function (obj) {
+    return obj.dockIcon == cW.dockIcon;
   });
-
-  let r = cachedWindows.filter(function (obj) {
-    return obj.taskbarIcon == tI;
-  });
-
-  if (r.length == 0) {
-    document.getElementById(tI).classList.remove('li-on');
+  if (openWindows.length == 0) {
+    document.getElementById(cW.dockIcon).classList.remove('li-on');
   }
 
-  let wH = JSON.parse(localStorage.getItem('windowHistory'));
-  if (wH == null) {
-    wH == [];
-  }
-  wH = wH.filter((element) => { return element.windowID != w.id; });
-  localStorage.setItem('windowHistory', JSON.stringify(wH));
-  w.remove();
+  //Undraw the window
+  w.remove();  
 }
 
 function restoreMaximizeWindow(event) {
@@ -294,7 +281,7 @@ function restoreMaximizeWindow(event) {
 }
 
 function back(event) {
-  // let wH = JSON.parse(localStorage.getItem('windowHistory'));
+  // let wH = JSON.parse(sessionStorage.getItem('windowHistory'));
   // let wID = event.target.parentElement.parentElement.parentElement.parentElement.id;
   // if(wH != null) {
   //   let ww = wH.filter((obj) => {return obj.windowID == wID});
@@ -306,7 +293,7 @@ function back(event) {
 
   // }
 
-  //localStorage.setItem('windowHistory', JSON.stringify(wH));
+  //sessionStorage.setItem('windowHistory', JSON.stringify(wH));
 }
 
 function forward(event) {
