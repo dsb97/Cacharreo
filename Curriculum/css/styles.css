@@ -74,8 +74,8 @@ body {
     left: 200px;
     padding: 10px;
     overflow: hidden;
-    width: 450px;
-    cursor: default;
+    width: 539px;
+    height: 210px;
     z-index: 20;
 }
 
@@ -141,4 +141,22 @@ i {
 
 .scrollable {
     height: 100dvh;
+}
+
+/* Estilos generales para la barra de desplazamiento */
+::-webkit-scrollbar {
+    width: 9px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
 }

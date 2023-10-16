@@ -32,11 +32,15 @@ function removeCachedWindow(windowID) {
     sessionStorage.setItem('cachedWindows', JSON.stringify(cWs));
 }
 
+function getCachedWindows() {
+    return cWs = JSON.parse(sessionStorage.getItem('cachedWindows'));
+}
+
 function addCachedWindowHistoryURL(windowID, url) {
     let cWs = JSON.parse(sessionStorage.getItem('cachedWindows'));
     cWs.forEach((cW) => {
         if (cW.windowID == windowID) {
-            cW.history.urlList = cW.history.urlList.slice(0, cW.history.index);
+            cW.history.urlList = cW.history.urlList.slice(0, cW.history.index + 1);
             cW.history.urlList.push(url);
             cW.history.index = (cW.history.urlList.length - 1) < 0 ? 0 : (cW.history.urlList.length - 1);
         }
@@ -44,6 +48,22 @@ function addCachedWindowHistoryURL(windowID, url) {
     sessionStorage.setItem('cachedWindows', JSON.stringify(cWs));
 }
 
-function getCachedWindows() {
-    return cWs = JSON.parse(sessionStorage.getItem('cachedWindows'));
+function backHistoryIndex(windowID) {
+    let cWs = JSON.parse(sessionStorage.getItem('cachedWindows'));
+    cWs.forEach((cW) => {
+        if (cW.windowID == windowID) {
+            cW.history.index = (cW.history.index - 1) < 0 ? 0 : (cW.history.index - 1);
+        }
+    });
+    sessionStorage.setItem('cachedWindows', JSON.stringify(cWs));
+}
+
+function forwardHistoryIndex(windowID) {
+    let cWs = JSON.parse(sessionStorage.getItem('cachedWindows'));
+    cWs.forEach((cW) => {
+        if (cW.windowID == windowID) {
+            cW.history.index = (cW.history.index + 1) > (cW.history.urlList.length - 1) ? cW.history.urlList.length - 1 : (cW.history.index + 1);
+        }
+    });
+    sessionStorage.setItem('cachedWindows', JSON.stringify(cWs));
 }

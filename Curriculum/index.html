@@ -16,21 +16,16 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
 </head>
 
-<body onchange="loadDesktop()" id="bdy" style='background-image: url("resources/themes/wallpapers/Lavender.jpg");'>
+<body onchange="loadDesktop()" id="bdy" style='background-image: url("resources/themes/wallpapers/Flower.jpg");'>
     <!--Ventanas-->
-    <label style="position: fixed; top: 84%; right: 0%;">
-        dreamOS Alpha 0.1 Prerelease version.
-        <br>
-        All rights reserved © 2023
-    </label>
     <div class="window blur rounded dark d-none" onmousedown="resizeStart(event, event.target)"
         onmousemove="changeCursor(event)">
-        <div class="d-flex justify-content-between rounded windowHeader"
+        <div class="d-flex justify-content-between rounded windowHeader" style="cursor: default !important;"
             onmousedown="dragStart(event, event.target.parentElement)" ondblclick="restoreMaximizeWindow(event)">
             <div class="p-2">
                 <div class="d-flex flex-row mb-3">
-                    <i class="bi bi-arrow-left tray-icon  me-3" onclick="back(event)"></i>
-                    <i class="bi bi-arrow-right tray-icon" onclick="forward(event)"></i>
+                    <i class="bi bi-arrow-left tray-icon me-3 backArrow" style="color: gray;" ></i>
+                    <i class="bi bi-arrow-right tray-icon forwardArrow" style="color: gray;" ></i>
                 </div>
             </div>
             <div class="p-2 windowTitle"></div>
@@ -43,8 +38,6 @@
         <iframe style="width: 100%; height: calc(100% - 39px);" frameborder="0">
 
         </iframe>
-        <div class="resizer resizer-r"></div>
-        <div class="resizer resizer-b"></div>
     </div>
     <!--Barra superior-->
     <div class="topbar dark">
@@ -62,7 +55,7 @@
     <!-- Dock aplicaciones-->
     <div class="dock dark">
         <div class="dock-container">
-            <li class="li-1 p-1" id="fileExplorer" onclick="openWindow('./windows/esteEquipo.html', 'fileExplorer')">
+            <li class="li-1 p-1" id="fileExplorer" onclick="openWindow('/windows/fileExplorer.html', 'fileExplorer', '/Este equipo')">
                 <div class="name">Archivos</div>
                 <img class="ico" src="resources/themes/default/system/folder.png" alt="">
             </li>
@@ -95,19 +88,19 @@
     </div>
     <!-- Iconos de escritorio -->
     <div class="gallery d-flex align-items-end flex-column mt-5 me-1">
-        <button class="rounded" ondblclick="openWindow('./windows/esteEquipo.html', 'fileExplorer')">
+        <button class="rounded" ondblclick="openWindow('/windows/fileExplorer.html', 'fileExplorer', '/Este equipo')">
             <img src="resources/themes/default/system/computer.png" alt="">
             <p>Este equipo</p>
         </button>
-        <button class="rounded" ondblclick="openWindow('./windows/lenguajes.html','fileExplorer')">
+        <button class="rounded" ondblclick="openWindow('/windows/fileExplorer.html', 'fileExplorer', '/Este equipo/Disco del sistema/user/Lenguajes')">
             <img src="resources/themes/default/system/code.png" alt="">
             <p>Lenguajes</p>
         </button>
-        <button class="rounded" ondblclick="openWindow('./windows/frameworks.html', 'fileExplorer')">
+        <button class="rounded" ondblclick="openWindow('/windows/fileExplorer.html', 'fileExplorer', '/Este equipo/Disco del sistema/user/Frameworks')">
             <img src="resources/themes/default/system/framework.png" alt="">
             <p>Frameworks</p>
         </button>
-        <button class="rounded" ondblclick="openWindow('./windows/entornosDesarrollo.html','fileExplorer')">
+        <button class="rounded" ondblclick="openWindow('/windows/fileExplorer.html', 'fileExplorer', '/Este equipo/Disco del sistema/user/Entornos de desarrollo')">
             <img src="resources/themes/default/system/ide.png" alt="">
             <p>Entornos de desarrollo</p>
         </button>
@@ -170,14 +163,12 @@
             </ul>
         </div>
     </div>
-    <script src="lib/css-element-queries/src/ResizeSensor.js"></script>
-    <script src="lib/css-element-queries/src/ElementQueries.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
         crossorigin="anonymous"></script>
-    <script src="js/cachedWindows.js"></script>
-    <script src="js/index.js"></script>
+    <script type="text/javascript" src="/js/cachedWindows.js"></script>
+    <script type="text/javascript" src="/js/index.js"></script>
 </body>
 
 </html>

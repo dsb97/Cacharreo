@@ -57,7 +57,7 @@ window.addEventListener('DOMContentLoaded', function () {
 
   getDateTime();
 
-  createWindowCache();
+  createWindowsCache();
 
 });
 
@@ -68,7 +68,7 @@ function maxZIndex(zIndex) {
         return parseInt($(e).css('z-index')) || 1;
     }));
 
-  //debugger;
+  
   if (zIndex < zI) {
     return zI + 1;
   } else {
@@ -222,14 +222,14 @@ function getDateTime() {
 }
 
 //Ventanas
-function openWindow(url, dockIcon) {
+function openWindow(url, dockIcon, path) {
   //Put into open windows list
-  let fullURL = `${url}?id=${cloneID}`;
   let cloneID = Date.now();
+  let fullURL = `${url}?id=${cloneID}&path=${path}`;
+  
   let cW = { ...cachedWindow }
   cW.windowID = cloneID;
   cW.dockIcon = dockIcon;
-  cW.history.urlList.push(fullURL);
   addCachedWindow(cW);
 
   //Add indicator at dock
@@ -247,9 +247,9 @@ function openWindow(url, dockIcon) {
 function closeWindow(event) {
   //Get the window object
   let w = event.target.parentElement.parentElement.parentElement;
-  //Remove from cache
   let cW = getCachedWindow(w.id);
-  removeCachedWindow(cW);
+  //Remove from cache
+  removeCachedWindow(w.id);
 
   //Query cache to remove or not dock indicator
   let cWs = getCachedWindows();
@@ -280,25 +280,6 @@ function restoreMaximizeWindow(event) {
   el.style.zIndex = maxZIndex(el.style.zIndex);
 }
 
-function back(event) {
-  // let wH = JSON.parse(sessionStorage.getItem('windowHistory'));
-  // let wID = event.target.parentElement.parentElement.parentElement.parentElement.id;
-  // if(wH != null) {
-  //   let ww = wH.filter((obj) => {return obj.windowID == wID});
-  //   if(ww.length > 0) {
-  //     ww[0].urlPosition = ww[0].urlPosition - 1;
-  //     let urlWindow = ww[0].urls[ww[0].urlPosition];
-  //     document.getElementById(ww[0].windowID).getElementsByTagName('iframe')[0].src = urlWindow;
-  //   }
-
-  // }
-
-  //sessionStorage.setItem('windowHistory', JSON.stringify(wH));
-}
-
-function forward(event) {
-
-}
 
 function resizeStart(e, div) {
   if (e.target.id != "") {
@@ -363,7 +344,7 @@ function resize(e, div, direction) {
 }
 
 function changeCursor(e) {
-  //debugger
+  
   if (e.target.id != "") {
     if (e.clientX > e.target.getBoundingClientRect().right - borderMargin) {
       e.target.style.cursor = "ew-resize"; // Cambiar el cursor al redimensionar
@@ -372,7 +353,7 @@ function changeCursor(e) {
       e.target.style.cursor = "ns-resize"; // Cambiar el cursor al redimensionar
       //console.log('👇🏻');
     } else {
-      e.target.style.cursor = "grabbing"; // Restaurar el cursor predeterminado
+      e.target.style.cursor = "default"; // Restaurar el cursor predeterminado
       //console.log('👋🏻');
     }
   }

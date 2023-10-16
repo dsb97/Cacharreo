@@ -6,6 +6,10 @@
     font-size: 9pt;
 }
 
+html {
+    overflow: hidden;
+}
+
 html, body {
     height: 100%;
     background-color: transparent !important;
@@ -60,4 +64,23 @@ html, body {
 
 .scrollable {
     height: 100dvh;
+}
+
+
+/* Estilos generales para la barra de desplazamiento */
+::-webkit-scrollbar {
+    width: 9px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
 }
