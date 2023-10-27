@@ -14,6 +14,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+
 </head>
 
 <body onchange="loadDesktop()" id="bdy" style='background-image: url("resources/themes/wallpapers/Flower.jpg");'>
@@ -41,11 +43,15 @@
     </div>
     <!--Barra superior-->
     <div class="topbar dark">
-        <div class="col-6 d-flex align-items-center">
-            <img id="forecastIcon" class="ms-3 p-2" height="32px" src="" alt="">
+        <div class="col-4 d-flex align-items-center">
+            <img id="forecastIcon" class="p-2" height="32px" src="" alt="">
             <span id="forecastDescription" class="ms-2">Previsión meteorológica no disponible</span>
         </div>
-        <div class="col-6 d-flex align-items-center justify-content-end">
+        <div class="col-4 d-flex align-items-center">
+            <input placeholder="&#xF002; Buscar..." class="form-control bg-white bg-opacity-25 text-white border-0" type="text" name="searchBar"
+                            id="searchBar">
+        </div>
+        <div class="col-4 d-flex align-items-center justify-content-end">
             <i class="bi bi-wifi tray-icon me-3"></i>
             <i class="bi bi-battery-full tray-icon me-3"></i>
             <span id="date" class="me-3"></span>
@@ -63,7 +69,7 @@
                 <div class="name">Navegador</div>
                 <img class="ico" src="resources/themes/default/system/internet.png" alt="">
             </li>
-            <li class="li-4 p-1">
+            <li class="li-4 p-1" id="settings" onclick="openWindow('/windows/settings.html', 'settings')">
                 <div class="name">Ajustes</div>
                 <img class="ico" src="resources/themes/default/system/settings.png" alt="">
             </li>
@@ -75,7 +81,7 @@
                 <div class="name">VS Code</div>
                 <img class="ico" src="resources/themes/default/misc/vscode.png" alt="">
             </li>
-            <li class="li-7 p-1" id="taskManager" onclick="openWindow('./windows/taskManager.html', 'taskManager')">
+            <li class="li-7 p-1" id="taskManager" onclick="openWindow('/windows/taskManager.html', 'taskManager')">
                 <div class="name">Monitor del sistema</div>
                 <img class="ico" src="resources/themes/default/system/task-manager.png" alt="">
             </li>
@@ -106,7 +112,7 @@
         </button>
     </div>
     <!-- Menú contextual -->
-    <div class="wrapper dark blur" style="left: 462px; top: 93px; visibility: hidden;">
+    <div class="wrapper dark blur rounded" style="left: 462px; top: 93px; visibility: hidden;">
         <div class="content">
             <ul class="menu">
                 <li class="item share">
@@ -115,7 +121,7 @@
                         <span>Ordenar...</span>
                     </div>
                     <i class="bi bi-chevron-right"></i>
-                    <ul class="share-menu dark" style="right: -200px; left: -200px;">
+                    <ul class="share-menu dark rounded" style="right: -200px; left: -200px;">
                         <li class="item">
                             <i class="bi bi-sort-alpha-down"></i>
                             <span>Por nombre</span>
@@ -141,7 +147,7 @@
                         <span>Nuevo...</span>
                     </div>
                     <i class="bi bi-chevron-right"></i>
-                    <ul class="share-menu dark">
+                    <ul class="share-menu dark rounded">
                         <li class="item dark-hovable">
                             <i class="bi bi-folder2-open"></i>
                             <span>Carpeta</span>

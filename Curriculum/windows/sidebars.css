@@ -1,5 +1,5 @@
 .sidebar {
-  background-color: rgba(255, 255, 255, 0.3);
+  background-color: rgba(255, 255, 255, 1);
   padding: 5px;
   cursor: default !important;
 }
@@ -33,14 +33,14 @@
   align-items: center;
   padding: .25rem .5rem;
   font-weight: 600;
-  color: rgba(255, 255, 255);
+  color: rgb(0, 0, 0);
   background-color: transparent;
   border: 0;
 }
 
 .btn-toggle:hover,
 .btn-toggle:focus {
-  color: rgba(255, 255, 255);
+  color: rgb(0, 0, 0);
   background-color: rgba(0, 0, 0, 0.2);
 }
 
@@ -53,7 +53,7 @@
 }
 
 .btn-toggle[aria-expanded="true"] {
-  color: rgba(255, 255, 255)
+  color: rgb(0, 0, 0)
 }
 
 .btn-toggle[aria-expanded="true"]::before {

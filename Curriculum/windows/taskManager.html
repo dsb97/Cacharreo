@@ -57,13 +57,14 @@
             let openApps = [...new Set(tasks.map(item => item.dockIcon))];
             let windows = '';
             let group = '';
+            tareas.innerHTML = "";
             openApps.forEach((app) => {
                 windows = '';
                 group = `
                 <li class="mb-1">
                     <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse"
                         data-bs-target="#${app}-collapse" aria-expanded="true">
-                        <i class="bi bi-star mx-2"></i>
+                        <i class="bi bi-window-stack mx-2"></i>
                         ${app}
                     </button>
                     <div class="collapse show" id="${app}-collapse">
@@ -78,10 +79,12 @@
                     if (x.dockIcon == app) {
                         windows += `
                         <li>
-                            <a class="link-light rounded">
-                                <i class="bi bi-window-desktop mx-2"></i>
+                            <a class="link-dark rounded">
+                                <button class="buttonSmall small rounded ms-2 me-4" onclick="closeApp(${x.windowID})">
+                                    <i class="bi bi-x-octagon-fill text-danger" ></i>
+                                </button>
+                                
                                 ID: ${x.windowID}, memoria ocupada: ${new Blob([JSON.stringify(x.history.urlList)]).size} bytes
-                                <i class="bi bi-x-octagon-fill text-danger mx-2"></i>
                             </a>
                         </li>
                         `;
@@ -90,9 +93,28 @@
                 group = group.replaceAll('replaceContent', windows);
                 tareas.innerHTML += group;
             });
-
-
         }
+
+        function closeApp(windowID) {
+            let cW = getCachedWindow(windowID);
+            //Remove from cache
+            removeCachedWindow(windowID);
+
+            //Query cache to remove or not dock indicator
+            let cWs = getCachedWindows();
+            let openWindows = cWs.filter(function (obj) {
+                return obj.dockIcon == cW.dockIcon;
+            });
+            if (openWindows.length == 0) {
+                window.parent.document.getElementById(cW.dockIcon).classList.remove('li-on');
+            }
+
+            //Undraw the window
+            window.parent.document.getElementById(windowID).remove();
+
+            loadTasks();
+        }
+
     </script>
 </body>
 

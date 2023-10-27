@@ -1,5 +1,5 @@
 * {
-    font-family: 'Varela Round', sans-serif;
+    font-family: 'Varela Round', 'FontAwesome', sans-serif;
     margin: 0px;
     padding: 0px;
     clear: both;
@@ -8,6 +8,13 @@
 
 html {
     overflow: hidden;
+    height: 100%;
+    -webkit-user-select: none;
+    /* Safari */
+    -ms-user-select: none;
+    /* IE 10 and IE 11 */
+    user-select: none;
+    /* Standard syntax */
 }
 
 html, body {
@@ -23,6 +30,14 @@ html, body {
 .light {
     color: black !important;
     /* text-shadow: 2px 1px 3px rgba(0, 0, 0, 1) !important; */
+}
+
+.dark button {
+    color: white !important;
+}
+
+.light button {
+    color: black !important;
 }
 
 .dark button p {
@@ -62,6 +77,31 @@ html, body {
     background-color: rgba(0,0,0,.5);
 }
 
+.list button {
+    width: 100%;
+    height: fit-content;
+    padding: 10px;
+    text-align: left;
+    border-color: transparent;
+    background-color: transparent;
+    cursor: default !important;
+}
+
+.list button img {
+    width: 48px;
+    display: inline-block;
+    margin-right: 8pt;
+}
+
+.list button:hover {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.list button:focus {
+    background-color: rgba(0,0,0,.5);
+}
+
+
 .scrollable {
     height: 100dvh;
 }
@@ -73,14 +113,24 @@ html, body {
 }
 
 ::-webkit-scrollbar-track {
-    background: #f1f1f1;
+    background: rgba(0, 0, 0, 0.1);
 }
 
 ::-webkit-scrollbar-thumb {
     background: #888;
-    border-radius: 6px;
+    border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
     background: #555;
+}
+
+.buttonSmall {
+    padding: 0px !important;
+    margin: 0px !important;
+    border: 0px !important;
+    background-color: rgb(236, 236, 236);
+    border-color: black;
+    width: 12pt;
+    height: 12pt;
 }

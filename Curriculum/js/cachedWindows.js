@@ -1,7 +1,13 @@
+let windowStatus = {
+    minimized: 'minimized',
+    restored: 'restored'
+}
+
 //Ventanas abiertas
 let cachedWindow = {
     windowID: 0,
     dockIcon: '',
+    windowStatus: windowStatus.restored,
     history: {
         index: 0,
         urlList: []
@@ -63,6 +69,17 @@ function forwardHistoryIndex(windowID) {
     cWs.forEach((cW) => {
         if (cW.windowID == windowID) {
             cW.history.index = (cW.history.index + 1) > (cW.history.urlList.length - 1) ? cW.history.urlList.length - 1 : (cW.history.index + 1);
+        }
+    });
+    sessionStorage.setItem('cachedWindows', JSON.stringify(cWs));
+}
+
+function updateCachedWindowStatus(windowID, windowStatus) {
+    //debugger;
+    let cWs = JSON.parse(sessionStorage.getItem('cachedWindows'));
+    cWs.forEach((cW) => {
+        if (cW.windowID == windowID) {
+            cW.windowStatus = windowStatus;
         }
     });
     sessionStorage.setItem('cachedWindows', JSON.stringify(cWs));

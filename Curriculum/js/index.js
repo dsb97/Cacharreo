@@ -68,7 +68,7 @@ function maxZIndex(zIndex) {
         return parseInt($(e).css('z-index')) || 1;
     }));
 
-  
+
   if (zIndex < zI) {
     return zI + 1;
   } else {
@@ -223,25 +223,40 @@ function getDateTime() {
 
 //Ventanas
 function openWindow(url, dockIcon, path) {
-  //Put into open windows list
-  let cloneID = Date.now();
-  let fullURL = `${url}?id=${cloneID}&path=${path}`;
-  
-  let cW = { ...cachedWindow }
-  cW.windowID = cloneID;
-  cW.dockIcon = dockIcon;
-  addCachedWindow(cW);
+  //Get opened windows.
+  //If there is an minimized instance, it will be restored
+  //If there is no minimized instance, it will create a new one
+  //debugger;
+  let cWs = getCachedWindows();
+  if (cWs.some((element) => element.dockIcon == dockIcon)) {
+    cWs.forEach((element) => {
+      if (element.dockIcon == dockIcon && element.windowStatus == windowStatus.minimized) {
+        //debugger;
+        minimizeWindow(element.windowID);
+      }
+    });
+  } else {
+    //Put into open windows list
+    let cloneID = Date.now();
+    let fullURL = `${url}?id=${cloneID}&path=${path}`;
 
-  //Add indicator at dock
-  document.getElementById(dockIcon).classList.add('li-on');
+    let cW = { ...cachedWindow }
+    cW.windowID = cloneID;
+    cW.dockIcon = dockIcon;
+    cW.windowStatus = windowStatus.restored;
+    addCachedWindow(cW);
 
-  //Create new window instance
-  let clone = document.getElementsByClassName('window')[0].cloneNode(true);
-  clone.id = cloneID;
-  clone.getElementsByTagName('iframe')[0].setAttribute('src', fullURL);
-  clone.classList.remove('d-none');
-  clone.style.zIndex = maxZIndex(0);
-  document.getElementsByTagName('body')[0].appendChild(clone);
+    //Add indicator at dock
+    document.getElementById(dockIcon).classList.add('li-on');
+
+    //Create new window instance
+    let clone = document.getElementsByClassName('window')[0].cloneNode(true);
+    clone.id = cloneID;
+    clone.getElementsByTagName('iframe')[0].setAttribute('src', fullURL);
+    clone.classList.remove('d-none');
+    clone.style.zIndex = maxZIndex(0);
+    document.getElementsByTagName('body')[0].appendChild(clone);
+  }
 }
 
 function closeWindow(event) {
@@ -261,7 +276,7 @@ function closeWindow(event) {
   }
 
   //Undraw the window
-  w.remove();  
+  w.remove();
 }
 
 function restoreMaximizeWindow(event) {
@@ -272,12 +287,61 @@ function restoreMaximizeWindow(event) {
   if (el.id == 'bdy') {
     el = event.target.parentElement;
   }
+
+  let rgba = document.defaultView.getComputedStyle(el, null)['backgroundColor'].replace('rgba(', '').replace(')', '').split(',');
+
+  let timeOut = setTimeout(() => {
+    el.style.transition = null;
+    clearTimeout(timeOut);
+  }, 300);
+  el.style.transition = 'all 0.2s ease-in-out 0s';
+
   if (el.classList.contains('max')) {
     el.classList.remove('max');
+    el.style.backgroundColor = null;
+    el.style.backgroundColor = `rgba(${rgba[0]}, ${rgba[1]}, ${rgba[2]}, 0.8)`;
   } else {
     el.classList.add('max');
+    el.style.backgroundColor = null;
+    el.style.backgroundColor = `rgba(${rgba[0]}, ${rgba[1]}, ${rgba[2]}, 0.9)`;
+
   }
   el.style.zIndex = maxZIndex(el.style.zIndex);
+}
+
+async function minimizeWindow(event) {
+  let el;
+  if (event.target) {
+    el = event.target.parentElement.parentElement;
+    if (el.id == "") {
+      el = event.target.parentElement.parentElement.parentElement;
+    }
+    if (el.id == 'bdy') {
+      el = event.target.parentElement;
+    }
+    updateCachedWindowStatus(el.id, windowStatus.minimized);
+  } else {
+    el = document.getElementById(event);
+    updateCachedWindowStatus(el.id, windowStatus.restored);
+  }
+
+
+  let isHidden = getCachedWindow(el.id).windowStatus != windowStatus.minimized;
+  let timeOut = setTimeout(() => {
+    el.style.transition = null;
+    clearTimeout(timeOut);
+  }, 300);
+  el.style.transition = 'all 0.2s ease-in-out 0s';
+  if (isHidden) {
+    el.style.transform = "translateY(0)";
+    el.style.opacity = 1;
+    el.style.zIndex = maxZIndex(0);
+  } else {
+    el.style.transform = "translateY(100%)";
+    el.style.opacity = 0;
+    el.style.zIndex = -1;
+  }
+  isHidden = !isHidden;
 }
 
 
@@ -344,7 +408,7 @@ function resize(e, div, direction) {
 }
 
 function changeCursor(e) {
-  
+
   if (e.target.id != "") {
     if (e.clientX > e.target.getBoundingClientRect().right - borderMargin) {
       e.target.style.cursor = "ew-resize"; // Cambiar el cursor al redimensionar
