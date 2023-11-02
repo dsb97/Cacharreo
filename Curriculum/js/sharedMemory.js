@@ -1,3 +1,21 @@
+let systemSettings = {
+    zoomLevel: 1,
+    theme: 'default',
+    wallpaper: 'resources/themes/wallpapers/Flower.jpg',
+    windowColor: 'rgba(0,0,0,0.8)',
+    fontColor: 'rgba(255,255,255,1)',
+    version: '1.0'
+}
+
+let keySettings = {
+    zoomLevel: 'zoomLevel',
+    theme: 'theme',
+    wallpaper: 'wallpaper',
+    windowColor: 'windowColor',
+    fontColor: 'fontColor',
+    version: 'version'
+}
+
 let windowStatus = {
     minimized: 'minimized',
     restored: 'restored'
@@ -83,4 +101,24 @@ function updateCachedWindowStatus(windowID, windowStatus) {
         }
     });
     sessionStorage.setItem('cachedWindows', JSON.stringify(cWs));
+}
+
+function getSystemSettings() {
+    let sS = JSON.parse(localStorage.getItem('systemSettings'));
+    if (sS == null) {
+        sS = {... systemSettings};
+        localStorage.setItem('systemSettings', JSON.stringify(sS));
+    }
+    return JSON.parse(localStorage.getItem('systemSettings'));
+}
+
+function getSetting(key) {
+    let sS = getSystemSettings();
+    return sS[key];
+}
+
+function setSetting(key, value) {
+    let sS = getSystemSettings();
+    sS[key] = value;
+    localStorage.setItem('systemSettings', JSON.stringify(sS));
 }

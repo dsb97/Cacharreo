@@ -18,7 +18,7 @@
 
 </head>
 
-<body onchange="loadDesktop()" id="bdy" style='background-image: url("resources/themes/wallpapers/Flower.jpg");'>
+<body onchange="loadDesktop()" id="bdy">
     <!--Ventanas-->
     <div class="window blur rounded dark d-none" onmousedown="resizeStart(event, event.target)"
         onmousemove="changeCursor(event)">
@@ -169,11 +169,26 @@
             </ul>
         </div>
     </div>
+
+    <div class="position-fixed top-0 start-0 p-3" style="z-index: 11">
+        <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header border-bottom-0">
+                <img id="notificationIcon" width=20 src="" class="rounded me-2">
+                <strong id="notificationTitle" class="me-auto">Ajustes</strong>
+                <small id="notificationTimestamp">Ahora mismo</small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div id="notificationBody" class="toast-body">
+                Se ha actualizado el sistema a una nueva versión. Descubre las novedades <a class="link-dark">aquí</a>
+            </div>
+        </div>
+    </div>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
         crossorigin="anonymous"></script>
-    <script type="text/javascript" src="/js/cachedWindows.js"></script>
+    <script type="text/javascript" src="/js/sharedMemory.js"></script>
     <script type="text/javascript" src="/js/index.js"></script>
 </body>
 

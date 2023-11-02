@@ -77,30 +77,6 @@ html, body {
     background-color: rgba(0,0,0,.5);
 }
 
-.list button {
-    width: 100%;
-    height: fit-content;
-    padding: 10px;
-    text-align: left;
-    border-color: transparent;
-    background-color: transparent;
-    cursor: default !important;
-}
-
-.list button img {
-    width: 48px;
-    display: inline-block;
-    margin-right: 8pt;
-}
-
-.list button:hover {
-    background-color: rgba(0, 0, 0, 0.2);
-}
-
-.list button:focus {
-    background-color: rgba(0,0,0,.5);
-}
-
 
 .scrollable {
     height: 100dvh;

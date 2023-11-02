@@ -39,8 +39,8 @@ let offsetX, offsetY, isResizingRight, isResizingBottom = false;
 const minWidth = 539;
 const minHeight = 210;
 const borderMargin = 20;
-const maxWidth = window.innerWidth;
-const maxHeight = window.innerHeight;
+var maxWidth = window.innerWidth;
+var maxHeight = window.innerHeight;
 
 window.addEventListener('DOMContentLoaded', function () {
   String.prototype.capitalize = function () {
@@ -59,6 +59,7 @@ window.addEventListener('DOMContentLoaded', function () {
 
   createWindowsCache();
 
+  checkUpdates();
 });
 
 function maxZIndex(zIndex) {
@@ -94,8 +95,10 @@ function loadDock() {
 }
 
 function loadDesktop() {
+  window.document.body.style.zoom = getSetting(keySettings.zoomLevel);
+  window.document.body.style.backgroundImage = `url("${getSetting(keySettings.wallpaper)}")`;
   //Determie if background image is dark or light
-  getImageLightness(document.getElementById('bdy').style.backgroundImage.split('"')[1], function (brightness) {
+  getImageLightness(window.document.body.style.backgroundImage.split('"')[1], function (brightness) {
     let iconsNodeList = document.querySelectorAll('.gallery button');
     [...iconsNodeList].forEach((icon) => {
       icon.classList.remove('lightText');
@@ -228,7 +231,7 @@ function openWindow(url, dockIcon, path) {
   //If there is no minimized instance, it will create a new one
   //debugger;
   let cWs = getCachedWindows();
-  if (cWs.some((element) => element.dockIcon == dockIcon)) {
+  if (cWs.some((element) => element.dockIcon == dockIcon && element.windowStatus == windowStatus.minimized)) {
     cWs.forEach((element) => {
       if (element.dockIcon == dockIcon && element.windowStatus == windowStatus.minimized) {
         //debugger;
@@ -344,7 +347,6 @@ async function minimizeWindow(event) {
   isHidden = !isHidden;
 }
 
-
 function resizeStart(e, div) {
   if (e.target.id != "") {
     offsetX = e.clientX - div.getBoundingClientRect().left;
@@ -421,4 +423,16 @@ function changeCursor(e) {
       //console.log('👋🏻');
     }
   }
+}
+
+async function checkUpdates() {
+  let v = getSetting(keySettings.version);
+  let response = await fetch('https://raw.githubusercontent.com/REPLACE_WITH_JSON_URL');
+  let data = await response.json();
+  console.log(data);
+}
+
+function showNotifications() {
+  var toast = new bootstrap.Toast(document.getElementById('liveToast'));
+  toast.show();
 }
