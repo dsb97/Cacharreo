@@ -19,8 +19,8 @@
 </head>
 
 <body>
-    <div class="row">
-        <div class="col-12">
+    <div class="row h-100">
+        <div class="col-12 h-100">
             <div class="sidebar scrollable overflow-auto rounded" style="max-width: 100%; max-height: 100%;">
                 <ul class="list-unstyled ps-0" id="tareas">
 
@@ -40,17 +40,11 @@
     <!-- <script type="text/javascript" src="/windows/windows.js"></script> -->
     <script>
         window.addEventListener('DOMContentLoaded', function (event) {
+            window.document.body.style.zoom = getSetting(keySettings.zoomLevel);
+            window.parent.document.getElementById(windowID).getElementsByClassName('backArrow')[0].style.visibility = "hidden";
+            window.parent.document.getElementById(windowID).getElementsByClassName('forwardArrow')[0].style.visibility = "hidden";
             loadTasks();
         });
-
-        // let cachedWindow = {
-        //     windowID: 0,
-        //     dockIcon: '',
-        //     history: {
-        //         index: 0,
-        //         urlList: []
-        //     }
-        // }
 
         function loadTasks() {
             let tasks = getCachedWindows();

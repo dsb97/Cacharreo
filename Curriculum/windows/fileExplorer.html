@@ -18,8 +18,8 @@
 </head>
 
 <body>
-    <div class="row">
-        <div class="col-4 col-lg-2">
+    <div class="row h-100">
+        <div class="col-4 col-lg-2 h-100">
             <div class="sidebar scrollable overflow-auto rounded" style="max-width: 100%; max-height: 100%;">
                 <ul class="list-unstyled ps-0">
                     <li class="mb-1">
@@ -88,7 +88,7 @@
                 </ul>
             </div>
         </div>
-        <div class="col-8 col-lg-10">
+        <div class="col-8 col-lg-10 h-100">
             <div class="scrollable overflow-auto" style="max-width: 100%; max-height: 100%;">
                 <div id="galleryContent" class="gallery dark">
 
@@ -107,6 +107,7 @@
     <script type="text/javascript" src="/windows/sidebars.js"></script>
     <script>
         window.addEventListener('DOMContentLoaded', function () {
+            window.document.body.style.zoom = getSetting(keySettings.zoomLevel);
             window.parent.document.getElementById(windowID).getElementsByClassName('backArrow')[0].onclick = function (event) {
                 back();
             };
