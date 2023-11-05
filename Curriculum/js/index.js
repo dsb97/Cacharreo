@@ -427,7 +427,7 @@ function changeCursor(e) {
 
 async function checkUpdates() {
   let v = getSetting(keySettings.version);
-  let response = await fetch('https://raw.githubusercontent.com/REPLACE_WITH_JSON_URL');
+  let response = await fetch('https://raw.githubusercontent.com/dsb97/Cacharreo/master/Curriculum/js/version.json');
   let data = await response.json();
   console.log(data);
 }
