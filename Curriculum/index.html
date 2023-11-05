@@ -14,7 +14,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
 
 </head>
 
@@ -25,9 +25,9 @@
         <div class="d-flex justify-content-between rounded windowHeader" style="cursor: default !important;"
             onmousedown="dragStart(event, event.target.parentElement)" ondblclick="restoreMaximizeWindow(event)">
             <div class="p-2">
-                <div class="d-flex flex-row mb-3">
-                    <i class="bi bi-arrow-left tray-icon me-3 backArrow" style="color: gray;" ></i>
-                    <i class="bi bi-arrow-right tray-icon forwardArrow" style="color: gray;" ></i>
+                <div class="d-flex flex-row">
+                    <i class="bi bi-arrow-left tray-icon me-3 rounded px-2 backArrow"></i>
+                    <i class="bi bi-arrow-right tray-icon px-2 rounded forwardArrow"></i>
                 </div>
             </div>
             <div class="p-2 windowTitle"></div>
@@ -48,8 +48,8 @@
             <span id="forecastDescription" class="ms-2">Previsión meteorológica no disponible</span>
         </div>
         <div class="col-4 d-flex align-items-center">
-            <input placeholder="&#xF002; Buscar..." class="form-control bg-white bg-opacity-25 text-white border-0" type="text" name="searchBar"
-                            id="searchBar">
+            <input placeholder="&#xF002; Buscar..." class="form-control bg-white bg-opacity-25 text-white border-0"
+                type="text" name="searchBar" id="searchBar">
         </div>
         <div class="col-4 d-flex align-items-center justify-content-end">
             <i class="bi bi-wifi tray-icon me-3"></i>
@@ -61,7 +61,8 @@
     <!-- Dock aplicaciones-->
     <div class="dock dark">
         <div class="dock-container">
-            <li class="li-1 p-1" id="fileExplorer" onclick="openWindow('/windows/fileExplorer.html', 'fileExplorer', '/Este equipo')">
+            <li class="li-1 p-1" id="fileExplorer"
+                onclick="openWindow('/windows/fileExplorer.html', 'fileExplorer', '/Este equipo')">
                 <div class="name">Archivos</div>
                 <img class="ico" src="resources/themes/default/system/folder.png" alt="">
             </li>
@@ -85,7 +86,7 @@
                 <div class="name">Monitor del sistema</div>
                 <img class="ico" src="resources/themes/default/system/task-manager.png" alt="">
             </li>
-            <li class="li-7 p-1" >
+            <li class="li-7 p-1">
                 <div class="name">Papelera</div>
                 <img class="ico" src="resources/themes/default/system/trash.png" alt="">
             </li>
@@ -98,15 +99,18 @@
             <img src="resources/themes/default/system/computer.png" alt="">
             <p>Este equipo</p>
         </button>
-        <button class="rounded" ondblclick="openWindow('/windows/fileExplorer.html', 'fileExplorer', '/Este equipo/Disco del sistema/user/Lenguajes')">
+        <button class="rounded"
+            ondblclick="openWindow('/windows/fileExplorer.html', 'fileExplorer', '/Este equipo/Disco del sistema/user/Lenguajes')">
             <img src="resources/themes/default/system/code.png" alt="">
             <p>Lenguajes</p>
         </button>
-        <button class="rounded" ondblclick="openWindow('/windows/fileExplorer.html', 'fileExplorer', '/Este equipo/Disco del sistema/user/Frameworks')">
+        <button class="rounded"
+            ondblclick="openWindow('/windows/fileExplorer.html', 'fileExplorer', '/Este equipo/Disco del sistema/user/Frameworks')">
             <img src="resources/themes/default/system/framework.png" alt="">
             <p>Frameworks</p>
         </button>
-        <button class="rounded" ondblclick="openWindow('/windows/fileExplorer.html', 'fileExplorer', '/Este equipo/Disco del sistema/user/Entornos de desarrollo')">
+        <button class="rounded"
+            ondblclick="openWindow('/windows/fileExplorer.html', 'fileExplorer', '/Este equipo/Disco del sistema/user/Entornos de desarrollo')">
             <img src="resources/themes/default/system/ide.png" alt="">
             <p>Entornos de desarrollo</p>
         </button>

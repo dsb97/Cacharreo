@@ -1,7 +1,7 @@
 let systemSettings = {
     zoomLevel: 1,
     theme: 'default',
-    wallpaper: 'resources/themes/wallpapers/Flower.jpg',
+    wallpaper: 'resources/themes/wallpapers/Grass.jpg',
     windowColor: 'rgba(0,0,0,0.8)',
     fontColor: 'rgba(255,255,255,1)',
     version: '1.0'
@@ -93,7 +93,7 @@ function forwardHistoryIndex(windowID) {
 }
 
 function updateCachedWindowStatus(windowID, windowStatus) {
-    //debugger;
+    ;
     let cWs = JSON.parse(sessionStorage.getItem('cachedWindows'));
     cWs.forEach((cW) => {
         if (cW.windowID == windowID) {

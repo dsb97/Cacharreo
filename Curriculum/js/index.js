@@ -229,12 +229,12 @@ function openWindow(url, dockIcon, path) {
   //Get opened windows.
   //If there is an minimized instance, it will be restored
   //If there is no minimized instance, it will create a new one
-  //debugger;
+  ;
   let cWs = getCachedWindows();
   if (cWs.some((element) => element.dockIcon == dockIcon && element.windowStatus == windowStatus.minimized)) {
     cWs.forEach((element) => {
       if (element.dockIcon == dockIcon && element.windowStatus == windowStatus.minimized) {
-        //debugger;
+        ;
         minimizeWindow(element.windowID);
       }
     });
@@ -258,7 +258,17 @@ function openWindow(url, dockIcon, path) {
     clone.getElementsByTagName('iframe')[0].setAttribute('src', fullURL);
     clone.classList.remove('d-none');
     clone.style.zIndex = maxZIndex(0);
+    clone.style.transform = "scale(0)";
     document.getElementsByTagName('body')[0].appendChild(clone);
+    let timeOut = setTimeout(() => {
+      clone.style.transition = null;
+      clearTimeout(timeOut);
+    }, 300);
+    ;
+    requestAnimationFrame(() => {
+      clone.style.transition = 'all 0.2s ease-in-out 0s';
+      clone.style.transform = "scale(1)";
+    });
   }
 }
 
@@ -278,8 +288,14 @@ function closeWindow(event) {
     document.getElementById(cW.dockIcon).classList.remove('li-on');
   }
 
-  //Undraw the window
-  w.remove();
+  w.style.animationName = 'closeApp';
+  w.style.animationDuration = '0.2s';
+  w.style.animationTimingFunction = 'ease-in-out';
+
+  w.addEventListener('animationend', () => {
+    w.style.animationName = '';
+    w.remove();
+  });
 }
 
 function restoreMaximizeWindow(event) {
@@ -291,14 +307,14 @@ function restoreMaximizeWindow(event) {
     el = event.target.parentElement;
   }
 
-  let rgba = document.defaultView.getComputedStyle(el, null)['backgroundColor'].replace('rgba(', '').replace(')', '').split(',');
+  let rgba = document.defaultView.getComputedStyle(el, null)['backgroundColor'].replace('rgba(', '').replace(')', '').replaceAll(' ', '').split(',');
 
   let timeOut = setTimeout(() => {
     el.style.transition = null;
     clearTimeout(timeOut);
   }, 300);
   el.style.transition = 'all 0.2s ease-in-out 0s';
-
+  ;
   if (el.classList.contains('max')) {
     el.classList.remove('max');
     el.style.backgroundColor = null;
@@ -306,7 +322,7 @@ function restoreMaximizeWindow(event) {
   } else {
     el.classList.add('max');
     el.style.backgroundColor = null;
-    el.style.backgroundColor = `rgba(${rgba[0]}, ${rgba[1]}, ${rgba[2]}, 0.9)`;
+    el.style.backgroundColor = `rgba(${rgba[0]}, ${rgba[1]}, ${rgba[2]}, 0.92)`;
 
   }
   el.style.zIndex = maxZIndex(el.style.zIndex);
@@ -330,21 +346,14 @@ async function minimizeWindow(event) {
 
 
   let isHidden = getCachedWindow(el.id).windowStatus != windowStatus.minimized;
-  let timeOut = setTimeout(() => {
-    el.style.transition = null;
-    clearTimeout(timeOut);
-  }, 300);
-  el.style.transition = 'all 0.2s ease-in-out 0s';
-  if (isHidden) {
-    el.style.transform = "translateY(0)";
-    el.style.opacity = 1;
-    el.style.zIndex = maxZIndex(0);
-  } else {
-    el.style.transform = "translateY(100%)";
-    el.style.opacity = 0;
-    el.style.zIndex = -1;
-  }
+
+  el.style.animationName = isHidden ? 'fadeInAndMove' : 'fadeAndMove';
+  el.style.animationDuration = '0.2s';
+  el.style.animationTimingFunction = 'ease-in-out';
+  el.style.animationFillMode = 'forwards';
+
   isHidden = !isHidden;
+
 }
 
 function resizeStart(e, div) {

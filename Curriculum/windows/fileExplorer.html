@@ -31,28 +31,21 @@
                         <div class="collapse show" id="home-collapse">
                             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                                 <li>
-                                    <a onclick="openLink('/windows/escritorio.html', windowID)"
-                                        class="link-dark rounded">
-                                        <i class="bi bi-window-desktop mx-2"></i>
-                                        Escritorio
-                                    </a>
-                                </li>
-                                <li>
-                                    <a onclick="openLink('/windows/lenguajes.html', windowID)"
+                                    <a onclick="openFolder('/Este equipo/Disco del sistema/user/Lenguajes', true)"
                                         class="link-dark rounded">
                                         <i class="bi bi-code-slash mx-2"></i>
                                         Lenguajes
                                     </a>
                                 </li>
                                 <li>
-                                    <a onclick="openLink('/windows/frameworks.html', windowID)"
+                                    <a onclick="openFolder('/Este equipo/Disco del sistema/user/Frameworks', true)"
                                         class="link-dark rounded">
                                         <i class="bi bi-person-workspace mx-2"></i>
                                         Frameworks
                                     </a>
                                 </li>
                                 <li>
-                                    <a onclick="openLink('/windows/entornosDesarrollo.html', windowID)"
+                                    <a onclick="openFolder('/Este equipo/Disco del sistema/user/Entornos de desarrollo', true)"
                                         class="link-dark rounded">
                                         <i class="bi bi-box mx-2"></i>
                                         Entornos de desarrollo
@@ -70,14 +63,14 @@
                         <div class="collapse show" id="dashboard-collapse" style="">
                             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                                 <li>
-                                    <a onclick="openLink('/windows/esteEquipo.html', windowID)"
+                                    <a onclick="openFolder('/Este equipo', true)"
                                         class="link-dark rounded">
                                         <i class="bi bi-pc-display mx-2"></i>
                                         Este equipo
                                     </a>
                                 </li>
                                 <li>
-                                    <a onclick="openLink('/resources/index.html', windowID)" class="link-dark rounded">
+                                    <a onclick="openFolder('/Este equipo/Disco del sistema', true)" class="link-dark rounded">
                                         <i class="bi bi-hdd mx-2"></i>
                                         Disco del sistema
                                     </a>
@@ -288,8 +281,8 @@
                                         name: `wallpapers`,
                                         content: [
                                             {
-                                                icon: `/resources/themes/wallpapers/Flower.jpg`,
-                                                name: `Flower.jpg`
+                                                icon: `/resources/themes/wallpapers/Grass.jpg`,
+                                                name: `Grass.jpg`
                                             },
                                             {
                                                 icon: `/resources/themes/wallpapers/Grass.jpg`,
