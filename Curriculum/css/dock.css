@@ -9,7 +9,7 @@
   -ms-flex-pack: center;
   justify-content: center;
   position: absolute;
-  bottom: 1%;
+  bottom: 4pt;
   left: 50%;
   -webkit-transform: translateX(-50%);
   transform: translateX(-50%);

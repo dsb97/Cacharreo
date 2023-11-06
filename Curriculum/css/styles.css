@@ -57,7 +57,7 @@ body {
     -webkit-box-pack: center;
     -ms-flex-pack: center;
     position: absolute;
-    top: 1%;
+    top: 4pt;
     left: 50%;
     -webkit-transform: translateX(-50%);
     transform: translateX(-50%);
