@@ -235,3 +235,8 @@ i {
         transform: translateY(0) scale(1);
     }
 }
+
+.desktopIcons {
+    margin-top: 40pt;
+    margin-right: 5pt;
+}
