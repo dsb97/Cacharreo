@@ -32,21 +32,21 @@
                             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                                 <li>
                                     <a onclick="openFolder('/Este equipo/Disco del sistema/user/Lenguajes', true)"
-                                        class="link-dark rounded">
+                                        class="link-dark rounded Lenguajes">
                                         <i class="bi bi-code-slash mx-2"></i>
                                         Lenguajes
                                     </a>
                                 </li>
                                 <li>
                                     <a onclick="openFolder('/Este equipo/Disco del sistema/user/Frameworks', true)"
-                                        class="link-dark rounded">
+                                        class="link-dark rounded Frameworks">
                                         <i class="bi bi-person-workspace mx-2"></i>
                                         Frameworks
                                     </a>
                                 </li>
                                 <li>
                                     <a onclick="openFolder('/Este equipo/Disco del sistema/user/Entornos de desarrollo', true)"
-                                        class="link-dark rounded">
+                                        class="link-dark rounded Entornos">
                                         <i class="bi bi-box mx-2"></i>
                                         Entornos de desarrollo
                                     </a>
@@ -63,14 +63,14 @@
                         <div class="collapse show" id="dashboard-collapse" style="">
                             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                                 <li>
-                                    <a onclick="openFolder('/Este equipo', true)"
-                                        class="link-dark rounded">
+                                    <a onclick="openFolder('/Este equipo', true)" class="link-dark rounded Equipo">
                                         <i class="bi bi-pc-display mx-2"></i>
                                         Este equipo
                                     </a>
                                 </li>
                                 <li>
-                                    <a onclick="openFolder('/Este equipo/Disco del sistema', true)" class="link-dark rounded">
+                                    <a onclick="openFolder('/Este equipo/Disco del sistema', true)"
+                                        class="link-dark rounded Disco">
                                         <i class="bi bi-hdd mx-2"></i>
                                         Disco del sistema
                                     </a>
@@ -410,6 +410,8 @@
             }
 
             window.parent.document.getElementById(windowID).getElementsByTagName('div')[3].innerHTML = path.split('/')[path.split('/').length - 1];
+
+            toggleSidebarButtons(path);
         }
 
         function back() {
@@ -424,6 +426,22 @@
             let cW = getCachedWindow(windowID);
             let forwardPath = cW.history.urlList[cW.history.index];
             openFolder(forwardPath, false);
+        }
+
+        function toggleSidebarButtons(path) {
+            let currentFolder = path.split('/')[path.split('/').length - 1].toLowerCase();
+            let sidebarIcons = document.querySelectorAll('.link-dark.rounded');
+            sidebarIcons.forEach(function (sI) {
+                if (sI.classList.contains('active')) {
+                    sI.classList.remove('active');
+                }
+
+                sI.classList.forEach(function (cl) {
+                    if (currentFolder.toLowerCase().includes(cl.toLowerCase())) {
+                        sI.classList.add('active');
+                    }
+                })
+            });
         }
 
     </script>
