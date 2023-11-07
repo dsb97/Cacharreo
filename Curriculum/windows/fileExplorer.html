@@ -64,7 +64,7 @@
                             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                                 <li>
                                     <a onclick="openFolder('/Este equipo', true)" class="link-dark rounded Equipo">
-                                        <i class="bi bi-pc-display mx-2"></i>
+                                        <i class="bi bi-display mx-2"></i>
                                         Este equipo
                                     </a>
                                 </li>
@@ -281,6 +281,10 @@
                                         name: `wallpapers`,
                                         content: [
                                             {
+                                                icon: `/resources/themes/wallpapers/Blue.jpg`,
+                                                name: `Blue.jpg`
+                                            },
+                                            {
                                                 icon: `/resources/themes/wallpapers/Flower.jpg`,
                                                 name: `Flower.jpg`
                                             },
@@ -289,12 +293,20 @@
                                                 name: `Grass.jpg`
                                             },
                                             {
+                                                icon: `/resources/themes/wallpapers/Gray.jpg`,
+                                                name: `Gray.jpg`
+                                            },
+                                            {
                                                 icon: `/resources/themes/wallpapers/Lavender.jpg`,
                                                 name: `Lavender.jpg`
                                             },
                                             {
                                                 icon: `/resources/themes/wallpapers/Mountains.jpg`,
                                                 name: `Mountains.jpg`
+                                            },
+                                            {
+                                                icon: `/resources/themes/wallpapers/Red.jpg`,
+                                                name: `Red.jpg`
                                             },
                                             {
                                                 icon: `/resources/themes/wallpapers/Sand.jpg`,
@@ -333,6 +345,14 @@
                                         name: `Calendario`
                                     },
                                     {
+                                        icon: `/resources/themes/${theme}/system/camera.png`,
+                                        name: `Cámara`
+                                    },
+                                    {
+                                        icon: `/resources/themes/${theme}/system/contacts.png`,
+                                        name: `Contactos`
+                                    },
+                                    {
                                         icon: `/resources/themes/${theme}/system/mail.png`,
                                         name: `Correo electrónico`
                                     },
@@ -365,6 +385,14 @@
                                         name: `Reproductor de música`
                                     },
                                     {
+                                        icon: `/resources/themes/${theme}/system/video.png`,
+                                        name: `Reproductor de vídeo`
+                                    },
+                                    {
+                                        icon: `/resources/themes/${theme}/system/clock.png`,
+                                        name: `Reloj`
+                                    },
+                                    {
                                         icon: `/resources/themes/${theme}/system/terminal.png`,
                                         name: `Terminal`
                                     },
@@ -373,8 +401,12 @@
                                         name: `Tiempo`
                                     },
                                     {
+                                        icon: `/resources/themes/${theme}/system/shop.png`,
+                                        name: `Tienda`
+                                    },
+                                    {
                                         icon: `/resources/themes/${theme}/misc/vscode.png`,
-                                        name: `VS Code`
+                                        name: `Visual Studio Code`
                                     }
                                 ]
                             }

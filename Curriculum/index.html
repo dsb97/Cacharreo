@@ -15,16 +15,15 @@
         integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
-
 </head>
 
 <body onchange="loadDesktop()" id="bdy">
     <!--Ventanas-->
     <div class="window blur rounded dark d-none" onmousedown="resizeStart(event, event.target)"
         onmousemove="changeCursor(event)">
-        <div class="d-flex justify-content-between rounded windowHeader" style="cursor: default !important;"
+        <div class="d-flex justify-content-between align-items-center rounded windowHeader" style="cursor: default !important;"
             onmousedown="dragStart(event, event.target.parentElement)" ondblclick="restoreMaximizeWindow(event)">
-            <div class="p-2">
+            <div class="p-0">
                 <div class="d-flex flex-row">
                     <i class="bi bi-arrow-left tray-icon me-3 rounded px-2 backArrow"></i>
                     <i class="bi bi-arrow-right tray-icon px-2 rounded forwardArrow"></i>
@@ -61,6 +60,11 @@
     <!-- Dock aplicaciones-->
     <div class="dock dark">
         <div class="dock-container">
+            <li class="li-1 p-1" id="apps"
+                onclick="openWindow('/windows/fileExplorer.html', 'fileExplorer', '/Este equipo/Disco del sistema/apps')">
+                <div class="name">Todas las apps</div>
+                <img class="ico" src="resources/themes/default/system/apps.png" alt="">
+            </li>
             <li class="li-1 p-1" id="fileExplorer"
                 onclick="openWindow('/windows/fileExplorer.html', 'fileExplorer', '/Este equipo')">
                 <div class="name">Archivos</div>
@@ -79,7 +83,7 @@
                 <img class="ico" src="resources/themes/default/system/terminal.png" alt="">
             </li>
             <li class="li-6 p-1">
-                <div class="name">VS Code</div>
+                <div class="name">Visual Studio Code</div>
                 <img class="ico" src="resources/themes/default/misc/vscode.png" alt="">
             </li>
             <li class="li-7 p-1" id="taskManager" onclick="openWindow('/windows/taskManager.html', 'taskManager')">
