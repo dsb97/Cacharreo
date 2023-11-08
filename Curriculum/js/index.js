@@ -256,19 +256,9 @@ function openWindow(url, dockIcon, path) {
     let clone = document.getElementsByClassName('window')[0].cloneNode(true);
     clone.id = cloneID;
     clone.getElementsByTagName('iframe')[0].setAttribute('src', fullURL);
-    clone.classList.remove('d-none');
     clone.style.zIndex = maxZIndex(0);
     clone.style.transform = "scale(0)";
     document.getElementsByTagName('body')[0].appendChild(clone);
-    let timeOut = setTimeout(() => {
-      clone.style.transition = null;
-      clearTimeout(timeOut);
-    }, 300);
-    ;
-    requestAnimationFrame(() => {
-      clone.style.transition = 'all 0.2s ease-in-out 0s';
-      clone.style.transform = "scale(1)";
-    });
   }
 }
 

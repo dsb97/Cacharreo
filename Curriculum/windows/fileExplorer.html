@@ -96,18 +96,20 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
         crossorigin="anonymous"></script>
-    <script type="text/javascript" src="/js/sharedMemory.js"></script>
+    <script type="text/javascript" src="/js/shared.js"></script>
     <script type="text/javascript" src="/windows/sidebars.js"></script>
     <script>
         window.addEventListener('DOMContentLoaded', function () {
-            window.document.body.style.zoom = getSetting(keySettings.zoomLevel);
-            window.parent.document.getElementById(windowID).getElementsByClassName('backArrow')[0].onclick = function (event) {
+            //window.document.body.style.zoom = getSetting(keySettings.zoomLevel);
+            let w = window.parent.document.getElementById(windowID);
+            w.getElementsByClassName('backArrow')[0].onclick = function (event) {
                 back();
             };
-            window.parent.document.getElementById(windowID).getElementsByClassName('forwardArrow')[0].onclick = function (event) {
+            w.getElementsByClassName('forwardArrow')[0].onclick = function (event) {
                 forward();
             };
             openFolder(windowPath, true);
+            showWindow(w);
         });
 
         var theme = `default`;

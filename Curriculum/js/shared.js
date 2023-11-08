@@ -106,7 +106,7 @@ function updateCachedWindowStatus(windowID, windowStatus) {
 function getSystemSettings() {
     let sS = JSON.parse(localStorage.getItem('systemSettings'));
     if (sS == null) {
-        sS = {... systemSettings};
+        sS = { ...systemSettings };
         localStorage.setItem('systemSettings', JSON.stringify(sS));
     }
     return JSON.parse(localStorage.getItem('systemSettings'));
@@ -121,4 +121,16 @@ function setSetting(key, value) {
     let sS = getSystemSettings();
     sS[key] = value;
     localStorage.setItem('systemSettings', JSON.stringify(sS));
+}
+
+function showWindow(w) {
+    w.classList.remove('d-none');
+    let timeOut = setTimeout(() => {
+        w.style.transition = null;
+        clearTimeout(timeOut);
+    }, 300);
+    requestAnimationFrame(() => {
+        w.style.transition = 'all 0.2s ease-in-out 0s';
+        w.style.transform = "scale(1)";
+    });
 }
