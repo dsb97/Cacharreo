@@ -11,6 +11,7 @@
         integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="./sidebars.css">
+    <style id="dynamicStyle"></style>
     <script>
         var windowID = new URLSearchParams(window.location.search).get('id');
         var windowPath = new URLSearchParams(window.location.search).get('path');
@@ -82,8 +83,8 @@
             </div>
         </div>
         <div class="col-8 col-lg-10 h-100">
-            <div class="scrollable overflow-auto" style="max-width: 100%; max-height: 100%;">
-                <div id="galleryContent" class="gallery dark">
+            <div class="scrollable overflow-auto defaultWindowColor rounded" style="max-width: 100%; max-height: 100%;">
+                <div id="galleryContent" class="gallery defaultFontColor">
 
                 </div>
             </div>
@@ -100,327 +101,20 @@
     <script type="text/javascript" src="/windows/sidebars.js"></script>
     <script>
         window.addEventListener('DOMContentLoaded', function () {
-            //window.document.body.style.zoom = getSetting(keySettings.zoomLevel);
             let w = window.parent.document.getElementById(windowID);
-            w.getElementsByClassName('backArrow')[0].onclick = function (event) {
+            w.getElementsByClassName('backButton')[0].onclick = function (event) {
                 back();
             };
-            w.getElementsByClassName('forwardArrow')[0].onclick = function (event) {
+            w.getElementsByClassName('forwardButton')[0].onclick = function (event) {
                 forward();
             };
             openFolder(windowPath, true);
             showWindow(w);
         });
 
-        var theme = `default`;
-
-        var fileSystem = [
-            {
-                icon: `/resources/themes/${theme}/system/computer.png`,
-                name: 'Este equipo',
-                content: [
-                    {
-                        icon: `/resources/themes/${theme}/system/disk.png`,
-                        name: 'Disco del sistema',
-                        content: [
-                            {
-                                icon: `/resources/themes/${theme}/system/folder.png`,
-                                name: `user`,
-                                content: [
-                                    {
-                                        icon: `/resources/themes/${theme}/system/code.png`,
-                                        name: `Lenguajes`,
-                                        content: [
-                                            {
-                                                icon: `/resources/themes/${theme}/misc/csharp.png`,
-                                                name: `C#`,
-                                                content: []
-                                            },
-                                            {
-                                                icon: `/resources/themes/${theme}/misc/sql.png`,
-                                                name: `SQL`,
-                                                content: []
-                                            },
-                                            {
-                                                icon: `/resources/themes/${theme}/misc/html.png`,
-                                                name: `HTML5`,
-                                                content: []
-                                            },
-                                            {
-                                                icon: `/resources/themes/${theme}/misc/css.png`,
-                                                name: `CSS`,
-                                                content: []
-                                            },
-                                            {
-                                                icon: `/resources/themes/${theme}/misc/js.png`,
-                                                name: `JavaScript`,
-                                                content: []
-                                            },
-                                            {
-                                                icon: `/resources/themes/${theme}/misc/ts.png`,
-                                                name: 'TypeScript',
-                                                content: []
-                                            },
-                                            {
-                                                icon: `/resources/themes/${theme}/misc/php.png`,
-                                                name: `PHP`,
-                                                content: []
-                                            },
-                                            {
-                                                icon: `/resources/themes/${theme}/misc/java.png`,
-                                                name: `Java`,
-                                                content: []
-                                            },
-                                            {
-                                                icon: `/resources/themes/${theme}/misc/vb.png`,
-                                                name: `Visual Basic`,
-                                                content: []
-                                            }
-                                        ]
-                                    },
-                                    {
-                                        icon: `/resources/themes/${theme}/system/framework.png`,
-                                        name: `Frameworks`,
-                                        content: [
-                                            {
-                                                icon: `/resources/themes/${theme}/misc/net.png`,
-                                                name: `.NET (Classic/Core)`,
-                                                content: []
-                                            },
-                                            {
-                                                icon: `/resources/themes/${theme}/misc/laravel.png`,
-                                                name: `Laravel`,
-                                                content: []
-                                            },
-                                            {
-                                                icon: `/resources/themes/${theme}/misc/angular.png`,
-                                                name: `Angular`,
-                                                content: []
-                                            },
-                                            {
-                                                icon: `/resources/themes/${theme}/misc/bootstrap.png`,
-                                                name: `Bootstrap`,
-                                                content: []
-                                            },
-                                            {
-                                                icon: `/resources/themes/${theme}/misc/jQuery.png`,
-                                                name: `JQuery`,
-                                                content: []
-                                            },
-                                            {
-                                                icon: `/resources/themes/${theme}/misc/electron.png`,
-                                                name: `Electron`,
-                                                content: []
-                                            },
-                                            {
-                                                icon: `/resources/themes/${theme}/misc/vue.png`,
-                                                name: `Vue`,
-                                                content: []
-                                            }
-                                        ]
-                                    },
-                                    {
-                                        icon: `/resources/themes/${theme}/system/ide.png`,
-                                        name: `Entornos de desarrollo`,
-                                        content: [
-                                            {
-                                                icon: `/resources/themes/${theme}/misc/vs.png`,
-                                                name: `Visual Studio`,
-                                                content: []
-                                            },
-                                            {
-                                                icon: `/resources/themes/${theme}/misc/vscode.png`,
-                                                name: `Visual Studio Code`,
-                                                content: []
-                                            },
-                                            {
-                                                icon: `/resources/themes/${theme}/misc/netbeans.png`,
-                                                name: `Netbeans`,
-                                                content: []
-                                            },
-                                            {
-                                                icon: `/resources/themes/${theme}/misc/android.png`,
-                                                name: `Android Studio`,
-                                                content: []
-                                            },
-                                            {
-                                                icon: `/resources/themes/${theme}/misc/eclipse.png`,
-                                                name: `Eclipse`,
-                                                content: []
-                                            }
-                                        ]
-                                    }
-                                ]
-                            },
-                            {
-                                icon: `/resources/themes/${theme}/system/folder.png`,
-                                name: `resources`,
-                                content: [
-                                    {
-                                        icon: `/resources/userpic.png`,
-                                        name: `userpic.png`
-                                    },
-                                    {
-                                        icon: `/resources/themes/${theme}/system/folder.png`,
-                                        name: `themes`,
-                                        content: [
-                                            {
-                                                icon: `/resources/themes/${theme}/system/themes.png`,
-                                                name: `default.theme`
-                                            },
-                                            {
-                                                icon: `/resources/themes/${theme}/system/themes.png`,
-                                                name: `windows.theme`
-                                            },
-                                            {
-                                                icon: `/resources/themes/${theme}/system/themes.png`,
-                                                name: `macOS.theme`
-                                            },
-                                        ]
-                                    },
-                                    {
-                                        icon: `/resources/themes/${theme}/system/folder.png`,
-                                        name: `wallpapers`,
-                                        content: [
-                                            {
-                                                icon: `/resources/themes/wallpapers/Blue.jpg`,
-                                                name: `Blue.jpg`
-                                            },
-                                            {
-                                                icon: `/resources/themes/wallpapers/Flower.jpg`,
-                                                name: `Flower.jpg`
-                                            },
-                                            {
-                                                icon: `/resources/themes/wallpapers/Grass.jpg`,
-                                                name: `Grass.jpg`
-                                            },
-                                            {
-                                                icon: `/resources/themes/wallpapers/Gray.jpg`,
-                                                name: `Gray.jpg`
-                                            },
-                                            {
-                                                icon: `/resources/themes/wallpapers/Lavender.jpg`,
-                                                name: `Lavender.jpg`
-                                            },
-                                            {
-                                                icon: `/resources/themes/wallpapers/Mountains.jpg`,
-                                                name: `Mountains.jpg`
-                                            },
-                                            {
-                                                icon: `/resources/themes/wallpapers/Red.jpg`,
-                                                name: `Red.jpg`
-                                            },
-                                            {
-                                                icon: `/resources/themes/wallpapers/Sand.jpg`,
-                                                name: `Sand.jpg`
-                                            },
-                                            {
-                                                icon: `/resources/themes/wallpapers/Sky.jpg`,
-                                                name: `Sky.jpg`
-                                            },
-                                            {
-                                                icon: `/resources/themes/wallpapers/Strawberries.jpg`,
-                                                name: `Strawberries.jpg`
-                                            },
-                                            {
-                                                icon: `/resources/themes/wallpapers/Waves.jpg`,
-                                                name: `Waves.jpg`
-                                            },
-                                        ]
-                                    }
-                                ]
-                            },
-                            {
-                                icon: `/resources/themes/${theme}/system/folder.png`,
-                                name: `apps`,
-                                content: [
-                                    {
-                                        icon: `/resources/themes/${theme}/system/settings.png`,
-                                        name: `Ajustes`
-                                    },
-                                    {
-                                        icon: `/resources/themes/${theme}/system/calculator.png`,
-                                        name: `Calculadora`
-                                    },
-                                    {
-                                        icon: `/resources/themes/${theme}/system/calendar.png`,
-                                        name: `Calendario`
-                                    },
-                                    {
-                                        icon: `/resources/themes/${theme}/system/camera.png`,
-                                        name: `Cámara`
-                                    },
-                                    {
-                                        icon: `/resources/themes/${theme}/system/contacts.png`,
-                                        name: `Contactos`
-                                    },
-                                    {
-                                        icon: `/resources/themes/${theme}/system/mail.png`,
-                                        name: `Correo electrónico`
-                                    },
-                                    {
-                                        icon: `/resources/themes/${theme}/system/document.png`,
-                                        name: `Editor de documentos`
-                                    },
-                                    {
-                                        icon: `/resources/themes/${theme}/system/folder.png`,
-                                        name: `Explorador de archivos`
-                                    },
-                                    {
-                                        icon: `/resources/themes/${theme}/system/photos.png`,
-                                        name: `Fotos`
-                                    },
-                                    {
-                                        icon: `/resources/themes/${theme}/system/info.png`,
-                                        name: `Información`
-                                    },
-                                    {
-                                        icon: `/resources/themes/${theme}/system/task-manager.png`,
-                                        name: `Monitor del sistema`
-                                    },
-                                    {
-                                        icon: `/resources/themes/${theme}/system/internet.png`,
-                                        name: `Navegador`
-                                    },
-                                    {
-                                        icon: `/resources/themes/${theme}/system/music.png`,
-                                        name: `Reproductor de música`
-                                    },
-                                    {
-                                        icon: `/resources/themes/${theme}/system/video.png`,
-                                        name: `Reproductor de vídeo`
-                                    },
-                                    {
-                                        icon: `/resources/themes/${theme}/system/clock.png`,
-                                        name: `Reloj`
-                                    },
-                                    {
-                                        icon: `/resources/themes/${theme}/system/terminal.png`,
-                                        name: `Terminal`
-                                    },
-                                    {
-                                        icon: `/resources/themes/${theme}/system/weather.png`,
-                                        name: `Tiempo`
-                                    },
-                                    {
-                                        icon: `/resources/themes/${theme}/system/shop.png`,
-                                        name: `Tienda`
-                                    },
-                                    {
-                                        icon: `/resources/themes/${theme}/misc/vscode.png`,
-                                        name: `Visual Studio Code`
-                                    }
-                                ]
-                            }
-                        ]
-                    }
-                ]
-            }
-        ];
-
         function openFolder(path, addHistoryURL) {
             let dirs = path.split('/');
-            let currentFolder = fileSystem;
+            let currentFolder = getSetting(keySettings.fileSystem);
             dirs.forEach((dir) => {
                 if (dir.length != 0) {
                     currentFolder = currentFolder.find(x => x.name == dir).content;
@@ -434,7 +128,7 @@
                 content.innerHTML += `
                 <button class="rounded" ${icon.content == null ? '' : `ondblclick="openFolder('${path}/${icon.name}', true)"`}>
                     <img src="${icon.icon}" alt="">
-                    <p>${icon.name}</p>
+                    <p class="defaultFontColor">${icon.name}</p>
                 </button>
                 `;
             });
@@ -477,7 +171,6 @@
                 })
             });
         }
-
     </script>
 </body>
 

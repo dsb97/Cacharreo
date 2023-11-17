@@ -1,4 +1,344 @@
+
+window.addEventListener('DOMContentLoaded', function () {
+
+  refresh();
+
+});
+
 //Variables y constantes
+
+let theme = getSetting(keySettings.theme);
+
+var systemApps = {
+  icon: `/resources/themes/${theme}/system/folder.png`,
+  name: `apps`,
+  content: [
+    {
+      icon: `/resources/themes/${theme}/system/settings.png`,
+      name: `Ajustes`,
+      internalName: 'settings.app'
+    },
+    {
+      icon: `/resources/themes/${theme}/system/calculator.png`,
+      name: `Calculadora`,
+      internalName: 'calculator.app'
+    },
+    {
+      icon: `/resources/themes/${theme}/system/calendar.png`,
+      name: `Calendario`,
+      internalName: 'calendar.app'
+    },
+    {
+      icon: `/resources/themes/${theme}/system/camera.png`,
+      name: `Cámara`,
+      internalName: 'camera.app'
+    },
+    {
+      icon: `/resources/themes/${theme}/system/contacts.png`,
+      name: `Contactos`,
+      internalName: 'contacts.app'
+    },
+    {
+      icon: `/resources/themes/${theme}/system/mail.png`,
+      name: `Correo electrónico`,
+      internalName: 'mail.app'
+    },
+    {
+      icon: `/resources/themes/${theme}/system/document.png`,
+      name: `Editor de documentos`,
+      internalName: 'textEdit.app'
+    },
+    {
+      icon: `/resources/themes/${theme}/system/folder.png`,
+      name: `Explorador de archivos`,
+      internalName: 'fileExplorer.app'
+    },
+    {
+      icon: `/resources/themes/${theme}/system/photos.png`,
+      name: `Fotos`,
+      internalName: 'photos.app'
+    },
+    {
+      icon: `/resources/themes/${theme}/system/info.png`,
+      name: `Información`,
+      internalName: 'info.app'
+    },
+    {
+      icon: `/resources/themes/${theme}/system/task-manager.png`,
+      name: `Monitor del sistema`,
+      internalName: 'taskManager.app'
+    },
+    {
+      icon: `/resources/themes/${theme}/system/internet.png`,
+      name: `Navegador`,
+      internalName: 'internet.app'
+    },
+    {
+      icon: `/resources/themes/${theme}/system/music.png`,
+      name: `Reproductor de música.app`,
+      internalName: 'music'
+    },
+    {
+      icon: `/resources/themes/${theme}/system/video.png`,
+      name: `Reproductor de vídeo.app`,
+      internalName: 'video'
+    },
+    {
+      icon: `/resources/themes/${theme}/system/clock.png`,
+      name: `Reloj`,
+      internalName: 'clock.app'
+    },
+    {
+      icon: `/resources/themes/${theme}/system/terminal.png`,
+      name: `Terminal`,
+      internalName: 'terminal.app'
+    },
+    {
+      icon: `/resources/themes/${theme}/system/weather.png`,
+      name: `Tiempo`,
+      internalName: 'weather.app'
+    },
+    {
+      icon: `/resources/themes/${theme}/system/shop.png`,
+      name: `Tienda`,
+      internalName: 'shop.app'
+    },
+    {
+      icon: `/resources/themes/${theme}/misc/vscode.png`,
+      name: `Visual Studio Code`,
+      internalName: 'vscode.app'
+    }
+  ]
+};
+
+let fileSystem = [
+  {
+    icon: `/resources/themes/${theme}/system/computer.png`,
+    name: 'Este equipo',
+    content: [
+      {
+        icon: `/resources/themes/${theme}/system/disk.png`,
+        name: 'Disco del sistema',
+        content: [
+          {
+            icon: `/resources/themes/${theme}/system/folder.png`,
+            name: `user`,
+            content: [
+              {
+                icon: `/resources/themes/${theme}/system/code.png`,
+                name: `Lenguajes`,
+                content: [
+                  {
+                    icon: `/resources/themes/${theme}/misc/csharp.png`,
+                    name: `C#`,
+                    content: []
+                  },
+                  {
+                    icon: `/resources/themes/${theme}/misc/sql.png`,
+                    name: `SQL`,
+                    content: []
+                  },
+                  {
+                    icon: `/resources/themes/${theme}/misc/html.png`,
+                    name: `HTML5`,
+                    content: []
+                  },
+                  {
+                    icon: `/resources/themes/${theme}/misc/css.png`,
+                    name: `CSS`,
+                    content: []
+                  },
+                  {
+                    icon: `/resources/themes/${theme}/misc/js.png`,
+                    name: `JavaScript`,
+                    content: []
+                  },
+                  {
+                    icon: `/resources/themes/${theme}/misc/ts.png`,
+                    name: 'TypeScript',
+                    content: []
+                  },
+                  {
+                    icon: `/resources/themes/${theme}/misc/php.png`,
+                    name: `PHP`,
+                    content: []
+                  },
+                  {
+                    icon: `/resources/themes/${theme}/misc/java.png`,
+                    name: `Java`,
+                    content: []
+                  },
+                  {
+                    icon: `/resources/themes/${theme}/misc/vb.png`,
+                    name: `Visual Basic`,
+                    content: []
+                  }
+                ]
+              },
+              {
+                icon: `/resources/themes/${theme}/system/framework.png`,
+                name: `Frameworks`,
+                content: [
+                  {
+                    icon: `/resources/themes/${theme}/misc/net.png`,
+                    name: `.NET (Classic & Core)`,
+                    content: []
+                  },
+                  {
+                    icon: `/resources/themes/${theme}/misc/laravel.png`,
+                    name: `Laravel`,
+                    content: []
+                  },
+                  {
+                    icon: `/resources/themes/${theme}/misc/angular.png`,
+                    name: `Angular`,
+                    content: []
+                  },
+                  {
+                    icon: `/resources/themes/${theme}/misc/bootstrap.png`,
+                    name: `Bootstrap`,
+                    content: []
+                  },
+                  {
+                    icon: `/resources/themes/${theme}/misc/jQuery.png`,
+                    name: `JQuery`,
+                    content: []
+                  },
+                  {
+                    icon: `/resources/themes/${theme}/misc/electron.png`,
+                    name: `Electron`,
+                    content: []
+                  },
+                  {
+                    icon: `/resources/themes/${theme}/misc/vue.png`,
+                    name: `Vue`,
+                    content: []
+                  }
+                ]
+              },
+              {
+                icon: `/resources/themes/${theme}/system/ide.png`,
+                name: `Entornos de desarrollo`,
+                content: [
+                  {
+                    icon: `/resources/themes/${theme}/misc/vs.png`,
+                    name: `Visual Studio`,
+                    content: []
+                  },
+                  {
+                    icon: `/resources/themes/${theme}/misc/vscode.png`,
+                    name: `Visual Studio Code`,
+                    content: []
+                  },
+                  {
+                    icon: `/resources/themes/${theme}/misc/netbeans.png`,
+                    name: `Netbeans`,
+                    content: []
+                  },
+                  {
+                    icon: `/resources/themes/${theme}/misc/android.png`,
+                    name: `Android Studio`,
+                    content: []
+                  },
+                  {
+                    icon: `/resources/themes/${theme}/misc/eclipse.png`,
+                    name: `Eclipse`,
+                    content: []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            icon: `/resources/themes/${theme}/system/folder.png`,
+            name: `resources`,
+            content: [
+              {
+                icon: `/resources/userpic.png`,
+                name: `userpic.png`
+              },
+              {
+                icon: `/resources/themes/${theme}/system/folder.png`,
+                name: `themes`,
+                content: [
+                  {
+                    icon: `/resources/themes/${theme}/system/themes.png`,
+                    name: `default.theme`
+                  },
+                  {
+                    icon: `/resources/themes/${theme}/system/themes.png`,
+                    name: `windows.theme`
+                  },
+                  {
+                    icon: `/resources/themes/${theme}/system/themes.png`,
+                    name: `macOS.theme`
+                  },
+                ]
+              },
+              {
+                icon: `/resources/themes/${theme}/system/folder.png`,
+                name: `wallpapers`,
+                content: [
+                  {
+                    icon: `/resources/themes/wallpapers/Blue.jpg`,
+                    name: `Blue.jpg`
+                  },
+                  {
+                    icon: `/resources/themes/wallpapers/Flower.jpg`,
+                    name: `Flower.jpg`
+                  },
+                  {
+                    icon: `/resources/themes/wallpapers/Grass.jpg`,
+                    name: `Grass.jpg`
+                  },
+                  {
+                    icon: `/resources/themes/wallpapers/Gray.jpg`,
+                    name: `Gray.jpg`
+                  },
+                  {
+                    icon: `/resources/themes/wallpapers/Lavender.jpg`,
+                    name: `Lavender.jpg`
+                  },
+                  {
+                    icon: `/resources/themes/wallpapers/Mountains.jpg`,
+                    name: `Mountains.jpg`
+                  },
+                  {
+                    icon: `/resources/themes/wallpapers/Red.jpg`,
+                    name: `Red.jpg`
+                  },
+                  {
+                    icon: `/resources/themes/wallpapers/Sand.jpg`,
+                    name: `Sand.jpg`
+                  },
+                  {
+                    icon: `/resources/themes/wallpapers/Sky.jpg`,
+                    name: `Sky.jpg`
+                  },
+                  {
+                    icon: `/resources/themes/wallpapers/Strawberries.jpg`,
+                    name: `Strawberries.jpg`
+                  },
+                  {
+                    icon: `/resources/themes/wallpapers/Waves.jpg`,
+                    name: `Waves.jpg`
+                  },
+                ]
+              }
+            ]
+          },
+          systemApps
+        ]
+      }
+    ]
+  }
+];
+
+
+String.prototype.capitalize = function () {
+  return this.charAt(0).toUpperCase() + this.slice(1);
+};
+
 //Dock
 const focus = (elem, index) => {
   let previous = index - 1;
@@ -11,21 +351,25 @@ const focus = (elem, index) => {
   } catch (error) {
 
   }
+
   try {
     icons[previous].style.transform = "scale(1) translateX(-6px)";
   } catch (error) {
 
   }
+
   try {
     icons[previous1].style.transform = "scale(1)";
   } catch (error) {
 
   }
+
   try {
     icons[next].style.transform = "scale(1) translateX(6px)";
   } catch (error) {
 
   }
+
   try {
     icons[next2].style.transform = "scale(1)";
   } catch (error) {
@@ -42,10 +386,12 @@ const borderMargin = 20;
 var maxWidth = window.innerWidth;
 var maxHeight = window.innerHeight;
 
-window.addEventListener('DOMContentLoaded', function () {
-  String.prototype.capitalize = function () {
-    return this.charAt(0).toUpperCase() + this.slice(1);
-  };
+
+//General
+function refresh() {
+  clearAllTimeouts();
+
+  setSetting('fileSystem', fileSystem);
 
   loadDock();
 
@@ -60,7 +406,14 @@ window.addEventListener('DOMContentLoaded', function () {
   createWindowsCache();
 
   checkUpdates();
-});
+}
+
+function clearAllTimeouts() {
+  var id = window.setTimeout(function () { }, 0);
+  while (id--) {
+    window.clearTimeout(id);
+  };
+}
 
 function maxZIndex(zIndex) {
   let zI = Math.max.apply(null,
@@ -77,9 +430,20 @@ function maxZIndex(zIndex) {
   }
 }
 
+async function checkUpdates() {
+  let v = getSetting(keySettings.version);
+  let response = await fetch('https://raw.githubusercontent.com/dsb97/Cacharreo/master/Curriculum/js/version.json');
+  let data = await response.json();
+  console.log(data);
+}
+
+function showNotifications() {
+  var toast = new bootstrap.Toast(document.getElementById('liveToast'));
+  toast.show();
+}
+
 //Escritorio
 function loadDock() {
-  //Dock
   let icons = document.querySelectorAll(".ico");
 
   icons.forEach((item, index) => {
@@ -106,6 +470,8 @@ function loadDesktop() {
       icon.classList.add(brightness < 127 ? 'lightText' : 'darkText');
     });
   });
+
+  reloadColors();
 }
 
 function getImageLightness(imageSrc, callback) {
@@ -173,7 +539,6 @@ function loadContextMenu() {
 
   document.addEventListener("click", () => contextMenu.style.visibility = "hidden");
 }
-
 
 //Barra superior
 //Tiempo
@@ -308,17 +673,17 @@ function restoreMaximizeWindow(event) {
   if (el.classList.contains('max')) {
     el.classList.remove('max');
     el.style.backgroundColor = null;
-    el.style.backgroundColor = `rgba(${rgba[0]}, ${rgba[1]}, ${rgba[2]}, 0.8)`;
+    el.style.backgroundColor = getSetting(keySettings.windowColor);
   } else {
     el.classList.add('max');
     el.style.backgroundColor = null;
-    el.style.backgroundColor = `rgba(${rgba[0]}, ${rgba[1]}, ${rgba[2]}, 0.92)`;
+    el.style.backgroundColor = `rgba(${rgba[0]}, ${rgba[1]}, ${rgba[2]}, ${parseFloat(rgba[3])+0.4})`;
 
   }
   el.style.zIndex = maxZIndex(el.style.zIndex);
 }
 
-async function minimizeWindow(event) {
+function minimizeWindow(event) {
   let el;
   if (event.target) {
     el = event.target.parentElement.parentElement;
@@ -422,16 +787,4 @@ function changeCursor(e) {
       //console.log('👋🏻');
     }
   }
-}
-
-async function checkUpdates() {
-  let v = getSetting(keySettings.version);
-  let response = await fetch('https://raw.githubusercontent.com/dsb97/Cacharreo/master/Curriculum/js/version.json');
-  let data = await response.json();
-  console.log(data);
-}
-
-function showNotifications() {
-  var toast = new bootstrap.Toast(document.getElementById('liveToast'));
-  toast.show();
 }

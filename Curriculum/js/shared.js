@@ -1,10 +1,11 @@
 let systemSettings = {
     zoomLevel: 1,
     theme: 'default',
-    wallpaper: 'resources/themes/wallpapers/Grass.jpg',
-    windowColor: 'rgba(0,0,0,0.8)',
+    wallpaper: 'resources/themes/wallpapers/Red.jpg',
+    windowColor: 'rgba(54,54,54,0.8)',
     fontColor: 'rgba(255,255,255,1)',
-    version: '1.0'
+    version: '1.0',
+    fileSystem: []
 }
 
 let keySettings = {
@@ -13,7 +14,8 @@ let keySettings = {
     wallpaper: 'wallpaper',
     windowColor: 'windowColor',
     fontColor: 'fontColor',
-    version: 'version'
+    version: 'version',
+    fileSystem: 'fileSystem'
 }
 
 let windowStatus = {
@@ -124,6 +126,7 @@ function setSetting(key, value) {
 }
 
 function showWindow(w) {
+    w.getElementsByTagName('iframe')[0].contentWindow.reloadColors();
     w.classList.remove('d-none');
     let timeOut = setTimeout(() => {
         w.style.transition = null;
@@ -133,4 +136,20 @@ function showWindow(w) {
         w.style.transition = 'all 0.2s ease-in-out 0s';
         w.style.transform = "scale(1)";
     });
+}
+
+function reloadColors() {
+    document.getElementById('dynamicStyle').innerHTML = "";
+    setFontColor();
+    setWindowColor();
+}
+
+function setWindowColor() {
+    let windowColor = getSetting(keySettings.windowColor);    
+    document.getElementById('dynamicStyle').innerHTML += ` .defaultWindowColor { background-color: ${windowColor}; }`;
+  }
+
+function setFontColor() {
+    let fontColor = getSetting(keySettings.fontColor);
+    document.getElementById('dynamicStyle').innerHTML += ` .defaultFontColor { color: ${fontColor} !important; } .defaultFontColor:hover { color: ${fontColor} !important; } .defaultFontColor:focus { color: ${fontColor} !important; }`; 
 }
