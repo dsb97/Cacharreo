@@ -20,7 +20,7 @@
     </style>
 </head>
 
-<body onchange="loadDesktop()" id="bdy">
+<body onchange="loadDesktop()" id="desktopFrame">
     <!--Ventanas-->
     <div class="window blur rounded defaultWindowColor defaultFontColor shadow d-none" onmousedown="resizeStart(event, event.target)"
         onmousemove="changeCursor(event)">
@@ -184,16 +184,16 @@
         </div>
     </div>
 
-    <div class="position-fixed top-0 start-0 p-3">
-        <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-            <div class="toast-header border-bottom-0">
-                <img id="notificationIcon" width=20 src="" class="rounded me-2">
+    <div class="position-fixed top-0 end-0 mt-5 me-2">
+        <div id="liveToast" class="toast blur defaultWindowColor defaultFontColor" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header border-bottom-0 text-dark">
+                <img id="notificationIcon" width=20 src="/resources/themes/default/system/settingsUpdate.png" class="rounded me-2">
                 <strong id="notificationTitle" class="me-auto">Ajustes</strong>
                 <small id="notificationTimestamp">Ahora mismo</small>
                 <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
             <div id="notificationBody" class="toast-body">
-                Se ha actualizado el sistema a una nueva versión. Descubre las novedades <a class="link-dark">aquí</a>
+                Se ha actualizado el sistema a una nueva versión. Descubre las novedades <a role="button" class="link-dark">aquí</a>
             </div>
         </div>
     </div>

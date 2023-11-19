@@ -13,8 +13,8 @@
     <link rel="stylesheet" href="./sidebars.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
     <style id="dynamicStyle"></style>
+    <script type="text/javascript" src="/js/shared.js"></script>
     <script>
-
         var windowPath = new URLSearchParams(window.location.search).get('path');
         var windowID = new URLSearchParams(window.location.search).get('id');
         var parentWindow = window.parent.document.getElementById(windowID);
@@ -79,10 +79,10 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a onclick="" class="link-dark rounded ps-1 ms-0 w-100">
+                                    <a onclick="loadWindowFontColorSettings()" class="link-dark rounded ps-1 ms-0 w-100 windowsFonts">
                                         <img class="me-2" width="30" height="30"
                                             src="/resources/themes/default/system/settingsWindowsColor.png" alt="">
-                                        <p class="pt-2 mb-0">Color de ventanas</p>
+                                        <p class="pt-2 mb-0">Ventanas y fuente</p>
                                     </a>
                                 </li>
                                 <li>
@@ -125,88 +125,113 @@
                 <div class="col-12 rounded mb-5" id="settingsContent">
                     <div class="w-100 p-2 d-flex justify-content-between align-items-center">
                         <label> Color de las ventanas:</label>
-                        <div class="dropdown">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" id="colorMode"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                                Automático
-                            </button>
-                            <ul class="dropdown-menu" aria-labelledby="colorMode">
-                                <li><a class="dropdown-item">Automático</a></li>
-                                <li><a class="dropdown-item">Manual</a></li>
-                            </ul>
-                        </div>
+                        <select id="colorMode" class="form-select" aria-label="Color selection mode"
+                            onchange="toggleMode(event.target.value)">
+                            <option value="1">Automático</option>
+                            <option value="0">Personalizado</option>
+                        </select>
                     </div>
-                    <hr style="margin: 0px; border: 2px solid black;">
-                    <div class="w-100 p-2 d-flex flex-column">
-                        <label> Paleta de color:</label>
-                        <div class="d-flex justify-content-center">
-                            <div style="width: 75%;">
-                                <div onclick="changeWindowColor('rgb(219,241,254)')"
-                                    style="display: inline-block; background-color: rgb(219,241,254); margin: 10px; max-width: 35pt; min-width: 35pt; width: 35pt; max-height: 35pt; min-height: 35pt; height: 35pt;">
+                    <section class="d-none" id="colorPalette">
+                        <hr style="margin: 0px; border: 1px solid black;">
+                        <div class="w-100 p-2 d-flex flex-column">
+                            <label> Paleta de color:</label>
+                            <div class="d-flex justify-content-center">
+                                <div style="width: 75%;">
+                                    <div title="Vidrio" onclick="changeWindowColor(219,241,254,0.6)" class="rounded"
+                                        style="display: inline-block; background-color: rgb(219,241,254); margin: 10px; max-width: 35pt; min-width: 35pt; width: 35pt; max-height: 35pt; min-height: 35pt; height: 35pt;">
+                                    </div>
+                                    <div title="Azul" onclick="changeWindowColor(112,161,244,0.6)" class="rounded"
+                                        style="display: inline-block; background-color: rgb(112,161,244); margin: 10px; max-width: 35pt; min-width: 35pt; width: 35pt; max-height: 35pt; min-height: 35pt; height: 35pt;">
+                                    </div>
+                                    <div title="Azul turquesa" onclick="changeWindowColor(110,254,254,0.6)"
+                                        class="rounded"
+                                        style="display: inline-block; background-color: rgb(110,254,254); margin: 10px; max-width: 35pt; min-width: 35pt; width: 35pt; max-height: 35pt; min-height: 35pt; height: 35pt;">
+                                    </div>
+                                    <div title="Verde" onclick="changeWindowColor(129,241,114,0.6)" class="rounded"
+                                        style="display: inline-block; background-color: rgb(129,241,114); margin: 10px; max-width: 35pt; min-width: 35pt; width: 35pt; max-height: 35pt; min-height: 35pt; height: 35pt;">
+                                    </div>
+                                    <div title="Verde lima" onclick="changeWindowColor(203,254,111,0.6)" class="rounded"
+                                        style="display: inline-block; background-color: rgb(203,254,111); margin: 10px; max-width: 35pt; min-width: 35pt; width: 35pt; max-height: 35pt; min-height: 35pt; height: 35pt;">
+                                    </div>
+                                    <div title="Amarillo" onclick="changeWindowColor(254,254,142,0.6)" class="rounded"
+                                        style="display: inline-block; background-color: rgb(254,254,142); margin: 10px; max-width: 35pt; min-width: 35pt; width: 35pt; max-height: 35pt; min-height: 35pt; height: 35pt;">
+                                    </div>
+                                    <div title="Anaranjado" onclick="changeWindowColor(254,218,98,0.6)" class="rounded"
+                                        style="display: inline-block;  background-color: rgb(254,218,98); margin: 10px; max-width: 35pt; min-width: 35pt; width: 35pt; max-height: 35pt; min-height: 35pt; height: 35pt;">
+                                    </div>
+                                    <div title="Tomate" onclick="changeWindowColor(254,95,95,0.6)" class="rounded"
+                                        style="display: inline-block; ; background-color: rgb(254,95,95); margin: 10px; max-width: 35pt; min-width: 35pt; width: 35pt; max-height: 35pt; min-height: 35pt; height: 35pt;">
+                                    </div>
+                                    <div title="Fucsia" onclick="changeWindowColor(254,130,224,0.6)" class="rounded"
+                                        style="display: inline-block; background-color: rgb(254,130,224); margin: 10px; max-width: 35pt; min-width: 35pt; width: 35pt; max-height: 35pt; min-height: 35pt; height: 35pt;">
+                                    </div>
+                                    <div title="Rosa" onclick="changeWindowColor(254,216,254,0.6)" class="rounded"
+                                        style="display: inline-block; background-color: rgb(254,216,254); margin: 10px; max-width: 35pt; min-width: 35pt; width: 35pt; max-height: 35pt; min-height: 35pt; height: 35pt;">
+                                    </div>
+                                    <div title="Morado" onclick="changeWindowColor(189,150,228,0.6)" class="rounded"
+                                        style="display: inline-block; background-color: rgb(189,150,228); margin: 10px; max-width: 35pt; min-width: 35pt; width: 35pt; max-height: 35pt; min-height: 35pt; height: 35pt;">
+                                    </div>
+                                    <div title="Cardo" onclick="changeWindowColor(231,211,234,0.6)" class="rounded"
+                                        style="display: inline-block; background-color: rgb(231,211,234); margin: 10px; max-width: 35pt; min-width: 35pt; width: 35pt; max-height: 35pt; min-height: 35pt; height: 35pt;">
+                                    </div>
+                                    <div title="Camel" onclick="changeWindowColor(228,217,183,0.6)" class="rounded"
+                                        style="display: inline-block; background-color: rgb(228,217,183); margin: 10px; max-width: 35pt; min-width: 35pt; width: 35pt; max-height: 35pt; min-height: 35pt; height: 35pt;">
+                                    </div>
+                                    <div title="Chocolate" onclick="changeWindowColor(182,142,142,0.6)" class="rounded"
+                                        style="display: inline-block; background-color: rgb(182,142,142); margin: 10px; max-width: 35pt; min-width: 35pt; width: 35pt; max-height: 35pt; min-height: 35pt; height: 35pt;">
+                                    </div>
+                                    <div title="Negro" onclick="changeWindowColor(0,0,0,0.6)" class="rounded"
+                                        style="display: inline-block; background-color: rgb(0,0,0); margin: 10px; max-width: 35pt; min-width: 35pt; width: 35pt; max-height: 35pt; min-height: 35pt; height: 35pt;">
+                                    </div>
+                                    <div title="Blanco" onclick="changeWindowColor(255,255,255,0.6)" class="rounded"
+                                        style="display: inline-block; background-color: rgb(255,255,255); margin: 10px; max-width: 35pt; min-width: 35pt; width: 35pt; max-height: 35pt; min-height: 35pt; height: 35pt;">
+                                    </div>
+
+                                    <div title="Más colores..." onclick="colorChooser.click()" class="rounded"
+                                        style="display: inline-block; background-image: linear-gradient(45deg, rgba(95,40,121,1) 0%, rgba(0,65,141,1) 14.2%, rgba(0,194,222,1) 28.5%, rgba(0,186,113,1) 42.8%, rgba(250,215,23,1) 57.1%, rgba(250,137,1,1) 71.4%, rgba(244,53,69,1) 85.7%); margin: 10px; max-width: 35pt; min-width: 35pt; width: 35pt; max-height: 35pt; min-height: 35pt; height: 35pt;"
+                                        type="color">
+                                        <input type="color" hidden oninput="
+                                        (() => {
+                                            let cC = event.target.value,
+                                            r = parseInt(cC.substr(1,2), 16),
+                                            g = parseInt(cC.substr(3,2), 16),
+                                            b = parseInt(cC.substr(5,2), 16);
+                                            changeWindowColor(r,g,b,0.6);
+                                        })()
+                                        " id="colorChooser">
+                                    </div>
                                 </div>
-                                <div onclick="changeWindowColor('rgb(112,161,244)')"
-                                    style="display: inline-block; background-color: rgb(112,161,244); margin: 10px; max-width: 35pt; min-width: 35pt; width: 35pt; max-height: 35pt; min-height: 35pt; height: 35pt;">
-                                </div>
-                                <div onclick="changeWindowColor('rgb(110,254,254)')"
-                                    style="display: inline-block; background-color: rgb(110,254,254); margin: 10px; max-width: 35pt; min-width: 35pt; width: 35pt; max-height: 35pt; min-height: 35pt; height: 35pt;">
-                                </div>
-                                <div onclick="changeWindowColor('rgb(129,241,114)')"
-                                    style="display: inline-block; background-color: rgb(129,241,114); margin: 10px; max-width: 35pt; min-width: 35pt; width: 35pt; max-height: 35pt; min-height: 35pt; height: 35pt;">
-                                </div>
-                                <div onclick="changeWindowColor('rgb(203,254,111)')"
-                                    style="display: inline-block; background-color: rgb(203,254,111); margin: 10px; max-width: 35pt; min-width: 35pt; width: 35pt; max-height: 35pt; min-height: 35pt; height: 35pt;">
-                                </div>
-                                <div onclick="changeWindowColor('rgb(254,254,142)')"
-                                    style="display: inline-block; background-color: rgb(254,254,142); margin: 10px; max-width: 35pt; min-width: 35pt; width: 35pt; max-height: 35pt; min-height: 35pt; height: 35pt;">
-                                </div>
-                                <div onclick="changeWindowColor('rgb(254,218,98)')"
-                                    style="display: inline-block; background-color: rgb(254,218,98); margin: 10px; max-width: 35pt; min-width: 35pt; width: 35pt; max-height: 35pt; min-height: 35pt; height: 35pt;">
-                                </div>
-                                <div onclick="changeWindowColor('rgb(254,95,95)')"
-                                    style="display: inline-block; background-color: rgb(254,95,95); margin: 10px; max-width: 35pt; min-width: 35pt; width: 35pt; max-height: 35pt; min-height: 35pt; height: 35pt;">
-                                </div>
-                                <div onclick="changeWindowColor('rgb(254,130,224)')"
-                                    style="display: inline-block; background-color: rgb(254,130,224); margin: 10px; max-width: 35pt; min-width: 35pt; width: 35pt; max-height: 35pt; min-height: 35pt; height: 35pt;">
-                                </div>
-                                <div onclick="changeWindowColor('rgb(254,216,254)')"
-                                    style="display: inline-block; background-color: rgb(254,216,254); margin: 10px; max-width: 35pt; min-width: 35pt; width: 35pt; max-height: 35pt; min-height: 35pt; height: 35pt;">
-                                </div>
-                                <div onclick="changeWindowColor('rgb(189,150,228)')"
-                                    style="display: inline-block; background-color: rgb(189,150,228); margin: 10px; max-width: 35pt; min-width: 35pt; width: 35pt; max-height: 35pt; min-height: 35pt; height: 35pt;">
-                                </div>
-                                <div onclick="changeWindowColor('rgb(231,211,234)')"
-                                    style="display: inline-block; background-color: rgb(231,211,234); margin: 10px; max-width: 35pt; min-width: 35pt; width: 35pt; max-height: 35pt; min-height: 35pt; height: 35pt;">
-                                </div>
-                                <div onclick="changeWindowColor('rgb(228,217,183)')"
-                                    style="display: inline-block; background-color: rgb(228,217,183); margin: 10px; max-width: 35pt; min-width: 35pt; width: 35pt; max-height: 35pt; min-height: 35pt; height: 35pt;">
-                                </div>
-                                <div onclick="changeWindowColor('rgb(182,142,142)')"
-                                    style="display: inline-block; background-color: rgb(182,142,142); margin: 10px; max-width: 35pt; min-width: 35pt; width: 35pt; max-height: 35pt; min-height: 35pt; height: 35pt;">
-                                </div>
-                                <div onclick="changeWindowColor('rgb(115,115,115)')"
-                                    style="display: inline-block; background-color: rgb(115,115,115); margin: 10px; max-width: 35pt; min-width: 35pt; width: 35pt; max-height: 35pt; min-height: 35pt; height: 35pt;">
-                                </div>
-                                <div onclick="changeWindowColor('rgb(243,243,243)')"
-                                    style="display: inline-block; background-color: rgb(243,243,243); margin: 10px; max-width: 35pt; min-width: 35pt; width: 35pt; max-height: 35pt; min-height: 35pt; height: 35pt;">
+                            </div>
+                            <label for="opacityRange" class="form-label"> Intensidad:</label>
+                            <div class="d-flex justify-content-center">
+                                <div style="width: 75%;">
+                                    <input onchange="changeOpacity(event)" type="range" class="form-range" min="0"
+                                        max="100" step="1" id="opacityRange">
+                                    <span id="opacityPercentage">%</label>
                                 </div>
                             </div>
                         </div>
+                    </section>
 
-                        <label for="opacityRange" class="form-label"> Opacidad:</label>
-                        <div class="d-flex justify-content-center">
-                            <div style="width: 75%;">
-                                <input onchange="changeOpacity(event)" type="range" class="form-range" min="0" max="100"
-                                    step="1" id="opacityRange">
-                                <span id="opacityPercentage">80%</label>
+
+                    <hr style="margin: 0px; border: 1px solid black;">
+
+                    <div class="w-100 p-2 d-flex justify-content-between align-items-center">
+                        <label> Color de la fuente:</label>
+                        <div class="w-100 p-2 d-flex flex-column">
+                            <div class="d-flex justify-content-center">
+                                <div style="width: 75%;">
+                                    <div title="Negro" onclick="changeFontColor(0,0,0)" class="rounded"
+                                        style="display: inline-block; background-color: rgb(0,0,0); margin: 10px; max-width: 35pt; min-width: 35pt; width: 35pt; max-height: 35pt; min-height: 35pt; height: 35pt;">
+                                    </div>
+                                    <div title="Blanco" onclick="changeFontColor(255,255,255)" class="rounded"
+                                        style="display: inline-block; background-color: rgb(255,255,255); margin: 10px; max-width: 35pt; min-width: 35pt; width: 35pt; max-height: 35pt; min-height: 35pt; height: 35pt;">
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <hr style="margin: 0px; border: 2px solid black;">
-                    <div class="w-100 p-2 d-flex flex-column">
-
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -217,35 +242,55 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
         crossorigin="anonymous"></script>
-    <script type="text/javascript" src="/js/shared.js"></script>
     <script type="text/javascript" src="/windows/sidebars.js"></script>
     <script>
         window.addEventListener('DOMContentLoaded', function () {
-            //document.getElementById('settingsContent').style.backgroundColor = getSetting(keySettings.windowColor);
-            //<i class="bi bi-chevron-right"></i> Color de ventanas
             refresh();
+            loadWindowFontColorSettings();
             showWindow(parentWindow);
         });
 
-        function changeWindowColor(windowColor) {
-            let rgbaColor = windowColor.replace('rgb(', '').replace('rgba(', '').replace(')', '').split(',');
+        function toggleSidebarButtons(setting) {
+            let sidebarIcons = document.querySelectorAll('.link-dark.rounded');
+            sidebarIcons.forEach(function (sI) {
+                if (sI.classList.contains('active')) {
+                    sI.classList.remove('active');
+                }
 
-            if (windowColor.includes('rgba')) {
-                setSetting(keySettings.windowColor, windowColor);
-                console.log(`setSetting(${keySettings.windowColor}, ${windowColor})`)
-            } else {
-                setSetting(keySettings.windowColor, windowColor.replace(')', ',0.8)'));
-                opacityRange.value = 80;
-                opacityPercentage.innerHTML = '80%';
+                sI.classList.forEach(function (cl) {
+                    if (setting.toLowerCase().includes(cl.toLowerCase())) {
+                        sI.classList.add('active');
+                    }
+                })
+            });
+        }
+         function loadWindowFontColorSettings() {
+            debugger;
+            toggleSidebarButtons('windowsFonts');
+            colorMode.value = getSetting(keySettings.autoWindowColor).toString();
+            if(getSetting(keySettings.autoWindowColor) == '0') {
+                document.getElementById('colorPalette').classList.remove('d-none');
             }
+        }
+
+        function changeWindowColor(red, green, blue, opacity) {
+            let newOpacity = 0.45 * opacity;
+            let rgbaColor = `rgba(${red}, ${green}, ${blue}, ${newOpacity})`;
+            setSetting(keySettings.windowColor, rgbaColor);
+            opacityRange.value = (opacity) * 100;
+            opacityPercentage.innerHTML = `${opacity * 100}%`;
             window.parent.reloadColors();
-            reloadColors();
+        }
+
+        function changeFontColor(red, green, blue) {
+            setSetting(keySettings.fontColor, `rgba(${red}, ${green}, ${blue})`);
+            window.parent.reloadColors();
         }
 
         function changeOpacity(event) {
-            let rgbaColor = getSetting(keySettings.windowColor).replace('rgb(', '').replace('rgba(', '').replace(')', '').split(',');
+            let rgbaColor = getSetting(keySettings.windowColor).replace('rgba(', '').replace(')', '').split(',');
             rgbaColor[3] = event.target.value / 100;
-            changeWindowColor(`rgba(${rgbaColor[0]},${rgbaColor[1]},${rgbaColor[2]},${rgbaColor[3]})`);
+            changeWindowColor(rgbaColor[0], rgbaColor[1], rgbaColor[2], rgbaColor[3]);
             opacityPercentage.innerHTML = `${event.target.value}%`;
         }
 
@@ -265,7 +310,7 @@
             homeButton.style.display = "none";
             windowTitle.innerHTML = 'Ajustes';
 
-            let p = parseFloat(getSetting(keySettings.windowColor).replace('rgba(', '').replace('rgb(','').replace(')', '').split(',')[3]) * 100;
+            let p = (parseFloat(getSetting(keySettings.windowColor).replace('rgba(', '').replace(')', '').split(',')[3]) * 100) / 0.45;
             opacityRange.value = p;
             opacityPercentage.innerHTML = `${p}%`;
         }
@@ -277,6 +322,15 @@
         function home() {
 
         }
+
+        function toggleMode(value) {
+            setSetting(keySettings.autoWindowColor, value);
+            if(value == getSetting(keySettings.autoWindowColor)) {
+                document.getElementById('colorPalette').classList.toggle('d-none');
+            }
+        }
+
+        
     </script>
 </body>
 

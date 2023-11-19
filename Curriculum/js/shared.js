@@ -1,9 +1,10 @@
 let systemSettings = {
     zoomLevel: 1,
     theme: 'default',
-    wallpaper: 'resources/themes/wallpapers/Red.jpg',
-    windowColor: 'rgba(54,54,54,0.8)',
-    fontColor: 'rgba(255,255,255,1)',
+    wallpaper: 'resources/themes/wallpapers/Grass.jpg',
+    autoWindowColor: false,
+    windowColor: 'rgba(0,0,0,0.45)',
+    fontColor: 'rgb(255,255,255)',
     version: '1.0',
     fileSystem: []
 }
@@ -15,7 +16,8 @@ let keySettings = {
     windowColor: 'windowColor',
     fontColor: 'fontColor',
     version: 'version',
-    fileSystem: 'fileSystem'
+    fileSystem: 'fileSystem',
+    autoWindowColor: 'autoWindowColor'
 }
 
 let windowStatus = {
@@ -126,7 +128,7 @@ function setSetting(key, value) {
 }
 
 function showWindow(w) {
-    w.getElementsByTagName('iframe')[0].contentWindow.reloadColors();
+    w.getElementsByTagName('iframe')[0].contentWindow.setColorStyles();
     w.classList.remove('d-none');
     let timeOut = setTimeout(() => {
         w.style.transition = null;
@@ -139,17 +141,25 @@ function showWindow(w) {
 }
 
 function reloadColors() {
+    setColorStyles();
+
+    getCachedWindows().forEach((x) => {
+        document.getElementById(x.windowID).getElementsByTagName('iframe')[0].contentWindow.setColorStyles();
+    });
+}
+
+function setColorStyles() {
     document.getElementById('dynamicStyle').innerHTML = "";
     setFontColor();
     setWindowColor();
 }
 
 function setWindowColor() {
-    let windowColor = getSetting(keySettings.windowColor);    
+    let windowColor = getSetting(keySettings.windowColor);
     document.getElementById('dynamicStyle').innerHTML += ` .defaultWindowColor { background-color: ${windowColor}; }`;
-  }
+}
 
 function setFontColor() {
     let fontColor = getSetting(keySettings.fontColor);
-    document.getElementById('dynamicStyle').innerHTML += ` .defaultFontColor { color: ${fontColor} !important; } .defaultFontColor:hover { color: ${fontColor} !important; } .defaultFontColor:focus { color: ${fontColor} !important; }`; 
+    document.getElementById('dynamicStyle').innerHTML += ` .defaultFontColor { color: ${fontColor} !important; } .defaultFontColor:hover { color: ${fontColor} !important; } .defaultFontColor:focus { color: ${fontColor} !important; }`;
 }

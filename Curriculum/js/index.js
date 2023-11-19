@@ -1,6 +1,7 @@
 
 window.addEventListener('DOMContentLoaded', function () {
-
+  createWindowsCache();
+  
   refresh();
 
 });
@@ -403,8 +404,6 @@ function refresh() {
 
   getDateTime();
 
-  createWindowsCache();
-
   checkUpdates();
 }
 
@@ -471,7 +470,7 @@ function loadDesktop() {
     });
   });
 
-  reloadColors();
+  setColorStyles();
 }
 
 function getImageLightness(imageSrc, callback) {
@@ -658,7 +657,7 @@ function restoreMaximizeWindow(event) {
   if (el.id == "") {
     el = event.target.parentElement.parentElement.parentElement;
   }
-  if (el.id == 'bdy') {
+  if (el.id == 'desktopFrame') {
     el = event.target.parentElement;
   }
 
@@ -687,10 +686,10 @@ function minimizeWindow(event) {
   let el;
   if (event.target) {
     el = event.target.parentElement.parentElement;
-    if (el.id == "") {
+    if (el.id == '') {
       el = event.target.parentElement.parentElement.parentElement;
     }
-    if (el.id == 'bdy') {
+    if (el.id == 'desktopFrame') {
       el = event.target.parentElement;
     }
     updateCachedWindowStatus(el.id, windowStatus.minimized);

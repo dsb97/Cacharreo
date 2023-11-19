@@ -40,9 +40,9 @@
                             <button class="btn btn-toggle align-items-center rounded collapsed defaultFontColor"
                                 data-bs-toggle="collapse" data-bs-target="#activities-collapse" aria-expanded="true">
                                 <i class="bi bi-window-stack mx-2"></i>
-                                Procesos
+                                Procesos:<span id="proocessCount"></span>
                             </button>
-                            <div class="collapse show" id="activities-collapse">
+                            <div class="collapse" id="activities-collapse">
 
                             </div>
                         </li>
@@ -68,7 +68,6 @@
                                 </ul>
                             </div>
                         </li>
-
                     </ul>
                 </ul>
             </div>
@@ -87,15 +86,16 @@
     <!-- <script type="text/javascript" src="/windows/windows.js"></script> -->
     <script>
         const xValues = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60];
-        const yValuesCPU = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
-        const yValuesMemory = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
+        const yValuesCPU = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+        const yValuesMemory = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
         let previousCPUValue = 0;
         var CPUUsageChart;
 
         window.addEventListener('DOMContentLoaded', function (event) {
-            refresh();
-            showWindow(parentWindow);
+            load();
         });
+
+
 
         function toggleCheckRows(event) {
             let ids = document.querySelectorAll('.checkedApps');
@@ -126,6 +126,7 @@
 
         function loadTasks() {
             let tasks = getCachedWindows();
+            proocessCount.innerHTML = '&nbsp;' + tasks.length;
             let openApps = [...new Set(tasks.map(item => item.dockIcon))];
             let windows = '';
             let group = `
@@ -186,8 +187,6 @@
 
             //Undraw the window
             window.parent.document.getElementById(windowID).remove();
-
-            loadTasks();
         }
 
         function addData(newValue, datasetIndex) {
@@ -281,15 +280,7 @@
             });
         }
 
-        function back() {
-
-        }
-
-        function forward() {
-
-        }
-
-        function refresh() {
+        function load() {
             windowTitle.innerHTML = document.title;
             backButton.style.display = "none";
             forwardButton.style.display = "none";
@@ -301,6 +292,19 @@
             loadCPUGraph();
             setInterval(loadCPU, 1000);
             loadCPU();
+            showWindow(parentWindow);
+        }
+
+        function back() {
+
+        }
+
+        function forward() {
+
+        }
+
+        function refresh() {
+            loadTasks();
         }
 
         function stop() {
@@ -308,6 +312,7 @@
             for (let i = 0; i < ids.length; i++) {
                 closeApp(ids[i].value);
             }
+            loadTasks();
         }
 
         function home() {
