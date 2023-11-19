@@ -76,13 +76,13 @@ var systemApps = {
     },
     {
       icon: `/resources/themes/${theme}/system/music.png`,
-      name: `Reproductor de música.app`,
-      internalName: 'music'
+      name: `Reproductor de música`,
+      internalName: 'music.app'
     },
     {
       icon: `/resources/themes/${theme}/system/video.png`,
-      name: `Reproductor de vídeo.app`,
-      internalName: 'video'
+      name: `Reproductor de vídeo`,
+      internalName: 'video.app'
     },
     {
       icon: `/resources/themes/${theme}/system/clock.png`,
