@@ -1,250 +1,3 @@
-var taskManager = class taskManager {
-  constructor(windowID) {
-    this.xValues = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60];
-    this.yValuesCPU = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-    this.yValuesMemory = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-    this.previousCPUValue = 0;
-    this.CPUUsageChart = null;
-    this.parentWindow = document.getElementById(windowID);
-    this.parentWindowDocument = this.parentWindow.getElementsByTagName('iframe')[0].contentDocument;
-    debugger;
-    this.windowTitle = this.parentWindow.getElementsByTagName('div')[3];
-    this.backButton = this.parentWindow.getElementsByClassName('backButton')[0];
-    this.forwardButton = this.parentWindow.getElementsByClassName('forwardButton')[0];
-    this.refreshButton = this.parentWindow.getElementsByClassName('refreshButton')[0];
-    this.stopButton = this.parentWindow.getElementsByClassName('stopButton')[0];
-    this.homeButton = this.parentWindow.getElementsByClassName('homeButton')[0];
-    this.backButton.onclick = () => back();
-    this.forwardButton.onclick = () => forward();
-    this.refreshButton.onclick = () => refresh();
-    this.stopButton.onclick = () => stop();
-    this.homeButton.onclick = () => home();
-    this.load();
-  }
-
-  toggleCheckRows(event) {
-    let ids = document.querySelectorAll('.checkedApps');
-
-    for (let i = 0; i < ids.length; i++) {
-      ids[i].checked = event.target.checked;
-    }
-  }
-
-  loadCPU() {
-    // Get CPU usage and update the CPU usage display
-    if (window.performance && window.performance.now) {
-      var cpuUsage = window.performance.now();
-      this.parentWindowDocument.querySelector("#cpu-usage").textContent = `Uso de CPU: ${((cpuUsage - this.previousCPUValue) / 50).toFixed(2)} %`;
-      //this.addData((cpuUsage - this.previousCPUValue) / 50, 0);
-      this.previousCPUValue = cpuUsage;
-    }
-
-    this.parentWindowDocument.querySelector('#processor-number').textContent = `Procesadores lógicos: ${navigator.hardwareConcurrency}`;
-
-    // Get memory usage and update the memory usage display
-    if (window.performance && window.performance.memory) {
-      var memoryUsage = window.performance.memory.usedJSHeapSize / (1024 * 1024 * 1024);
-      this.parentWindowDocument.querySelector("#memory-usage").textContent = `Memoria en uso: ${(memoryUsage).toFixed(2)} GB`;
-      //this.addData(memoryUsage, 1);
-    }
-  }
-
-  loadTasks() {
-    let tasks = getCachedWindows();
-    this.parentWindowDocument.querySelector('#processesCount').innerHTML = '&nbsp;' + tasks.length;
-    let openApps = [...new Set(tasks.map(item => item.dockIcon))];
-    let windows = '';
-    let group = `
-  <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-      <li>
-          <table class="table table-striped table-hover">
-              <thead>
-                  <tr>
-                      <th class="defaultFontColor" scope="col"><input class="form-check-input" type="checkbox" onchange="toggleCheckRows(event)" ></th>
-                      <th class="defaultFontColor" scope="col">&nbsp</th>
-                      <th class="defaultFontColor" scope="col">ID proceso</th>
-                      <th class="defaultFontColor" scope="col">Nombre</th>
-                      <th class="defaultFontColor" scope="col">Memoria</th>
-                  </tr>
-              </thead>
-              <tbody>
-                  replaceContent
-              </tbody>
-          </table>
-      </li>
-  </ul>
-                  `;
-    let tareas = this.parentWindowDocument.querySelector('#activities-collapse');
-    tareas.innerHTML = "";
-    openApps.forEach((app) => {
-      tasks.forEach((x) => {
-        if (x.dockIcon == app) {
-          let systemApp = window.parent.systemApps.content.filter((x) => { if (x.internalName == `${app}.app`) { return x } })[0];
-          windows += `
-  <tr>
-      <th class="defaultFontColor" scope="row"><input class="form-check-input checkedApps" type="checkbox" value="${x.windowID}" ></th>
-      <td class="defaultFontColor"><img src="${systemApp.icon}" style="height: 12pt; width: 12pt;"/></td>
-      <td class="defaultFontColor">${x.windowID}</td>
-      <td class="defaultFontColor">${systemApp.name}</td>
-      <td class="defaultFontColor">${new Blob([JSON.stringify(x.history.urlList)]).size} bytes</td>
-  </tr>
-                          `;
-        }
-      });
-    });
-    group = group.replaceAll('replaceContent', windows);
-    tareas.innerHTML += group;
-  }
-
-  closeApp(windowID) {
-    let cW = getCachedWindow(windowID);
-    //Remove from cache
-    removeCachedWindow(windowID);
-
-    //Query cache to remove or not dock indicator
-    let cWs = getCachedWindows();
-    let openWindows = cWs.filter((obj) => {
-      return obj.dockIcon == cW.dockIcon;
-    });
-    if (openWindows.length == 0) {
-      document.getElementById(cW.dockIcon).classList.remove('li-on');
-    }
-
-    //Undraw the window
-    document.getElementById(windowID).remove();
-  }
-
-  addData(newValue, datasetIndex) {
-    debugger;
-    let newData = this.CPUUsageChart.data.datasets[datasetIndex].data;
-    if (newData.length >= 60) {
-      newData = newData.slice(1, 60);
-    }
-    newData.push(newValue);
-    this.CPUUsageChart.data.datasets[datasetIndex].data = newData;
-    this.CPUUsageChart.update();
-  }
-
-  loadCPUGraph() {
-    this.CPUUsageChart = new Chart("CPUUsage", {
-      type: "line",
-      data: {
-        labels: this.xValues,
-        datasets: [
-          {
-            label: 'Uso de CPU',
-            fill: true,
-            lineTension: 0,
-            backgroundColor: "rgba(95,171,126,0.8)",
-            borderColor: "rgba(95,171,126,1)",
-            data: this.yValuesCPU
-          },
-          {
-            label: 'Uso de memoria',
-            fill: true,
-            lineTension: 0,
-            backgroundColor: "rgba(244,96,93,0.8)",
-            borderColor: "rgba(244,96,93,1)",
-            data: this.yValuesMemory,
-            hidden: true
-          },
-        ]
-      },
-      options: {
-        plugins: {
-          legend: {
-            display: true,
-            labels: {
-              color: '#ffffff'
-            }
-          }
-        },
-        dataset: {
-          label: { color: '#ffffff' }
-        },
-        scales: {
-          y: {
-            border: {
-              display: false
-            },
-            grid: {
-              color: getSetting(keySettings.fontColor),
-            },
-            ticks: {
-              color: getSetting(keySettings.fontColor),
-              font: {
-                family: 'Varela Round',
-                size: 9,
-                style: 'normal'
-              }
-            }
-          },
-          x: {
-            border: {
-              display: false
-            },
-            grid: {
-              color: getSetting(keySettings.fontColor),
-            },
-            ticks: {
-              color: getSetting(keySettings.fontColor),
-              font: {
-                family: 'Varela Round',
-                size: 9,
-                style: 'normal'
-              }
-            }
-          }
-        },
-        animation: {
-          duration: 0
-        }
-      }
-    });
-  }
-
-  load() {
-    debugger;
-    this.windowTitle.innerHTML = 'Monitor del sistema';
-    this.backButton.style.display = "none";
-    this.forwardButton.style.display = "none";
-    this.refreshButton.title = "Refrescar tareas";
-    this.stopButton.title = "Cerrar tarea";
-    this.homeButton.style.display = "none";
-
-    this.loadTasks();
-    this.loadCPUGraph();
-    var lCPU = this.loadCPU;
-    //setInterval(function() { lCPU(this.parentWindowDocument); }, 1000);
-    this.loadCPU();
-    showWindow(this.parentWindow);
-  }
-
-  back() {
-
-  }
-
-  forward() {
-
-  }
-
-  refresh() {
-    this.loadTasks();
-  }
-
-  stop() {
-    let ids = document.querySelectorAll('.checkedApps:checked');
-    for (let i = 0; i < ids.length; i++) {
-      this.closeApp(ids[i].value);
-    }
-    this.loadTasks();
-  }
-
-  home() {
-
-  }
-}
-
 window.addEventListener('DOMContentLoaded', function () {
   createWindowsCache();
 
@@ -263,97 +16,116 @@ var systemApps = {
     {
       icon: `/resources/themes/${theme}/system/settings.png`,
       name: `Ajustes`,
-      internalName: 'settings.app'
+      internalName: 'settings.app',
+      path: []
     },
     {
       icon: `/resources/themes/${theme}/system/calculator.png`,
       name: `Calculadora`,
-      internalName: 'calculator.app'
+      internalName: 'calculator.app',
+      path: []
     },
     {
       icon: `/resources/themes/${theme}/system/calendar.png`,
       name: `Calendario`,
-      internalName: 'calendar.app'
+      internalName: 'calendar.app',
+      path: []
     },
     {
       icon: `/resources/themes/${theme}/system/camera.png`,
       name: `Cámara`,
-      internalName: 'camera.app'
+      internalName: 'camera.app',
+      path: []
     },
     {
       icon: `/resources/themes/${theme}/system/contacts.png`,
       name: `Contactos`,
-      internalName: 'contacts.app'
+      internalName: 'contacts.app',
+      path: []
     },
     {
       icon: `/resources/themes/${theme}/system/mail.png`,
       name: `Correo electrónico`,
-      internalName: 'mail.app'
+      internalName: 'mail.app',
+      path: []
     },
     {
       icon: `/resources/themes/${theme}/system/document.png`,
       name: `Editor de documentos`,
-      internalName: 'textEdit.app'
+      internalName: 'document.app',
+      path: []
     },
     {
       icon: `/resources/themes/${theme}/system/folder.png`,
       name: `Explorador de archivos`,
-      internalName: 'fileExplorer.app'
+      internalName: 'fileExplorer.app',
+      path: '/Este equipo'
     },
     {
       icon: `/resources/themes/${theme}/system/photos.png`,
       name: `Fotos`,
-      internalName: 'photos.app'
+      internalName: 'photos.app',
+      path: []
     },
     {
       icon: `/resources/themes/${theme}/system/info.png`,
       name: `Información`,
-      internalName: 'info.app'
+      internalName: 'info.app',
+      path: []
     },
     {
       icon: `/resources/themes/${theme}/system/task-manager.png`,
       name: `Monitor del sistema`,
-      internalName: 'taskManager.app'
+      internalName: 'taskManager.app',
+      path: []
     },
     {
       icon: `/resources/themes/${theme}/system/internet.png`,
       name: `Navegador`,
-      internalName: 'internet.app'
+      internalName: 'internet.app',
+      path: []
     },
     {
       icon: `/resources/themes/${theme}/system/music.png`,
       name: `Reproductor de música`,
-      internalName: 'music.app'
+      internalName: 'music.app',
+      path: []
     },
     {
       icon: `/resources/themes/${theme}/system/video.png`,
       name: `Reproductor de vídeo`,
-      internalName: 'video.app'
+      internalName: 'video.app',
+      path: []
     },
     {
       icon: `/resources/themes/${theme}/system/clock.png`,
       name: `Reloj`,
-      internalName: 'clock.app'
+      internalName: 'clock.app',
+      path: []
     },
     {
       icon: `/resources/themes/${theme}/system/terminal.png`,
       name: `Terminal`,
-      internalName: 'terminal.app'
+      internalName: 'terminal.app',
+      path: []
     },
     {
       icon: `/resources/themes/${theme}/system/weather.png`,
       name: `Tiempo`,
-      internalName: 'weather.app'
+      internalName: 'weather.app',
+      path: []
     },
     {
       icon: `/resources/themes/${theme}/system/shop.png`,
       name: `Tienda`,
-      internalName: 'shop.app'
+      internalName: 'shop.app',
+      path: []
     },
     {
       icon: `/resources/themes/${theme}/misc/vscode.png`,
       name: `Visual Studio Code`,
-      internalName: 'vscode.app'
+      internalName: 'vscode.app',
+      path: []
     }
   ]
 };
@@ -527,48 +299,99 @@ let fileSystem = [
                 name: `wallpapers`,
                 content: [
                   {
-                    icon: `/resources/themes/wallpapers/Blue.jpg`,
-                    name: `Blue.jpg`
+                    icon: `/resources/themes/wallpapers/thumbnails/Aurora.png`,
+                    name: `Aurora.png`,
+                    path: ['settings', 'loadBackgroundSettings', this.icon]
                   },
                   {
-                    icon: `/resources/themes/wallpapers/Flower.jpg`,
-                    name: `Flower.jpg`
+                    icon: `/resources/themes/wallpapers/thumbnails/Boat.png`,
+                    name: `Boat.png`,
+                    path: ['settings', 'loadBackgroundSettings', this.icon]
                   },
                   {
-                    icon: `/resources/themes/wallpapers/Grass.jpg`,
-                    name: `Grass.jpg`
+                    icon: `/resources/themes/wallpapers/thumbnails/Cliff.png`,
+                    name: `Cliff.png`,
+                    path: ['settings', 'loadBackgroundSettings', this.icon]
                   },
                   {
-                    icon: `/resources/themes/wallpapers/Gray.jpg`,
-                    name: `Gray.jpg`
+                    icon: `/resources/themes/wallpapers/thumbnails/Flower.png`,
+                    name: `Flower.png`,
+                    path: ['settings', 'loadBackgroundSettings', this.icon]
                   },
                   {
-                    icon: `/resources/themes/wallpapers/Lavender.jpg`,
-                    name: `Lavender.jpg`
+                    icon: `/resources/themes/wallpapers/thumbnails/Frogs.png`,
+                    name: `Frogs.png`,
+                    path: ['settings', 'loadBackgroundSettings', this.icon]
                   },
                   {
-                    icon: `/resources/themes/wallpapers/Mountains.jpg`,
-                    name: `Mountains.jpg`
+                    icon: `/resources/themes/wallpapers/thumbnails/Grass.png`,
+                    name: `Grass.png`,
+                    path: ['settings', 'loadBackgroundSettings', this.icon]
                   },
                   {
-                    icon: `/resources/themes/wallpapers/Red.jpg`,
-                    name: `Red.jpg`
+                    icon: `/resources/themes/wallpapers/thumbnails/Lavender.png`,
+                    name: `Lavender.png`,
+                    path: ['settings', 'loadBackgroundSettings', this.icon]
                   },
                   {
-                    icon: `/resources/themes/wallpapers/Sand.jpg`,
-                    name: `Sand.jpg`
+                    icon: `/resources/themes/wallpapers/thumbnails/Mountains.png`,
+                    name: `Mountains.png`,
+                    path: ['settings', 'loadBackgroundSettings', this.icon]
                   },
                   {
-                    icon: `/resources/themes/wallpapers/Sky.jpg`,
-                    name: `Sky.jpg`
+                    icon: `/resources/themes/wallpapers/thumbnails/Nebula.png`,
+                    name: `Nebula.png`,
+                    path: ['settings', 'loadBackgroundSettings', this.icon]
                   },
                   {
-                    icon: `/resources/themes/wallpapers/Strawberries.jpg`,
-                    name: `Strawberries.jpg`
+                    icon: `/resources/themes/wallpapers/thumbnails/Sand.png`,
+                    name: `Sand.png`,
+                    path: ['settings', 'loadBackgroundSettings', this.icon]
                   },
                   {
-                    icon: `/resources/themes/wallpapers/Waves.jpg`,
-                    name: `Waves.jpg`
+                    icon: `/resources/themes/wallpapers/thumbnails/Sky.png`,
+                    name: `Sky.png`,
+                    path: ['settings', 'loadBackgroundSettings', this.icon]
+                  },
+                  {
+                    icon: `/resources/themes/wallpapers/thumbnails/Space.png`,
+                    name: `Space.png`,
+                    path: ['settings', 'loadBackgroundSettings', this.icon]
+                  },
+                  {
+                    icon: `/resources/themes/wallpapers/thumbnails/Strawberries.png`,
+                    name: `Strawberries.png`,
+                    path: ['settings', 'loadBackgroundSettings', this.icon]
+                  },
+                  {
+                    icon: `/resources/themes/wallpapers/thumbnails/Sunset beach.png`,
+                    name: `Sunset beach.png`,
+                    path: ['settings', 'loadBackgroundSettings', this.icon]
+                  },
+                  {
+                    icon: `/resources/themes/wallpapers/thumbnails/Toucan.png`,
+                    name: `Toucan.png`,
+                    path: ['settings', 'loadBackgroundSettings', this.icon]
+                  },
+                  {
+                    icon: `/resources/themes/wallpapers/thumbnails/Tree.png`,
+                    name: `Tree.png`,
+                    path: ['settings', 'loadBackgroundSettings', this.icon]
+                  },
+                  {
+                    icon: `/resources/themes/wallpapers/thumbnails/Velvet.png`,
+                    name: `Velvet.png`,
+                    path: ['settings', 'loadBackgroundSettings', this.icon]
+                  },
+                  {
+                    icon: `/resources/themes/wallpapers/thumbnails/Waterfall.png`,
+                    name: `Waterfall.png`,
+                    path: ['settings', 'loadBackgroundSettings', this.icon]
+                  },
+                  {
+                    icon: `/resources/themes/wallpapers/thumbnails/Waves.png`,
+                    name: `Waves.png`,
+                    path: ['settings', 'loadBackgroundSettings', this.icon]
                   },
                 ]
               }
@@ -584,45 +407,6 @@ let fileSystem = [
 
 String.prototype.capitalize = function () {
   return this.charAt(0).toUpperCase() + this.slice(1);
-};
-
-//Dock
-const focus = (elem, index) => {
-  let previous = index - 1;
-  let previous1 = index - 2;
-  let next = index + 1;
-  let next2 = index + 2;
-
-  try {
-    elem.style.transform = "scale(1.2)  translateX(0px)";
-  } catch (error) {
-
-  }
-
-  try {
-    icons[previous].style.transform = "scale(1) translateX(-6px)";
-  } catch (error) {
-
-  }
-
-  try {
-    icons[previous1].style.transform = "scale(1)";
-  } catch (error) {
-
-  }
-
-  try {
-    icons[next].style.transform = "scale(1) translateX(6px)";
-  } catch (error) {
-
-  }
-
-  try {
-    icons[next2].style.transform = "scale(1)";
-  } catch (error) {
-
-  }
-
 };
 
 //Ventanas
@@ -701,11 +485,29 @@ function loadDock() {
       });
     });
   });
+
+  loadTrashIcon();
+}
+
+function loadTrashIcon() {
+  //Determine if windowColor is dark or light
+  getRGBALightness(getSetting(keySettings.windowColor), function (brightnessTrash) {
+    let trash = document.querySelector('#trash>img');
+    trash.src = `/resources/themes/default/system/trash${brightnessTrash < 127 ? '' : 'Dark'}.png`;
+  });
 }
 
 function loadDesktop() {
-  window.document.body.style.zoom = getSetting(keySettings.zoomLevel);
+  loadWallpaper();
+  loadDesktopIconsFontColor();
+  setColorStyles();
+}
+
+function loadWallpaper() {
   window.document.body.style.backgroundImage = `url("${getSetting(keySettings.wallpaper)}")`;
+}
+
+function loadDesktopIconsFontColor() {
   //Determie if background image is dark or light
   getImageLightness(window.document.body.style.backgroundImage.split('"')[1], function (brightness) {
     let iconsNodeList = document.querySelectorAll('.gallery button');
@@ -715,44 +517,9 @@ function loadDesktop() {
       icon.classList.add(brightness < 127 ? 'lightText' : 'darkText');
     });
   });
-
-  setColorStyles();
 }
 
-function getImageLightness(imageSrc, callback) {
-  var img = document.createElement("img");
-  img.src = imageSrc;
-  img.style.display = "none";
-  document.body.appendChild(img);
 
-  var colorSum = 0;
-
-  img.onload = function () {
-    // create canvas
-    var canvas = document.createElement("canvas");
-    canvas.width = this.width;
-    canvas.height = this.height;
-
-    var ctx = canvas.getContext("2d");
-    ctx.drawImage(this, 0, 0);
-
-    var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-    var data = imageData.data;
-    var r, g, b, avg;
-
-    for (var x = 0, len = data.length; x < len; x += 4) {
-      r = data[x];
-      g = data[x + 1];
-      b = data[x + 2];
-
-      avg = Math.floor((r + g + b) / 3);
-      colorSum += avg;
-    }
-
-    var brightness = Math.floor(colorSum / (this.width * this.height));
-    callback(brightness);
-  }
-}
 
 function loadContextMenu() {
   const contextMenu = document.querySelector(".wrapper"),
@@ -839,7 +606,7 @@ function openWindow(url, dockIcon, path) {
   //Get opened windows.
   //If there is an minimized instance, it will be restored
   //If there is no minimized instance, it will create a new one
-  debugger;
+
   let cWs = getCachedWindows();
   if (cWs.some((element) => element.dockIcon == dockIcon && element.windowStatus == windowStatus.minimized)) {
     cWs.forEach((element) => {
@@ -860,7 +627,23 @@ function openWindow(url, dockIcon, path) {
     addCachedWindow(cW);
 
     //Add indicator at dock
-    document.getElementById(dockIcon).classList.add('li-on');
+    if (document.getElementById(dockIcon)) {
+      document.getElementById(dockIcon).classList.add('li-on');
+    } else {
+      let systemApp = systemApps.content.filter((x) => { if (x.internalName == `${dockIcon}.app`) { return x } })[0];
+      let newDockIcon = `
+      <li class="li li-on me-3 p-2 rounded notFixed" id="${dockIcon}" onclick="openWindow('/windows/${dockIcon}.html', '${dockIcon}', ${path})">
+          <div class="name defaultWindowColor defaultFontColor">${systemApp.name}</div>
+          <img class="ico" src="resources/themes/default/system/${dockIcon}.png" alt="">
+      </li>
+      `;
+
+      let divContainer = document.querySelector('.dock-container');
+      let nuevoBoton = document.createRange().createContextualFragment(newDockIcon);
+      let penultimoBoton = divContainer.children[divContainer.children.length - 2];
+      divContainer.insertBefore(nuevoBoton, penultimoBoton.nextSibling);
+
+    }
 
     //Create new window instance
     let clone = document.getElementsByClassName('window')[0].cloneNode(true);
@@ -876,8 +659,10 @@ function closeWindow(event) {
   //Get the window object
   let w = event.target.parentElement.parentElement.parentElement;
   let cW = getCachedWindow(w.id);
+
   //Remove from cache
   removeCachedWindow(w.id);
+
 
   //Query cache to remove or not dock indicator
   let cWs = getCachedWindows();
@@ -885,8 +670,15 @@ function closeWindow(event) {
     return obj.dockIcon == cW.dockIcon;
   });
   if (openWindows.length == 0) {
-    document.getElementById(cW.dockIcon).classList.remove('li-on');
+    //Remove icon from taskbar, if proceed:
+    if (document.getElementById(cW.dockIcon).classList.contains('notFixed')) {
+      document.getElementById(cW.dockIcon).remove();
+    } else {
+      document.getElementById(cW.dockIcon).classList.remove('li-on');
+    }
   }
+
+
 
   w.style.animationName = 'closeApp';
   w.style.animationDuration = '0.2s';
@@ -896,6 +688,8 @@ function closeWindow(event) {
     w.style.animationName = '';
     w.remove();
   });
+
+
 }
 
 function restoreMaximizeWindow(event) {

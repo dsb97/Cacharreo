@@ -62,12 +62,8 @@ body {
 
 .window {
     position: absolute;
-    top: 200px;
-    left: 200px;
     padding: 10px;
     overflow: hidden;
-    width: 539px;
-    height: 210px;
     z-index: 20;
 }
 
@@ -126,14 +122,6 @@ i {
 
 .gallery button p {
     margin-top: 10px;
-}
-
-.gallery button:hover {
-    background-color: rgba(0, 0, 0, 0.2);
-}
-
-.gallery button:focus {
-    background-color: rgba(0, 0, 0, .5);
 }
 
 .tray-icon {

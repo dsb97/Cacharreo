@@ -15,6 +15,7 @@
     <style id="dynamicStyle"></style>
     <script>
         var windowID = new URLSearchParams(window.location.search).get('id');
+        var taskManagerCode = null;
     </script>
 </head>
 
@@ -46,8 +47,8 @@
                                     <li>
                                         <div class="d-flex justify-content-around">
                                             <p id="processor-number" class="defaultFontColor"></p>
-                                            <p id="cpu-usage" class="defaultFontColor"></p>
-                                            <p id="memory-usage" class="defaultFontColor"></p>
+                                            <p id="cpu-usage" class="defaultFontColor d-none"></p>
+                                            <p id="memory-usage" class="defaultFontColor d-none"></p>
                                         </div>
                                         <div class="d-flex justify-content-center">
                                             <canvas id="CPUUsage" width="300"></canvas>
@@ -72,236 +73,9 @@
     <script type="text/javascript" src="/windows/sidebars.js"></script>
     <!-- <script type="text/javascript" src="/windows/windows.js"></script> -->
     <script>
-        
-
         window.addEventListener('DOMContentLoaded', function (event) {
-            debugger;
-            new window.parent.taskManager(windowID);
+            taskManagerCode = new window.parent.taskManager(windowID);
         });
-
-
-
-       /*  function toggleCheckRows(event) {
-            let ids = document.querySelectorAll('.checkedApps');
-
-            for (let i = 0; i < ids.length; i++) {
-                ids[i].checked = event.target.checked;
-            }
-        }
-        
-        function loadCPU() {
-            // Get CPU usage and update the CPU usage display
-            if (window.performance && window.performance.now) {
-                let cpuUsage = window.performance.now();
-                document.getElementById("cpu-usage").textContent = `Uso de CPU: ${((cpuUsage - previousCPUValue) / 50).toFixed(2)} %`;
-                addData((cpuUsage - previousCPUValue) / 50, 0);
-                previousCPUValue = cpuUsage;
-            }
-
-            document.getElementById('processor-number').textContent = `Procesadores lógicos: ${navigator.hardwareConcurrency}`;
-
-            // Get memory usage and update the memory usage display
-            if (window.performance && window.performance.memory) {
-                let memoryUsage = window.performance.memory.usedJSHeapSize / (1024 * 1024 * 1024);
-                document.getElementById("memory-usage").textContent = `Memoria en uso: ${(memoryUsage).toFixed(2)} GB`;
-                addData(memoryUsage, 1);
-            }
-        }
-
-        function loadTasks() {
-            let tasks = getCachedWindows();
-            processesCount.innerHTML = '&nbsp;' + tasks.length;
-            let openApps = [...new Set(tasks.map(item => item.dockIcon))];
-            let windows = '';
-            let group = `
-                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                                    <li>
-                                        <table class="table table-striped table-hover">
-                                            <thead>
-                                                <tr>
-                                                    <th class="defaultFontColor" scope="col"><input class="form-check-input" type="checkbox" onchange="toggleCheckRows(event)" ></th>
-                                                    <th class="defaultFontColor" scope="col">&nbsp</th>
-                                                    <th class="defaultFontColor" scope="col">ID proceso</th>
-                                                    <th class="defaultFontColor" scope="col">Nombre</th>
-                                                    <th class="defaultFontColor" scope="col">Memoria</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                replaceContent
-                                            </tbody>
-                                        </table>
-                                    </li>
-                                </ul>
-                `;
-            let tareas = document.getElementById('activities-collapse');
-            tareas.innerHTML = "";
-            openApps.forEach((app) => {
-                tasks.forEach((x) => {
-                    if (x.dockIcon == app) {
-                        let systemApp = window.parent.systemApps.content.filter((x) => { if (x.internalName == `${app}.app`) { return x } })[0];
-                        windows += `
-                        <tr>
-                            <th class="defaultFontColor" scope="row"><input class="form-check-input checkedApps" type="checkbox" value="${x.windowID}" ></th>
-                            <td class="defaultFontColor"><img src="${systemApp.icon}" style="height: 12pt; width: 12pt;"/></td>
-                            <td class="defaultFontColor">${x.windowID}</td>
-                            <td class="defaultFontColor">${systemApp.name}</td>
-                            <td class="defaultFontColor">${new Blob([JSON.stringify(x.history.urlList)]).size} bytes</td>
-                        </tr>
-                        `;
-                    }
-                });
-            });
-            group = group.replaceAll('replaceContent', windows);
-            tareas.innerHTML += group;
-        }
-
-        function closeApp(windowID) {
-            let cW = getCachedWindow(windowID);
-            //Remove from cache
-            removeCachedWindow(windowID);
-
-            //Query cache to remove or not dock indicator
-            let cWs = getCachedWindows();
-            let openWindows = cWs.filter(function (obj) {
-                return obj.dockIcon == cW.dockIcon;
-            });
-            if (openWindows.length == 0) {
-                window.parent.document.getElementById(cW.dockIcon).classList.remove('li-on');
-            }
-
-            //Undraw the window
-            window.parent.document.getElementById(windowID).remove();
-        }
-
-        function addData(newValue, datasetIndex) {
-            let newData = CPUUsageChart.data.datasets[datasetIndex].data;
-            if (newData.length >= 60) {
-                newData = newData.slice(1, 60);
-            }
-            newData.push(newValue);
-            CPUUsageChart.data.datasets[datasetIndex].data = newData;
-            CPUUsageChart.update();
-        }
-
-        function loadCPUGraph() {
-            CPUUsageChart = new Chart("CPUUsage", {
-                type: "line",
-                data: {
-                    labels: xValues,
-                    datasets: [
-                        {
-                            label: 'Uso de CPU',
-                            fill: true,
-                            lineTension: 0,
-                            backgroundColor: "rgba(95,171,126,0.8)",
-                            borderColor: "rgba(95,171,126,1)",
-                            data: yValuesCPU
-                        },
-                        {
-                            label: 'Uso de memoria',
-                            fill: true,
-                            lineTension: 0,
-                            backgroundColor: "rgba(244,96,93,0.8)",
-                            borderColor: "rgba(244,96,93,1)",
-                            data: yValuesMemory,
-                            hidden: true
-                        },
-                    ]
-                },
-                options: {
-                    plugins: {
-                        legend: {
-                            display: true,
-                            labels: {
-                                color: '#ffffff'
-                            }
-                        }
-                    },
-                    dataset: {
-                        label: { color: '#ffffff' }
-                    },
-
-                    scales: {
-                        y: {
-                            border: {
-                                display: false
-                            },
-                            grid: {
-                                color: getSetting(keySettings.fontColor),
-                            },
-                            ticks: {
-                                color: getSetting(keySettings.fontColor),
-                                font: {
-                                    family: 'Varela Round',
-                                    size: 9,
-                                    style: 'normal'
-                                }
-                            }
-                        },
-                        x: {
-                            border: {
-                                display: false
-                            },
-                            grid: {
-                                color: getSetting(keySettings.fontColor),
-                            },
-                            ticks: {
-                                color: getSetting(keySettings.fontColor),
-                                font: {
-                                    family: 'Varela Round',
-                                    size: 9,
-                                    style: 'normal'
-                                }
-                            }
-                        }
-                    },
-
-                    animation: {
-                        duration: 0
-                    },
-
-                }
-            });
-        }
-
-        function load() {
-            windowTitle.innerHTML = document.title;
-            backButton.style.display = "none";
-            forwardButton.style.display = "none";
-            refreshButton.title = "Refrescar tareas";
-            stopButton.title = "Cerrar tarea";
-            homeButton.style.display = "none";
-
-            loadTasks();
-            loadCPUGraph();
-            setInterval(loadCPU, 1000);
-            loadCPU();
-            showWindow(parentWindow);
-        }
-
-        function back() {
-
-        }
-
-        function forward() {
-
-        }
-
-        function refresh() {
-            loadTasks();
-        }
-
-        function stop() {
-            let ids = document.querySelectorAll('.checkedApps:checked');
-            for (let i = 0; i < ids.length; i++) {
-                closeApp(ids[i].value);
-            }
-            loadTasks();
-        }
-
-        function home() {
-
-        } */
     </script>
 </body>
 

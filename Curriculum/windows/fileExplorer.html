@@ -15,6 +15,7 @@
     <script>
         var windowID = new URLSearchParams(window.location.search).get('id');
         var windowPath = new URLSearchParams(window.location.search).get('path');
+        var fileExplorerCode;
     </script>
 </head>
 
@@ -32,21 +33,21 @@
                         <div class="collapse show" id="home-collapse">
                             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                                 <li>
-                                    <a onclick="openFolder('/Este equipo/Disco del sistema/user/Lenguajes', true)"
+                                    <a onclick="fileExplorerCode.openFolder('/Este equipo/Disco del sistema/user/Lenguajes', true)"
                                         class="link-dark rounded Lenguajes">
                                         <i class="bi bi-code-slash mx-2"></i>
                                         Lenguajes
                                     </a>
                                 </li>
                                 <li>
-                                    <a onclick="openFolder('/Este equipo/Disco del sistema/user/Frameworks', true)"
+                                    <a onclick="fileExplorerCode.openFolder('/Este equipo/Disco del sistema/user/Frameworks', true)"
                                         class="link-dark rounded Frameworks">
                                         <i class="bi bi-person-workspace mx-2"></i>
                                         Frameworks
                                     </a>
                                 </li>
                                 <li>
-                                    <a onclick="openFolder('/Este equipo/Disco del sistema/user/Entornos de desarrollo', true)"
+                                    <a onclick="fileExplorerCode.openFolder('/Este equipo/Disco del sistema/user/Entornos de desarrollo', true)"
                                         class="link-dark rounded Entornos">
                                         <i class="bi bi-box mx-2"></i>
                                         Entornos de desarrollo
@@ -64,13 +65,13 @@
                         <div class="collapse show" id="dashboard-collapse" style="">
                             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                                 <li>
-                                    <a onclick="openFolder('/Este equipo', true)" class="link-dark rounded Equipo">
+                                    <a onclick="fileExplorerCode.openFolder('/Este equipo', true)" class="link-dark rounded Equipo">
                                         <i class="bi bi-display mx-2"></i>
                                         Este equipo
                                     </a>
                                 </li>
                                 <li>
-                                    <a onclick="openFolder('/Este equipo/Disco del sistema', true)"
+                                    <a onclick="fileExplorerCode.openFolder('/Este equipo/Disco del sistema', true)"
                                         class="link-dark rounded Disco">
                                         <i class="bi bi-hdd mx-2"></i>
                                         Disco del sistema
@@ -101,76 +102,8 @@
     <script type="text/javascript" src="/windows/sidebars.js"></script>
     <script>
         window.addEventListener('DOMContentLoaded', function () {
-            let w = window.parent.document.getElementById(windowID);
-            w.getElementsByClassName('backButton')[0].onclick = function (event) {
-                back();
-            };
-            w.getElementsByClassName('forwardButton')[0].onclick = function (event) {
-                forward();
-            };
-            openFolder(windowPath, true);
-            showWindow(w);
+            fileExplorerCode = new window.parent.fileExplorer(windowID, windowPath);
         });
-
-        function openFolder(path, addHistoryURL) {
-            let dirs = path.split('/');
-            let currentFolder = getSetting(keySettings.fileSystem);
-            dirs.forEach((dir) => {
-                if (dir.length != 0) {
-                    currentFolder = currentFolder.find(x => x.name == dir).content;
-                }
-            });
-
-            let content = document.getElementById('galleryContent');
-            content.innerHTML = "";
-            currentFolder.forEach((icon) => {
-
-                content.innerHTML += `
-                <button class="rounded" ${icon.content == null ? '' : `ondblclick="openFolder('${path}/${icon.name}', true)"`}>
-                    <img src="${icon.icon}" alt="">
-                    <p class="defaultFontColor">${icon.name}</p>
-                </button>
-                `;
-            });
-
-            if (addHistoryURL) {
-                addCachedWindowHistoryURL(windowID, path);
-            }
-
-            window.parent.document.getElementById(windowID).getElementsByTagName('div')[3].innerHTML = path.split('/')[path.split('/').length - 1];
-
-            toggleSidebarButtons(path);
-        }
-
-        function back() {
-            backHistoryIndex(windowID);
-            let cW = getCachedWindow(windowID);
-            let backPath = cW.history.urlList[cW.history.index];
-            openFolder(backPath, false);
-        }
-
-        function forward() {
-            forwardHistoryIndex(windowID);
-            let cW = getCachedWindow(windowID);
-            let forwardPath = cW.history.urlList[cW.history.index];
-            openFolder(forwardPath, false);
-        }
-
-        function toggleSidebarButtons(path) {
-            let currentFolder = path.split('/')[path.split('/').length - 1].toLowerCase();
-            let sidebarIcons = document.querySelectorAll('.link-dark.rounded');
-            sidebarIcons.forEach(function (sI) {
-                if (sI.classList.contains('active')) {
-                    sI.classList.remove('active');
-                }
-
-                sI.classList.forEach(function (cl) {
-                    if (currentFolder.toLowerCase().includes(cl.toLowerCase())) {
-                        sI.classList.add('active');
-                    }
-                })
-            });
-        }
     </script>
 </body>
 

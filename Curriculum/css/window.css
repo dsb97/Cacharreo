@@ -69,15 +69,6 @@ html, body {
     margin-top: 10px;
 }
 
-.gallery button:hover {
-    background-color: rgba(0, 0, 0, 0.2);
-}
-
-.gallery button:focus {
-    background-color: rgba(0,0,0,.5);
-}
-
-
 .scrollable {
     height: 100dvh;
 }
