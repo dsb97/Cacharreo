@@ -68,11 +68,11 @@ var taskManager = class taskManager {
             <table class="table table-striped table-hover">
                 <thead>
                     <tr>
-                        <th class="defaultFontColor" scope="col"><input class="form-check-input" type="checkbox" onchange="taskManagerCode.toggleCheckRows(event)" ></th>
-                        <th class="defaultFontColor" scope="col">&nbsp</th>
-                        <th class="defaultFontColor" scope="col">ID proceso</th>
-                        <th class="defaultFontColor" scope="col">Nombre</th>
-                        <th class="defaultFontColor" scope="col">Memoria</th>
+                        <th class="text-dark" scope="col"><input class="form-check-input" type="checkbox" onchange="taskManagerCode.toggleCheckRows(event)" ></th>
+                        <th class="text-dark" scope="col">&nbsp</th>
+                        <th class="text-dark" scope="col">ID proceso</th>
+                        <th class="text-dark" scope="col">Nombre</th>
+                        <th class="text-dark" scope="col">Memoria</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -90,11 +90,11 @@ var taskManager = class taskManager {
                     let systemApp = window.parent.systemApps.content.filter((x) => { if (x.internalName == `${app}.app`) { return x } })[0];
                     windows += `
     <tr>
-        <th class="defaultFontColor" scope="row"><input class="form-check-input checkedApps" type="checkbox" value="${x.windowID}" ></th>
-        <td class="defaultFontColor"><img src="${systemApp.icon}" style="height: 12pt; width: 12pt;"/></td>
-        <td class="defaultFontColor">${x.windowID}</td>
-        <td class="defaultFontColor">${systemApp.name}</td>
-        <td class="defaultFontColor">${new Blob([JSON.stringify(x.history.urlList)]).size} bytes</td>
+        <th class="text-dark" scope="row"><input class="form-check-input checkedApps" type="checkbox" value="${x.windowID}" ></th>
+        <td class="text-dark"><img src="${systemApp.icon}" style="height: 12pt; width: 12pt;"/></td>
+        <td class="text-dark">${x.windowID}</td>
+        <td class="text-dark">${systemApp.name}</td>
+        <td class="text-dark">${new Blob([JSON.stringify(x.history.urlList)]).size} bytes</td>
     </tr>
                             `;
                 }

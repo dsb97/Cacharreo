@@ -57,7 +57,7 @@ var fileExplorer = class fileExplorer {
             addedButton.classList.add('rounded');
             addedButton.innerHTML = `
             <img src="${icon.icon}" alt="">
-            <p class="defaultFontColor">${icon.name}</p>
+            <p class="text-dark">${icon.name}</p>
             `;
 
             addedButton.addEventListener('dblclick', function (event) {

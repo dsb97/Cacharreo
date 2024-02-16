@@ -13,8 +13,6 @@
   left: 50%;
   -webkit-transform: translateX(-50%);
   transform: translateX(-50%);
-  backdrop-filter: blur(30px);
-  -webkit-backdrop-filter: blur(30px);
 }
 
  .dock .dock-container {
@@ -53,8 +51,8 @@
   -webkit-box-pack: center;
   -ms-flex-pack: center;
   justify-content: center;
-  width: 60px;
-  height: 60px;
+  width: 45pt;
+  height: 45pt;
   vertical-align: bottom;
   -webkit-transition: 0.5s;
   transition: 0.5s;

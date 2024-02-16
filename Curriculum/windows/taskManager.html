@@ -22,11 +22,11 @@
 <body>
     <div class="row h-100">
         <div class="col-12 h-100">
-            <div class="defaultWindowColor scrollable overflow-auto rounded">
+            <div class="scrollable overflow-auto rounded" style="background-color: rgba(255,255,255,0.9);">
                 <ul class="list-unstyled ps-0">
                     <ul class="list-unstyled ps-0">
                         <li class="mb-1">
-                            <button class="btn btn-toggle align-items-center rounded collapsed defaultFontColor"
+                            <button class="btn btn-toggle align-items-center rounded collapsed text-dark"
                                 data-bs-toggle="collapse" data-bs-target="#activities-collapse" aria-expanded="false">
                                 <i class="bi bi-window-stack mx-2"></i>
                                 Procesos:<span id="processesCount"></span>
@@ -37,7 +37,7 @@
                         </li>
 
                         <li class="mb-1">
-                            <button class="btn btn-toggle align-items-center rounded collapsed defaultFontColor"
+                            <button class="btn btn-toggle align-items-center rounded collapsed text-dark"
                                 data-bs-toggle="collapse" data-bs-target="#CPUMemory-collapse" aria-expanded="true">
                                 <i class="bi bi-activity mx-2"></i>
                                 Actividad
@@ -46,9 +46,9 @@
                                 <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                                     <li>
                                         <div class="d-flex justify-content-around">
-                                            <p id="processor-number" class="defaultFontColor"></p>
-                                            <p id="cpu-usage" class="defaultFontColor d-none"></p>
-                                            <p id="memory-usage" class="defaultFontColor d-none"></p>
+                                            <p id="processor-number" class="text-dark"></p>
+                                            <p id="cpu-usage" class="text-dark d-none"></p>
+                                            <p id="memory-usage" class="text-dark d-none"></p>
                                         </div>
                                         <div class="d-flex justify-content-center">
                                             <canvas id="CPUUsage" width="300"></canvas>

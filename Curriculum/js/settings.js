@@ -70,6 +70,10 @@ var settings = class settings {
         this.windowDocument.querySelector('#opacityRange').value = p;
         this.windowDocument.querySelector('#opacityPercentage').innerHTML = `${p}%`;
 
+        let pB = parseInt(getSetting(keySettings.blur).replace('pt', ''));
+        this.windowDocument.querySelector('#blurRange').value = pB;
+        this.windowDocument.querySelector('#blurPercentage').innerHTML = `${parseInt(pB * (100 / 15))}%`;
+
         this.windowDocument.querySelector('#colorMode').value = getSetting(keySettings.autoWindowColor) ? '1' : '0';
         if (!getSetting(keySettings.autoWindowColor)) {
             this.windowDocument.querySelector('#colorPalette').classList.remove('d-none');
@@ -180,7 +184,7 @@ var settings = class settings {
                 </div>
             </section>
             <section class="w-100 p-3 d-flex justify-content-between align-items-top">
-                <label for="opacityRange"> Intensidad:</label>
+                <label for="opacityRange"> Intensidad:&nbsp;&nbsp;</label>
                 <div class="w-100 d-flex justify-content-end">
                     <div class="w-100 ms-5">
                         <input oninput="settingsCode.changeOpacity(event)" type="range" class="form-range" min="0"
@@ -189,7 +193,16 @@ var settings = class settings {
                     </div>
                 </div>
             </section>
-            
+            <section class="w-100 p-3 d-flex justify-content-between align-items-top">
+                <label for="blurRange"> Difuminado:</label>
+                <div class="w-100 d-flex justify-content-end">
+                    <div class="w-100 ms-5">
+                        <input oninput="settingsCode.changeBlur(event)" type="range" class="form-range" min="0"
+                            max="15" step="0.15" id="blurRange">
+                        <span id="blurPercentage">%</label>
+                    </div>
+                </div>
+            </section>
             <hr style="margin: 0px; border: 1px solid black;">
             <section class="w-100 p-3 d-flex justify-content-between align-items-center">
                 <label> Color de la fuente:</label>
@@ -364,6 +377,12 @@ var settings = class settings {
         window.parent.loadTrashIcon();
     }
 
+    changeAllBlur(blur) {
+        setSetting(keySettings.blur, blur);
+        window.parent.reloadColors();
+        window.parent.loadTrashIcon();
+    }
+
     changeFontColor(red, green, blue) {
         setSetting(keySettings.fontColor, `rgba(${red}, ${green}, ${blue})`);
         window.parent.reloadColors();
@@ -374,6 +393,12 @@ var settings = class settings {
         rgbaColor[3] = event.target.value / 100;
         this.changeWindowColor(rgbaColor[0], rgbaColor[1], rgbaColor[2], rgbaColor[3]);
         this.windowDocument.getElementById('opacityPercentage').innerHTML = `${event.target.value}%`;
+    }
+
+    changeBlur(event) {
+        let blurPercentage = parseInt((event.target.value) * (100/15));
+        this.changeAllBlur(event.target.value + 'pt');
+        this.windowDocument.getElementById('blurPercentage').innerHTML = `${blurPercentage}%`;
     }
 
     changeWallpaper(path) {

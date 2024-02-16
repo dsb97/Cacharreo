@@ -22,27 +22,38 @@
 
 <body onchange="loadDesktop()" id="desktopFrame">
     <!--Ventanas-->
-    <div class="window blur rounded defaultWindowColor defaultFontColor shadow d-none" onmousedown="resizeStart(event, event.target)"
-        onmousemove="changeCursor(event)">
-        <div class="d-flex justify-content-between align-items-center rounded windowHeader" style="cursor: default !important;"
-            onmousedown="dragStart(event, event.target.parentElement)" ondblclick="restoreMaximizeWindow(event)">
+    <div class="window blur rounded defaultWindowColor defaultFontColor shadow d-none"
+        onmousedown="resizeStart(event, event.target)" onmousemove="changeCursor(event)">
+        <div class="d-flex justify-content-between align-items-start rounded windowHeader"
+            style="cursor: default !important;" onmousedown="dragStart(event, event.target.parentElement)"
+            ondblclick="restoreMaximizeWindow(event)">
             <div class="p-0">
-                <div class="d-flex flex-row">
-                    <i class="bi bi-arrow-left tray-icon rounded me-3 px-2 toolbarButton backButton"></i>
-                    <i class="bi bi-arrow-right tray-icon rounded me-3 px-2 toolbarButton forwardButton"></i>
-                    <i class="bi bi-arrow-clockwise tray-icon rounded me-3 px-2 toolbarButton refreshButton"></i>
-                    <i class="bi bi-x-lg tray-icon rounded me-3 px-2 toolbarButton stopButton"></i>
-                    <i class="bi bi-house tray-icon rounded px-2 toolbarButton homeButton"></i>
+                <div class="d-flex flex-row align-items-center">
+                    <a role="button" class="rounded toolbarButtonBig backButton defaultFontColor me-3 px-2">
+                        <i class="bi bi-arrow-left tray-icon"></i>
+                    </a>
+                    <a role="button" class="rounded toolbarButton forwardButton defaultFontColor me-3 px-2">
+                        <i class="bi bi-arrow-right tray-icon"></i>
+                    </a>
+                    <a role="button" class="rounded toolbarButton refreshButton defaultFontColor me-3 px-2">
+                        <i class="bi bi-arrow-clockwise tray-icon"></i>
+                    </a>
+                    <a role="button" class="rounded toolbarButton stopButton defaultFontColor me-3 px-2">
+                        <i class="bi bi-x-lg tray-icon"></i>
+                    </a>
+                    <a role="button" class="rounded toolbarButton homeButton defaultFontColor me-3 px-2">
+                        <i class="bi bi-house tray-icon"></i>
+                    </a>
                 </div>
             </div>
-            <div class="p-2 windowTitle"></div>
-            <div class="buttons p-2">
-                <button class="btn btn-success ms-1" onclick="minimizeWindow(event)"></button>
-                <button class="btn btn-warning ms-1 min-button" onclick="restoreMaximizeWindow(event)"></button>
-                <button class="btn btn-danger ms-1" onclick="closeWindow(event)"></button>
+            <div class="windowTitle"></div>
+            <div class="buttons">
+                <button class="btn btn-success" onclick="minimizeWindow(event)"></button>
+                <button class="btn btn-warning min-button" onclick="restoreMaximizeWindow(event)"></button>
+                <button class="btn btn-danger" onclick="closeWindow(event)"></button>
             </div>
         </div>
-        <iframe style="width: 100%; height: calc(100% - 39px);" frameborder="0">
+        <iframe style="width: 100%; height: calc(100% - 21pt);" frameborder="0">
 
         </iframe>
     </div>
@@ -50,11 +61,13 @@
     <div class="topbar defaultWindowColor">
         <div class="col-4 d-flex align-items-center">
             <img id="forecastIcon" class="p-2" height="32px" src="" alt="">
-            <span id="forecastDescription" class="ms-2 me-5 defaultFontColor">Previsión meteorológica no disponible</span>
+            <span id="forecastDescription" class="ms-2 me-5 defaultFontColor">Previsión meteorológica no
+                disponible</span>
         </div>
         <div class="col-4 d-flex align-items-center">
-            <input placeholder="&#xF002; Buscar..." class="form-control defaultWindowColor bg-opacity-75 border-0 defaultFontColor"
-                type="text" name="searchBar" id="searchBar">
+            <input placeholder="&#xF002; Buscar..."
+                class="form-control defaultWindowColor bg-opacity-75 border-0 defaultFontColor" type="text"
+                name="searchBar" id="searchBar">
         </div>
         <div class="col-4 d-flex align-items-center justify-content-end">
             <i class="bi bi-wifi tray-icon me-3 defaultFontColor"></i>
@@ -63,6 +76,66 @@
             <span id="hour" class="me-3 defaultFontColor"></span>
         </div>
     </div>
+    <!-- <div id="startMenu" class="row m-0 p-0 justify-content-center blur"
+        style="position: fixed;width: 280pt; height: 380pt; bottom: 50pt; left: 10%">
+        <div class="col-10 defaultFontColor defaultWindowColor rounded-start p-2" style="">
+
+            <div class="w-100 p-2 mb-2 d-flex justify-content-start align-items-center rounded fixedStartMenuItem">
+                <img class="me-2" style="height: 32px; width: 32px;" src="/resources/themes/default/system/internet.png"
+                    alt="">
+                <p style="font-size: 11pt;" class="defaultFontColor p-0 m-0">Navegador</p>
+            </div>
+            <div class="w-100 p-2 mb-2 d-flex justify-content-start align-items-center rounded fixedStartMenuItem">
+                <img class="me-2" style="height: 32px; width: 32px;" src="/resources/themes/default/system/mail.png"
+                    alt="">
+                <p style="font-size: 11pt;" class="defaultFontColor p-0 m-0">Correo electrónico</p>
+            </div>
+            <div class="w-100 p-2 mb-2 d-flex justify-content-start align-items-center rounded fixedStartMenuItem">
+                <img class="me-2" style="height: 32px; width: 32px;" src="/resources/themes/default/system/info.png"
+                    alt="">
+                <p style="font-size: 11pt;" class="defaultFontColor p-0 m-0">Información</p>
+            </div>
+            <div class="w-100 p-2 mb-2 d-flex justify-content-start align-items-center rounded fixedStartMenuItem">
+                <img class="me-2" style="height: 32px; width: 32px;" src="/resources/themes/default/system/music.png"
+                    alt="">
+                <p style="font-size: 11pt;" class="defaultFontColor p-0 m-0">Reproductor de música</p>
+            </div>
+            <div class="w-100 p-2 mb-2 d-flex justify-content-start align-items-center rounded fixedStartMenuItem">
+                <img class="me-2" style="height: 32px; width: 32px;" src="/resources/themes/default/system/shop.png"
+                    alt="">
+                <p style="font-size: 11pt;" class="defaultFontColor p-0 m-0">Tienda</p>
+            </div>
+            <button class="btn btn-light p-2 mt-5">Todas las apps <i class="bi bi-chevron-right"></i></button>
+        </div>
+        <div class="col-2 rounded-end p-2 d-flex flex-column"
+            style="color: black; background-color: rgba(255,255,255,0.5);">
+            <a title="Documentos" role="button" class="rounded p-2 startMenuShortcutItem d-flex justify-content-center">
+                <i class="bi bi-file-earmark" style="font-size: 17pt;"></i>
+            </a>
+            <a title="Descargas" role="button"
+                class="rounded p-2 mt-2 startMenuShortcutItem d-flex justify-content-center">
+                <i class="bi bi-download" style="font-size: 17pt;"></i>
+            </a>
+            <a title="Música" role="button"
+                class="rounded p-2 mt-2 startMenuShortcutItem d-flex justify-content-center">
+                <i class="bi bi-music-note" style="font-size: 17pt;"></i>
+            </a>
+            <a title="Imágenes" role="button"
+                class="rounded p-2 mt-2 startMenuShortcutItem d-flex justify-content-center">
+                <i class="bi bi-image" style="font-size: 17pt;"></i>
+            </a>
+            <a title="Archivos" role="button"
+                class="rounded p-2 mt-2 startMenuShortcutItem d-flex justify-content-center">
+                <i class="bi bi-folder2-open" style="font-size: 17pt;"></i>
+            </a>
+            <a title="Ajustes" role="button"
+                class="rounded p-2 mt-2 startMenuShortcutItem d-flex justify-content-center">
+                <i class="bi bi-gear" style="font-size: 17pt;"></i>
+            </a>
+
+
+        </div>
+    </div> -->
     <!-- Dock aplicaciones-->
     <div class="dock defaultWindowColor">
         <div class="dock-container">
@@ -92,7 +165,8 @@
                 <div class="name defaultWindowColor defaultFontColor">Visual Studio Code</div>
                 <img class="ico" src="resources/themes/default/misc/vscode.png" alt="">
             </li>
-            <li class="li me-3 p-2 rounded" id="taskManager" onclick="openWindow('/windows/taskManager.html', 'taskManager')">
+            <li class="li me-3 p-2 rounded" id="taskManager"
+                onclick="openWindow('/windows/taskManager.html', 'taskManager')">
                 <div class="name defaultWindowColor defaultFontColor">Monitor del sistema</div>
                 <img class="ico" src="resources/themes/default/system/task-manager.png" alt="">
             </li>
@@ -185,26 +259,29 @@
     </div>
 
     <div class="position-fixed top-0 end-0 mt-5 me-2">
-        <div id="liveToast" class="toast blur defaultWindowColor defaultFontColor" role="alert" aria-live="assertive" aria-atomic="true">
+        <div id="liveToast" class="toast blur defaultWindowColor defaultFontColor" role="alert" aria-live="assertive"
+            aria-atomic="true">
             <div class="toast-header border-bottom-0 text-dark">
-                <img id="notificationIcon" width=20 src="/resources/themes/default/system/settingsUpdate.png" class="rounded me-2">
+                <img id="notificationIcon" width=20 src="/resources/themes/default/system/settingsUpdate.png"
+                    class="rounded me-2">
                 <strong id="notificationTitle" class="me-auto">Ajustes</strong>
                 <small id="notificationTimestamp">Ahora mismo</small>
                 <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
             <div id="notificationBody" class="toast-body">
-                Se ha actualizado el sistema a una nueva versión. Descubre las novedades <a role="button" class="li p-2 roundednk-dark">aquí</a>
+                Se ha actualizado el sistema a una nueva versión. Descubre las novedades <a role="button"
+                    class="li p-2 roundednk-dark">aquí</a>
             </div>
         </div>
     </div>
-    
+
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
         crossorigin="anonymous"></script>
     <script type="text/javascript" src="/lib/vibrant.js"></script>
-    
+
     <script type="text/javascript" src="/js/shared.js"></script>
     <script type="text/javascript" src="/js/index.js"></script>
     <script type="text/javascript" src="/js/terminal.js"></script>

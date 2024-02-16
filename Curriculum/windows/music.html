@@ -29,18 +29,39 @@
                         <div class="collapse show" id="home-collapse">
                             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                                 <li>
-                                    <a onclick="" class="link-dark rounded ps-1 ms-0 w-100 active">
-                                        <img class="me-2" width="30" height="30"
-                                            src="/resources/themes/default/misc/appleMusic.png" alt="">
-                                        <p class="pt-2 mb-0">Apple Music</p>
+                                    <input placeholder="&#xF002; Buscar..." class="form-control mb-2" type="text"
+                                        name="searchBar" id="searchBar">
+                                </li>
+                                <li>
+                                    <a onclick="" class="link-dark active rounded m-0 p-1 w-100 align-items-center">
+                                        <i class="bi bi-music-player" style="font-size: 18pt;"></i>
+                                        <p class="p-0 m-0 ms-2">Ahora suena...</p>
                                     </a>
                                 </li>
-
+                                <hr>
                                 <li>
-                                    <a onclick="" class="link-dark rounded ps-1 ms-0 w-100">
-                                        <img class="me-2" width="30" height="30"
-                                            src="/resources/themes/default/misc/spotify.png" alt="">
-                                        <p class="pt-2 mb-0">Spotify</p>
+                                    <a onclick="" class="link-dark rounded m-0 p-1 w-100 align-items-center">
+                                        <i class="me-2 bi bi-mic" style="font-size: 18pt;"></i>
+                                        <p class="p-0 m-0 ms-2">Artistas</p>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a onclick="" class="link-dark rounded m-0 p-1 w-100 align-items-center">
+                                        <i class="me-2 bi bi-disc" style="font-size: 18pt;"></i>
+                                        <p class="p-0 m-0 ms-2">Álbumes</p>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a onclick="" class="link-dark rounded m-0 p-1 w-100 align-items-center">
+                                        <i class="me-2 bi bi-file-music" style="font-size: 18pt;"></i>
+                                        <p class="p-0 m-0 ms-2">Canciones</p>
+                                    </a>
+                                </li>
+                                <hr>
+                                <li>
+                                    <a onclick="" class="link-dark rounded m-0 p-1 w-100 align-items-center">
+                                        <i class="me-2 bi bi-music-note-list" style="font-size: 18pt;"></i>
+                                        <p class="p-0 m-0 ms-2">Listas de reproducción</p>
                                     </a>
                                 </li>
 
@@ -50,13 +71,49 @@
                 </ul>
             </div>
         </div>
-        <div class="col-8 h-100">
-            <iframe class="rounded"
-                allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write"
-                frameborder="0"
-                style="width: 100%; height: 100%; overflow: hidden; background-color: white;"
-                sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation"
-                src="https://embed.music.apple.com/es/playlist/davids-playlist/pl.u-oZylMjeIqAydaeB"></iframe>
+        <div class="col-8 h-100 ps-0">
+            <div class="scrollable overflow-auto rounded"
+                style="max-width: 100%; max-height: 100%; background-color: rgba(255,255,255,0.9);">
+                <div id="musicContent" class="text-dark">
+                    <audio hidden id="reproductor" controls onended="musicCode.cambiarCancion(1)">
+                        Tu navegador no soporta el elemento de audio.
+                    </audio>
+                    <div class="col-12 d-flex justify-content-center mt-2 mb-2">
+                        <img class="rounded" id="albumCover" height="250" width="250" src="" alt="">
+                    </div>
+                    <div class="col-12 d-flex justify-content-center">
+                        <p id="title"></p>
+                    </div>
+                    <div class="col-12 d-flex justify-content-center">
+                        <p id="artistAlbum"></p>
+                    </div>
+                    <div class="col-12 d-flex justify-content-center">
+                        <input class="form-range p-3 mb-5" type="range" id="barraTiempo" value="0" step="1"
+                            onchange="musicCode.cambiarTiempo()">
+                    </div>
+                    <div class="col-12 d-flex justify-content-around mb-2" id="controles">
+                        <button class="btn" id="anterior" onclick="musicCode.cambiarCancion(-1)">
+                            <i style="font-size: 14pt;" class="bi bi-skip-backward-fill"></i>
+                        </button>
+                        <button class="btn" id="playPause" onclick="musicCode.togglePlayPause()">
+                            <i style="font-size: 14pt;" class="bi bi-play-fill"></i>
+                        </button>
+                        <button class="btn" id="siguiente" onclick="musicCode.cambiarCancion(1)">
+                            <i style="font-size: 14pt;" class="bi bi-skip-forward-fill"></i>
+                        </button>
+                    </div>
+                    <div class="col-12 d-flex justify-content-around" id="controles">
+                        <button class="btn" id="listaActual" onclick="">
+                            <i style="font-size: 12pt;" class="bi bi-list"></i>
+                        </button>
+                        <button class="btn" id="shuffle" onclick="musicCode.toggleShuffle()">
+                            <i style="font-size: 12pt;" class="bi bi-shuffle"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
@@ -66,6 +123,8 @@
     <script>
         window.addEventListener('DOMContentLoaded', function () {
             musicCode = new window.parent.music(windowID);
+            albumCover.src = `/resources/themes/${getSetting('theme')}/system/music.png`;
+            musicCode.load();
         });
     </script>
 </body>

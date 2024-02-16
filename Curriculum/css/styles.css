@@ -51,28 +51,19 @@ body {
     left: 50%;
     -webkit-transform: translateX(-50%);
     transform: translateX(-50%);
-    backdrop-filter: blur(30px);
-    -webkit-backdrop-filter: blur(30px);
 }
 
-.blur {
-    backdrop-filter: blur(30px);
-    -webkit-backdrop-filter: blur(30px);
-}
+
 
 .window {
     position: absolute;
-    padding: 10px;
+    padding: 4pt;
     overflow: hidden;
     z-index: 20;
 }
 
 .window button {
     cursor: default !important;
-}
-
-.windowHeader {
-    height: 30pt;
 }
 
 .windowContent {
@@ -84,7 +75,17 @@ body {
     vertical-align: middle;
 }
 
-.toolbarButton:hover {
+.toolbarButton {
+    color: black;
+}
+
+.toolbarButtonBig {
+    margin: 4pt;
+    transform: scale(1.3);
+    color: black;
+}
+
+.toolbarButton:hover, .toolbarButtonBig:hover {
     background-color: white;
     color: black;
     -webkit-transition: all 0.3s;
@@ -142,17 +143,17 @@ i {
 }
 
 ::-webkit-scrollbar-track {
-    background: rgba(0,0,0,0.1);
+    background: rgba(0, 0, 0, 0.1);
     border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: rgba(0,0,0,0.3);
+    background: rgba(0, 0, 0, 0.3);
     border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: rgba(0,0,0,0.6);
+    background: rgba(0, 0, 0, 0.6);
 }
 
 .bg-opacity-25::placeholder {
@@ -210,4 +211,18 @@ i {
 .desktopIcons {
     margin-top: 40pt;
     margin-right: 5pt;
+}
+
+.startMenuShortcutItem:hover {
+    background-color: black;
+    color: white;
+}
+ 
+.startMenuShortcutItem {
+    color: black;
+    transition: 0.5s;
+}
+ 
+.fixedStartMenuItem {
+    transition: 0.5s;
 }

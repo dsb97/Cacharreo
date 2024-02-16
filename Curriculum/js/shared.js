@@ -3,6 +3,7 @@ var systemSettings = {
     wallpaper: '/resources/themes/wallpapers/Frogs.png',
     autoWindowColor: true,
     windowColor: 'rgba(0,0,0,0.45)',
+    blur: '15pt',
     fontColor: 'rgb(255,255,255)',
     version: '1.0',
     fileSystem: []
@@ -12,6 +13,7 @@ var keySettings = {
     theme: 'theme',
     wallpaper: 'wallpaper',
     windowColor: 'windowColor',
+    blur: 'blur',
     fontColor: 'fontColor',
     version: 'version',
     fileSystem: 'fileSystem',
@@ -148,6 +150,7 @@ function reloadColors() {
 
 function setColorStyles() {
     document.getElementById('dynamicStyle').innerHTML = "";
+    setBlur();
     setFontColor();
     setWindowColor();
 }
@@ -157,15 +160,24 @@ function setWindowColor() {
     let rgbaWindowColor = windowColor.replaceAll('rgba(', '').replaceAll(')', '').split(',');
     document.getElementById('dynamicStyle').innerHTML += ` .defaultWindowColor { background-color: ${windowColor}; }`;
     getRGBALightness(windowColor, function (brightness) {
-        document.getElementById('dynamicStyle').innerHTML += ` .dock .dock-container li:hover { background-color: ${brightness < 127 ? 'rgba(255,255,255,' : 'rgba(0,0,0,'}${parseFloat(rgbaWindowColor[3]) / 0.45}); }`
+        document.getElementById('dynamicStyle').innerHTML += ` .dock .dock-container li:hover { background-color: ${brightness > 127 ? 'rgba(255,255,255,' : 'rgba(0,0,0,'}${parseFloat(rgbaWindowColor[3]) / 0.45}); }`
+        document.getElementById('dynamicStyle').innerHTML += ` .fixedStartMenuItem:hover { background-color: ${brightness > 127 ? 'rgba(255,255,255,' : 'rgba(0,0,0,'}${parseFloat(rgbaWindowColor[3]) / 0.45}); }`
     });
-
+ 
     document.getElementById('dynamicStyle').innerHTML += ` .gallery button:hover { background-color: ${windowColor}; }`
 }
 
 function setFontColor() {
     let fontColor = getSetting(keySettings.fontColor);
     document.getElementById('dynamicStyle').innerHTML += ` .defaultFontColor { color: ${fontColor} !important; } .defaultFontColor:hover { color: ${fontColor} !important; } .defaultFontColor:focus { color: ${fontColor} !important; }`;
+}
+
+function setBlur() {
+    let blur = getSetting(keySettings.blur);
+    document.getElementById('dynamicStyle').innerHTML += ` .blur { backdrop-filter: blur(${blur}); -webkit-backdrop-filter: blur(${blur}); }`;
+    document.getElementById('dynamicStyle').innerHTML += ` .menu::before, .share-menu::before { backdrop-filter: blur(${blur}); -webkit-backdrop-filter: blur(${blur}); }`;
+    document.getElementById('dynamicStyle').innerHTML += ` .topbar { backdrop-filter: blur(${blur}); -webkit-backdrop-filter: blur(${blur}); }`;
+    document.getElementById('dynamicStyle').innerHTML += ` .dock { backdrop-filter: blur(${blur}); -webkit-backdrop-filter: blur(${blur}); }`;
 }
 
 function getRGBALightness(rgbaColorString, callback) {
@@ -176,39 +188,39 @@ function getRGBALightness(rgbaColorString, callback) {
     ctx.fillStyle = rgbaColorString;
     ctx.fillRect(0, 0, 1, 1);
     getImageLightness(canvas.toDataURL(), callback);
-  }
-  
-  function getImageLightness(imageSrc, callback) {
+}
+
+function getImageLightness(imageSrc, callback) {
     var img = document.createElement("img");
     img.src = imageSrc;
     img.style.display = "none";
     document.body.appendChild(img);
-  
+
     var colorSum = 0;
-  
+
     img.onload = function () {
-      // create canvas
-      var canvas = document.createElement("canvas");
-      canvas.width = this.width;
-      canvas.height = this.height;
-  
-      var ctx = canvas.getContext("2d");
-      ctx.drawImage(this, 0, 0);
-  
-      var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-      var data = imageData.data;
-      var r, g, b, avg;
-  
-      for (var x = 0, len = data.length; x < len; x += 4) {
-        r = data[x];
-        g = data[x + 1];
-        b = data[x + 2];
-  
-        avg = Math.floor((r + g + b) / 3);
-        colorSum += avg;
-      }
-  
-      var brightness = Math.floor(colorSum / (this.width * this.height));
-      callback(brightness);
+        // create canvas
+        var canvas = document.createElement("canvas");
+        canvas.width = this.width;
+        canvas.height = this.height;
+
+        var ctx = canvas.getContext("2d");
+        ctx.drawImage(this, 0, 0);
+
+        var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        var data = imageData.data;
+        var r, g, b, avg;
+
+        for (var x = 0, len = data.length; x < len; x += 4) {
+            r = data[x];
+            g = data[x + 1];
+            b = data[x + 2];
+
+            avg = Math.floor((r + g + b) / 3);
+            colorSum += avg;
+        }
+
+        var brightness = Math.floor(colorSum / (this.width * this.height));
+        callback(brightness);
     }
-  }
+}
