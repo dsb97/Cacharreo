@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="auto">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Player</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+
+<body>
+    <div class="container-fluid p-0" style="height: 100vh; display: flex; flex-direction: column; overflow:hidden">
+        <div class="row p-2" id="playerContainer">
+            <div class="col-lg-8 offset-lg-2 col-md-10 offset-md-1 col-sm-12">
+                <div class="row">
+                    <div class="col-8">
+                        <div class="d-flex align-items-center">
+                            <div class="flex-shrink-0">
+                                <img id="albumCover" height="80px" src="./src/no-album.png" alt="">
+                            </div>
+                            <div class="flex-grow-1 ms-3 text-body-emphasis" id="songInfo">
+                                <h5 id="songTitle">Title</h5>
+                                <h6 id="songArtist">Artist</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4 d-flex align-items-center justify-content-end flex-wrap" id="controlButtons">
+                        <button type="button" class="me-1 btn border-0">
+                            <i class="bi bi-rewind-fill"></i>
+                        </button>
+                        <button id="playPause" type="button" class="me-1 btn border-0" id="previousButton">
+                            <i class="bi bi-pause-fill"></i>
+                        </button>
+                        <button type="button" class="me-1 btn border-0" id="nextButton">
+                            <i class="bi bi-fast-forward-fill"></i>
+                        </button>
+                        <button type="button" class="me-1 btn border-0" id="shuffleButton">
+                            <i class="bi bi-shuffle"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="w-100 d-flex justify-content-between mt-2">
+                    <small id="currentTime">00:00</small>
+                    <small id="totalTime">00:00</small>
+                </div>
+                <input type="range" class="w-100" value="0" id="timeProgress">
+            </div>
+        </div>
+        <hr class="m-0">
+        <div class="row flex-grow-1 d-flex" id="contentContainer">
+            <div class="col-12 panel-container">
+                <div class="d-flex flex-column flex-shrink-0 p-2 left-panel">
+                    <ul class="nav nav-pills flex-column mb-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link link-body-emphasis" aria-current="page">
+                                <i class="bi bi-house-door-fill me-1"></i>
+                                Inicio
+                            </a>
+                        </li>
+                        <hr class="m-0 my-1">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link link-body-emphasis" aria-current="page">
+                                <i class="bi bi-people-fill me-1"></i>
+                                Artistas
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="nav-link link-body-emphasis">
+                                <i class="bi bi-disc me-1"></i>
+                                Álbumes
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="nav-link active">
+                                <i class="bi bi-music-note me-1"></i>
+                                Canciones
+                            </a>
+                        </li>
+                        <hr class="m-0 my-1">
+                        <li>
+                            <a href="#" class="nav-link link-body-emphasis">
+                                <i class="bi bi-music-note-list me-1"></i>
+                                Listas de reproducción
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="vr resizer" id="resizer"></div>
+                <div class="right-panel p-2" id="mainContent">
+                    <div class="d-flex justify-content-center" id="waitSpinner">
+                        <div class="spinner-border" role="status">
+                          <span class="visually-hidden">Loading...</span>
+                        </div>
+                      </div>
+                    <table class="table table-striped d-none" id="songsTable">
+                        <thead>
+                            <tr>
+                                <th scope="col">Título</th>
+                                <th scope="col">Artista</th>
+                                <th scope="col">Álbum</th>
+                            </tr>
+                        </thead>
+                        <tbody id="songsBody">
+                           
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script src="./index.js"></script>
+</body>
+
+</html>

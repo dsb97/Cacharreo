@@ -1,0 +1,30 @@
+$font-size-base: .9rem;
+
+@import "../node_modules/bootstrap/scss/bootstrap";
+@import "../node_modules/bootstrap-icons/font/bootstrap-icons.min.css";
+
+
+
+.panel-container {
+    margin: 0;
+    display: flex;
+    height: 100%;
+    overflow: hidden;
+}
+.left-panel {
+    min-width: 200px;
+    max-width: 350px;
+    overflow-y: auto;
+}
+.resizer {
+    width: 1px;
+    cursor: ew-resize;
+}
+.right-panel {
+    flex-grow: 1;
+    overflow: auto;
+}
+
+.table > :not(caption) > * > * {
+    padding: 0.3rem 0.3rem !important;
+}
