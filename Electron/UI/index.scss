@@ -3,7 +3,116 @@ $font-size-base: .9rem;
 @import "../node_modules/bootstrap/scss/bootstrap";
 @import "../node_modules/bootstrap-icons/font/bootstrap-icons.min.css";
 
+body {
+    overflow-x: hidden;
+}
 
+button {
+    border: 0 !important;
+}
+
+#bigPlayer {
+    height: 100vh;
+    position: relative;
+    z-index: 10;
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+}
+
+.cover-container {
+    height: 60%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.album-cover {
+    max-height: 100%;
+    max-width: 80%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+}
+
+.song-title {
+    font-size: 1.5rem;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.btn-control {
+    font-size: 1.5rem;
+    margin: 0 15px;
+}
+
+#miniPlayer {
+    position: sticky;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    visibility: hidden;
+    transition: transform 0.3s ease-out;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(3px);
+    --bs-bg-opacity: .85;
+}
+
+.mini-cover {
+    height: 50px;
+    margin: 0 15px;
+    border-radius: 4px;
+}
+
+.mini-title {
+    flex-grow: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.mini-controls {
+    margin-right: 15px;
+}
+
+.mini-btn {
+    font-size: 1rem;
+    margin: 0 8px;
+}
+
+#playlist {
+    padding: 20px;
+    position: relative;
+    z-index: 5;
+}
+
+.song-item {
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    border-radius: 8px;
+
+    &:hover {
+        background-color: rgba(0, 0, 0, 0.3);
+    }
+
+    img {
+        border-radius: 4px;
+    }
+}
+
+#content-wrapper {
+    position: relative;
+    z-index: 5;
+}
 
 .panel-container {
     margin: 0;
@@ -11,20 +120,21 @@ $font-size-base: .9rem;
     height: 100%;
     overflow: hidden;
 }
+
 .left-panel {
     min-width: 200px;
     max-width: 350px;
     overflow-y: auto;
+    height: 100vh;
 }
+
 .resizer {
     width: 1px;
     cursor: ew-resize;
 }
+
 .right-panel {
     flex-grow: 1;
+    height: 100vh;
     overflow: auto;
-}
-
-.table > :not(caption) > * > * {
-    padding: 0.3rem 0.3rem !important;
 }

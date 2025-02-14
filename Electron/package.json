@@ -3,13 +3,22 @@
   "version": "1.0.0",
   "description": "An Electron Music Player",
   "main": "main.js",
+  "build": {
+    "appId": "com.yourcompany.yourapp",
+    "mac": {
+      "target": "dmg",
+      "icon": "UI/src/Music.icns"
+    }
+  },
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "dist": "electron-builder"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "electron": "^33.0.2"
+    "electron": "^33.0.2",
+    "electron-builder": "^25.1.8"
   },
   "dependencies": {
     "bootstrap": "^5.3.3",

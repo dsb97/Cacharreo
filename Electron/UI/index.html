@@ -10,101 +10,268 @@
 </head>
 
 <body>
-    <div class="container-fluid p-0" style="height: 100vh; display: flex; flex-direction: column; overflow:hidden">
-        <div class="row p-2" id="playerContainer">
-            <div class="col-lg-8 offset-lg-2 col-md-10 offset-md-1 col-sm-12">
-                <div class="row">
-                    <div class="col-8">
-                        <div class="d-flex align-items-center">
-                            <div class="flex-shrink-0">
-                                <img id="albumCover" height="80px" src="./src/no-album.png" alt="">
-                            </div>
-                            <div class="flex-grow-1 ms-3 text-body-emphasis" id="songInfo">
-                                <h5 id="songTitle">Title</h5>
-                                <h6 id="songArtist">Artist</h6>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-4 d-flex align-items-center justify-content-end flex-wrap" id="controlButtons">
-                        <button type="button" class="me-1 btn border-0">
-                            <i class="bi bi-rewind-fill"></i>
-                        </button>
-                        <button id="playPause" type="button" class="me-1 btn border-0" id="previousButton">
-                            <i class="bi bi-pause-fill"></i>
-                        </button>
-                        <button type="button" class="me-1 btn border-0" id="nextButton">
-                            <i class="bi bi-fast-forward-fill"></i>
-                        </button>
-                        <button type="button" class="me-1 btn border-0" id="shuffleButton">
-                            <i class="bi bi-shuffle"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="w-100 d-flex justify-content-between mt-2">
-                    <small id="currentTime">00:00</small>
-                    <small id="totalTime">00:00</small>
-                </div>
-                <input type="range" class="w-100" value="0" id="timeProgress">
+    <div class="row flex-grow-1 d-flex" id="contentContainer">
+        <div class="col-12 panel-container">
+            <div class="d-flex flex-column flex-shrink-0 p-2 left-panel" id="menuContainer">
+
+                <ul class="nav nav-pills flex-column mb-auto h-100">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link link-body-emphasis" aria-current="page">
+                            <i class="bi bi-people-fill me-1"></i>
+                            Artistas
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-link link-body-emphasis">
+                            <i class="bi bi-disc me-1"></i>
+                            Álbumes
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-link active">
+                            <i class="bi bi-music-note me-1"></i>
+                            Canciones
+                        </a>
+                    </li>
+                    <hr class="m-0 my-1">
+                    <li>
+                        <a href="#" class="nav-link link-body-emphasis">
+                            <i class="bi bi-music-note-list me-1"></i>
+                            Listas de reproducción
+                        </a>
+                    </li>
+                    <hr class="m-0 my-1">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link link-body-emphasis" aria-current="page">
+                            <i class="bi bi-gear-wide-connected me-1"></i>
+                            Configuración
+                        </a>
+                    </li>
+                </ul>
             </div>
-        </div>
-        <hr class="m-0">
-        <div class="row flex-grow-1 d-flex" id="contentContainer">
-            <div class="col-12 panel-container">
-                <div class="d-flex flex-column flex-shrink-0 p-2 left-panel">
-                    <ul class="nav nav-pills flex-column mb-auto">
-                        <li class="nav-item">
-                            <a href="#" class="nav-link link-body-emphasis" aria-current="page">
-                                <i class="bi bi-house-door-fill me-1"></i>
-                                Inicio
-                            </a>
-                        </li>
-                        <hr class="m-0 my-1">
-                        <li class="nav-item">
-                            <a href="#" class="nav-link link-body-emphasis" aria-current="page">
-                                <i class="bi bi-people-fill me-1"></i>
-                                Artistas
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="nav-link link-body-emphasis">
-                                <i class="bi bi-disc me-1"></i>
-                                Álbumes
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="nav-link active">
-                                <i class="bi bi-music-note me-1"></i>
-                                Canciones
-                            </a>
-                        </li>
-                        <hr class="m-0 my-1">
-                        <li>
-                            <a href="#" class="nav-link link-body-emphasis">
-                                <i class="bi bi-music-note-list me-1"></i>
-                                Listas de reproducción
-                            </a>
-                        </li>
-                    </ul>
+            <div class="vr resizer" id="resizer"></div>
+
+            <div class="right-panel" id="mainContent">
+                <div id="bigPlayer">
+                    <div class="cover-container">
+                        <img src="https://placehold.co/300x300" alt="Album cover" class="album-cover" id="mainCover">
+                    </div>
+                    <h2 class="song-title" id="mainTitle">Título de la canción</h2>
+                    <div class="controls">
+                        <button class="btn btn-control" id="prevBtn">
+                            <i class="bi bi-skip-backward-fill"></i>
+                        </button>
+                        <button class="btn btn-control" id="playBtn">
+                            <i class="bi bi-play-fill"></i>
+                        </button>
+                        <button class="btn btn-control" id="nextBtn">
+                            <i class="bi bi-skip-forward-fill"></i>
+                        </button>
+                    </div>
                 </div>
-                <div class="vr resizer" id="resizer"></div>
-                <div class="right-panel p-2" id="mainContent">
-                    <div class="d-flex justify-content-center" id="waitSpinner">
-                        <div class="spinner-border" role="status">
-                          <span class="visually-hidden">Loading...</span>
+
+                <div id="miniPlayer">
+                    <img src="https://placehold.co/50x50" alt="Mini cover" class="mini-cover" id="miniCover">
+                    <div class="mini-title" id="miniTitle">Título de la canción</div>
+                    <div class="mini-controls">
+                        <button class="btn btn-outline-dark mini-btn" id="miniPrevBtn">
+                            <i class="bi bi-skip-backward-fill"></i>
+                        </button>
+                        <button class="btn btn-outline-dark mini-btn" id="miniPlayBtn">
+                            <i class="bi bi-play-fill"></i>
+                        </button>
+                        <button class="btn btn-outline-dark mini-btn" id="miniNextBtn">
+                            <i class="bi bi-skip-forward-fill"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div id="content-wrapper">
+                    <div id="playlist" class="container">
+                        <div class="row">
+                            <div class="col-12">
+                                <h3>Lista de reproducción</h3>
+                                <div id="songList">
+                                    <div class="song-item">
+                                        <div class="d-flex align-items-center">
+                                            <img src="https://i.scdn.co/image/ab67616d0000b2737e7f1d0bdb2bb5a2afc4fb25"
+                                                alt="Hurry Up Tomorrow"
+                                                style="width: 50px; height: 50px; margin-right: 15px;">
+                                            <span>Wake Me Up</span>
+                                        </div>
+                                    </div>
+                                    <div class="song-item">
+                                        <div class="d-flex align-items-center">
+                                            <img src="https://i.scdn.co/image/ab67616d0000b2737e7f1d0bdb2bb5a2afc4fb25"
+                                                alt="Hurry Up Tomorrow"
+                                                style="width: 50px; height: 50px; margin-right: 15px;">
+                                            <span>Cry For Me</span>
+                                        </div>
+                                    </div>
+                                    <div class="song-item">
+                                        <div class="d-flex align-items-center">
+                                            <img src="https://i.scdn.co/image/ab67616d0000b2737e7f1d0bdb2bb5a2afc4fb25"
+                                                alt="Hurry Up Tomorrow"
+                                                style="width: 50px; height: 50px; margin-right: 15px;">
+                                            <span>I Can't Fucking Sing</span>
+                                        </div>
+                                    </div>
+                                    <div class="song-item">
+                                        <div class="d-flex align-items-center">
+                                            <img src="https://i.scdn.co/image/ab67616d0000b2737e7f1d0bdb2bb5a2afc4fb25"
+                                                alt="Hurry Up Tomorrow"
+                                                style="width: 50px; height: 50px; margin-right: 15px;">
+                                            <span>São Paulo</span>
+                                        </div>
+                                    </div>
+                                    <div class="song-item">
+                                        <div class="d-flex align-items-center">
+                                            <img src="https://i.scdn.co/image/ab67616d0000b2737e7f1d0bdb2bb5a2afc4fb25"
+                                                alt="Hurry Up Tomorrow"
+                                                style="width: 50px; height: 50px; margin-right: 15px;">
+                                            <span>Until We're Skin And Bones</span>
+                                        </div>
+                                    </div>
+                                    <div class="song-item">
+                                        <div class="d-flex align-items-center">
+                                            <img src="https://i.scdn.co/image/ab67616d0000b2737e7f1d0bdb2bb5a2afc4fb25"
+                                                alt="Hurry Up Tomorrow"
+                                                style="width: 50px; height: 50px; margin-right: 15px;">
+                                            <span>Baptized In Fear</span>
+                                        </div>
+                                    </div>
+                                    <div class="song-item">
+                                        <div class="d-flex align-items-center">
+                                            <img src="https://i.scdn.co/image/ab67616d0000b2737e7f1d0bdb2bb5a2afc4fb25"
+                                                alt="Hurry Up Tomorrow"
+                                                style="width: 50px; height: 50px; margin-right: 15px;">
+                                            <span>Open Hearts</span>
+                                        </div>
+                                    </div>
+                                    <div class="song-item">
+                                        <div class="d-flex align-items-center">
+                                            <img src="https://i.scdn.co/image/ab67616d0000b2737e7f1d0bdb2bb5a2afc4fb25"
+                                                alt="Hurry Up Tomorrow"
+                                                style="width: 50px; height: 50px; margin-right: 15px;">
+                                            <span>Opening Night</span>
+                                        </div>
+                                    </div>
+                                    <div class="song-item">
+                                        <div class="d-flex align-items-center">
+                                            <img src="https://i.scdn.co/image/ab67616d0000b2737e7f1d0bdb2bb5a2afc4fb25"
+                                                alt="Hurry Up Tomorrow"
+                                                style="width: 50px; height: 50px; margin-right: 15px;">
+                                            <span>Reflections Laughing</span>
+                                        </div>
+                                    </div>
+                                    <div class="song-item">
+                                        <div class="d-flex align-items-center">
+                                            <img src="https://i.scdn.co/image/ab67616d0000b2737e7f1d0bdb2bb5a2afc4fb25"
+                                                alt="Hurry Up Tomorrow"
+                                                style="width: 50px; height: 50px; margin-right: 15px;">
+                                            <span>Enjoy the Show</span>
+                                        </div>
+                                    </div>
+                                    <div class="song-item">
+                                        <div class="d-flex align-items-center">
+                                            <img src="https://i.scdn.co/image/ab67616d0000b2737e7f1d0bdb2bb5a2afc4fb25"
+                                                alt="Hurry Up Tomorrow"
+                                                style="width: 50px; height: 50px; margin-right: 15px;">
+                                            <span>Given Up on Me</span>
+                                        </div>
+                                    </div>
+                                    <div class="song-item">
+                                        <div class="d-flex align-items-center">
+                                            <img src="https://i.scdn.co/image/ab67616d0000b2737e7f1d0bdb2bb5a2afc4fb25"
+                                                alt="Hurry Up Tomorrow"
+                                                style="width: 50px; height: 50px; margin-right: 15px;">
+                                            <span>I Can't Wait to Get There</span>
+                                        </div>
+                                    </div>
+                                    <div class="song-item">
+                                        <div class="d-flex align-items-center">
+                                            <img src="https://i.scdn.co/image/ab67616d0000b2737e7f1d0bdb2bb5a2afc4fb25"
+                                                alt="Hurry Up Tomorrow"
+                                                style="width: 50px; height: 50px; margin-right: 15px;">
+                                            <span>Timeless</span>
+                                        </div>
+                                    </div>
+                                    <div class="song-item">
+                                        <div class="d-flex align-items-center">
+                                            <img src="https://i.scdn.co/image/ab67616d0000b2737e7f1d0bdb2bb5a2afc4fb25"
+                                                alt="Hurry Up Tomorrow"
+                                                style="width: 50px; height: 50px; margin-right: 15px;">
+                                            <span>Niagara Falls</span>
+                                        </div>
+                                    </div>
+                                    <div class="song-item">
+                                        <div class="d-flex align-items-center">
+                                            <img src="https://i.scdn.co/image/ab67616d0000b2737e7f1d0bdb2bb5a2afc4fb25"
+                                                alt="Hurry Up Tomorrow"
+                                                style="width: 50px; height: 50px; margin-right: 15px;">
+                                            <span>Take Me Back to LA</span>
+                                        </div>
+                                    </div>
+                                    <div class="song-item">
+                                        <div class="d-flex align-items-center">
+                                            <img src="https://i.scdn.co/image/ab67616d0000b2737e7f1d0bdb2bb5a2afc4fb25"
+                                                alt="Hurry Up Tomorrow"
+                                                style="width: 50px; height: 50px; margin-right: 15px;">
+                                            <span>Big Sleep</span>
+                                        </div>
+                                    </div>
+                                    <div class="song-item">
+                                        <div class="d-flex align-items-center">
+                                            <img src="https://i.scdn.co/image/ab67616d0000b2737e7f1d0bdb2bb5a2afc4fb25"
+                                                alt="Hurry Up Tomorrow"
+                                                style="width: 50px; height: 50px; margin-right: 15px;">
+                                            <span>Give Me Mercy</span>
+                                        </div>
+                                    </div>
+                                    <div class="song-item">
+                                        <div class="d-flex align-items-center">
+                                            <img src="https://i.scdn.co/image/ab67616d0000b2737e7f1d0bdb2bb5a2afc4fb25"
+                                                alt="Hurry Up Tomorrow"
+                                                style="width: 50px; height: 50px; margin-right: 15px;">
+                                            <span>Drive</span>
+                                        </div>
+                                    </div>
+                                    <div class="song-item">
+                                        <div class="d-flex align-items-center">
+                                            <img src="https://i.scdn.co/image/ab67616d0000b2737e7f1d0bdb2bb5a2afc4fb25"
+                                                alt="Hurry Up Tomorrow"
+                                                style="width: 50px; height: 50px; margin-right: 15px;">
+                                            <span>The Abyss</span>
+                                        </div>
+                                    </div>
+                                    <div class="song-item">
+                                        <div class="d-flex align-items-center">
+                                            <img src="https://i.scdn.co/image/ab67616d0000b2737e7f1d0bdb2bb5a2afc4fb25"
+                                                alt="Hurry Up Tomorrow"
+                                                style="width: 50px; height: 50px; margin-right: 15px;">
+                                            <span>Red Terror</span>
+                                        </div>
+                                    </div>
+                                    <div class="song-item">
+                                        <div class="d-flex align-items-center">
+                                            <img src="https://i.scdn.co/image/ab67616d0000b2737e7f1d0bdb2bb5a2afc4fb25"
+                                                alt="Hurry Up Tomorrow"
+                                                style="width: 50px; height: 50px; margin-right: 15px;">
+                                            <span>Without a Warning</span>
+                                        </div>
+                                    </div>
+                                    <div class="song-item">
+                                        <div class="d-flex align-items-center">
+                                            <img src="https://i.scdn.co/image/ab67616d0000b2737e7f1d0bdb2bb5a2afc4fb25"
+                                                alt="Hurry Up Tomorrow"
+                                                style="width: 50px; height: 50px; margin-right: 15px;">
+                                            <span>Hurry Up Tomorrow</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                      </div>
-                    <table class="table table-striped d-none" id="songsTable">
-                        <thead>
-                            <tr>
-                                <th scope="col">Título</th>
-                                <th scope="col">Artista</th>
-                                <th scope="col">Álbum</th>
-                            </tr>
-                        </thead>
-                        <tbody id="songsBody">
-                           
-                        </tbody>
-                    </table>
+                    </div>
                 </div>
             </div>
         </div>

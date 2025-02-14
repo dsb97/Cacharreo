@@ -1,28 +1,34 @@
-const { app, BrowserWindow, dialog, ipcMain } = require('electron');
+const { app, BrowserWindow, dialog, ipcMain, globalShortcut } = require('electron');
+// const { BrowserWindow } = require('electron-acrylic-window');
+// const { app, dialog, ipcMain, globalShortcut } = require('electron');
 const fs = require('fs').promises;
 const path = require('path');
 const jsmediatags = require('jsmediatags');
 
+
+
 let mainWindow = null;
 
 let createWindow = () => {
-    mainWindow = new BrowserWindow({
+    const windowConfig = {
         width: 1280,
         height: 780,
         webPreferences: {
             preload: __dirname + '/preload.js',
             nodeIntegration: false,
             contextIsolation: true
-        },
-        // autoHideMenuBar: true
-    })
+        }
+    };
 
+    mainWindow = new BrowserWindow(windowConfig);
     mainWindow.loadFile(__dirname + '/UI/index.html')
     mainWindow.on('ready-to-show', () => {
         mainWindow.show()
     })
 
-    mainWindow.webContents.openDevTools()
+    globalShortcut.register('CommandOrControl+Shift+I', () => {
+        mainWindow.webContents.openDevTools()
+    })
 
     ipcMain.handle('open-folder-dialog', async () => {
         const result = await dialog.showOpenDialog(mainWindow, {
@@ -113,7 +119,6 @@ let createWindow = () => {
             return { success: false, message: 'Failed to read file' };
         }
     });
-
 }
 
 app.disableHardwareAcceleration()

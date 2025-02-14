@@ -3,60 +3,88 @@ var librarySongs = [];
 var theme;
 var contrastTheme;
 var shuffle = false;
+var resizer;
+var leftPanel;
+var isResizing = false;
+var audio = null;
 
-window.addEventListener("load", async (event) => {
-    themeVisuals();
-    await loadLibrary();
-    loadSongsTab();
+
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+    themeVisuals()
 });
 
-function themeVisuals() {
-    document.getElementById('contentContainer').style.setProperty('height', `calc(100vh - ${document.getElementById('playerContainer').offsetHeight}px)`)
-    theme = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
-    contrastTheme = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'light' : 'dark';
-    document.getElementsByTagName("html")[0].setAttribute("data-bs-theme", theme)
-    document.getElementById('controlButtons').querySelectorAll('button').forEach((button, index) => {
-        try {
-            button.classList.remove(`btn-outline-${theme}`);
-        } catch (error) {
+window.addEventListener('load', async (event) => {
+    loadResizer();
+    themeVisuals();
+    //await loadLibrary();
+    //loadSongsTab();
+    document.querySelector('.right-panel').addEventListener('scroll', handleScroll);
+});
 
-        }
 
-        try {
-            button.classList.add(`btn-outline-${contrastTheme}`)
-        } catch (error) {
+function handleScroll(event) {
+    const bigPlayer = document.getElementById('bigPlayer');
+    const miniPlayer = document.getElementById('miniPlayer');
+    const threshold = bigPlayer.offsetHeight * 0.8
+    const scrolled = event.target.scrollTop;
+    if (scrolled > threshold) {
+        miniPlayer.style.visibility = 'visible';
+        bigPlayer.style.opacity = '0';
+        bigPlayer.style.pointerEvents = 'none';
+    } else {
+        miniPlayer.style.visibility = 'hidden';
+        bigPlayer.style.opacity = '1';
+        bigPlayer.style.pointerEvents = 'auto';
+    }
+}
 
-        }
+function loadResizer() {
+    resizer = document.getElementById('resizer');
+    leftPanel = resizer.previousElementSibling;
+
+    resizer.addEventListener('mousedown', (e) => {
+        isResizing = true;
+        document.addEventListener('mousemove', onResizeMouseMove);
+        document.addEventListener('mouseup', onResizeMouseUp);
     });
 }
 
-const resizer = document.getElementById('resizer');
-const leftPanel = resizer.previousElementSibling;
+function toggleDarkLightMode(button, classToToggle, reversed) {
+    try {
+        if (reversed) {
+            button.classList.remove(`${classToToggle}-${contrastTheme}`)
+            button.classList.add(`${classToToggle}-${theme}`);
+        } else {
+            button.classList.remove(`${classToToggle}-${theme}`);
+            button.classList.add(`${classToToggle}-${contrastTheme}`)
+        }
 
-let isResizing = false;
+    } catch (error) {
+        console.log('Error at toggling styles');
+    }
+}
 
-resizer.addEventListener('mousedown', (e) => {
-    isResizing = true;
-    document.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseup', onMouseUp);
-});
+function themeVisuals() {
+    theme = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+    contrastTheme = theme == 'dark' ? 'light' : 'dark';
+    document.getElementsByTagName('html')[0].setAttribute("data-bs-theme", theme);
+    document.querySelector('.controls').querySelectorAll('button').forEach((element) => toggleDarkLightMode(element, 'btn-outline', false));
+    document.querySelector('.mini-controls').querySelectorAll('button').forEach((element) => toggleDarkLightMode(element, 'btn-outline', false));
+    toggleDarkLightMode(document.getElementById('miniPlayer'), 'bg', true);
+}
 
-function onMouseMove(e) {
+function onResizeMouseMove(e) {
     if (isResizing) {
         const newWidth = e.clientX;
         leftPanel.style.width = newWidth + 'px';
     }
 }
 
-function onMouseUp() {
+function onResizeMouseUp() {
     isResizing = false;
-    document.removeEventListener('mousemove', onMouseMove);
-    document.removeEventListener('mouseup', onMouseUp);
+    document.removeEventListener('mousemove', onResizeMouseMove);
+    document.removeEventListener('mouseup', onResizeMouseUp);
 }
-
-window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
-    themeVisuals()
-});
 
 async function loadLibrary() {
     let libraryFile = await window.fileAPI.readFile(`${startupPath}/library.json`);
@@ -87,7 +115,6 @@ function loadSongsTab() {
     waitSpinner.classList.add('d-none')
 }
 
-let audio = null;
 async function playSong(index) {
     document.getElementById('albumCover').src = librarySongs[index].coverArt;
     document.getElementById('songTitle').innerText = librarySongs[index].title;
@@ -132,28 +159,26 @@ function formatTime(seconds) {
     return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
 }
 
-document.getElementById('playPause').onclick = () => {
-    if (audio.paused) {
-        document.getElementById('playPause').innerHTML = `<i class="bi bi-pause-fill"></i>`;
-        audio.play();
-    } else {
-        document.getElementById('playPause').innerHTML = `<i class="bi bi-play-fill"></i>`;
-        audio.pause();
-    }
-};
-
-// document.getElementById('pauseButton').onclick = () => {
-//     if (audio) audio.pause();
+// document.getElementById('playPause').onclick = () => {
+//     if (audio.paused) {
+//         document.getElementById('playPause').innerHTML = `<i class="bi bi-pause-fill"></i>`;
+//         audio.play();
+//     } else {
+//         document.getElementById('playPause').innerHTML = `<i class="bi bi-play-fill"></i>`;
+//         audio.pause();
+//     }
 // };
 
-document.getElementById('shuffleButton').addEventListener('click', function (e) {
-    shuffle = !shuffle
-    if (shuffle) {
-        document.getElementById('shuffleButton').classList.add(`btn-${contrastTheme}`);
-        document.getElementById('shuffleButton').classList.remove(`btn-outline-${contrastTheme}`)
-    } else {
-        document.getElementById('shuffleButton').classList.remove(`btn-${contrastTheme}`);
-        document.getElementById('shuffleButton').classList.add(`btn-outline-${contrastTheme}`)
-    }
-});
+// document.getElementById('shuffleButton').addEventListener('click', function (e) {
+//     shuffle = !shuffle
+//     if (shuffle) {
+//         document.getElementById('shuffleButton').classList.add(`btn-${contrastTheme}`);
+//         document.getElementById('shuffleButton').classList.remove(`btn-outline-${contrastTheme}`)
+//     } else {
+//         document.getElementById('shuffleButton').classList.remove(`btn-${contrastTheme}`);
+//         document.getElementById('shuffleButton').classList.add(`btn-outline-${contrastTheme}`)
+//     }
+// });
+
+
 
